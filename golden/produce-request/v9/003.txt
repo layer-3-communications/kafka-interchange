@@ -1,0 +1,68 @@
+00 00 00 d7 # Length
+00 00 00 09
+00 00 00 04 # Correlation ID: 4
+00 10 
+63 6f 6e 73 6f 6c 65 2d 70 72 6f 64 75 63 65 72 # console-producer
+00 00
+ff ff 00 00 05 dc 02 0a 69 6e 63 69 64 65 6e 74
+73 02
+00 00 00 00 # index: 0
+a1 # length in bytes
+01 00 00 00 00 00 00 00 00 # base offset
+00 00 00 94 # batch length
+ff ff ff ff # partition leader epoch
+02 # magic number
+12 22 97 11 # CRC
+00 00 # attributes
+00 00 00 02 # last offset delta
+00 00 01 87 2e fb bd 01 # base timestamp
+00 00 01 87 2e fb bd 0d # max timestamp
+00 00 00 00 00 00 03 e8 # producer ID
+00 00 # producer epoch
+00 00 00 00 # base sequence
+00 00 00 03 # array of records (length 3)
+
+# Record 0
+3c # length (60)
+00 # attributes
+00 # timestamp delta (varlong)
+00 # offset delta (varlong)
+01 # key length: 0
+0e # Value length: 7
+68 65 61 6c 74 68 79 # healthy (7 characters)
+02 08
+68 6f 73 74 # host
+16
+65 78 61 6d 70 6c 65 2e 63 6f 6d # example.com
+
+# Record 1
+40 # length
+00 # attributes
+18 # timestamp delta (this makes no sense, it causes us to exceed the maximum)
+02 # offset delta (1)
+01 # key length: 0
+12 # value length: 9
+
+75 6e 68 65 61 6c 74 68 79 # unhealthy
+
+02
+08
+68 6f 73 74 # host
+16
+65 78 61 6d 70 6c 65 2e 63 6f 6d # example.com
+
+# Record 2
+44 # length
+00 # attributes
+18 # timestamp delta
+04 # offset delta (2)
+01 # key length: 0
+0e # value length: 7
+68 65 61 6c 74 68 79 # healthy
+02
+08
+68 6f 73 74 # host
+1e
+66 6f 6f 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d # foo.example.com
+00 00 00
+

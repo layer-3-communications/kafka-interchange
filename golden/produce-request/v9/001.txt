@@ -1,0 +1,39 @@
+00 00 00 8c                # Length: 140
+00 00                      # API Key: 0
+00 09                      # API Version: 9
+00 00 00 04                # Correlation ID: 4
+00 10 63 6f 6e 73 6f 6c 65 2d 70 72 6f 64 75 63 65 72 # Client ID: console-producer
+00                         # Zero tagged fields.
+00                         # Transactional ID: not present
+ff ff                      # Required Acks: Full ISR
+00 00 05 dc                # Timeout: 1500ms
+02                         # Array of topic_data (length 1)
+   08 65 78 61 6d 70 6c 65 # Topic: example
+   02                      # Array of partition_data (length 1)
+      00 00 00 00           # Index: 0
+                            # Compact Records
+      59                    # Length in Bytes
+      00 00 00 00 00 00 00 00 # Base Offset
+      00 00 00 4c             # Batch Length
+      ff ff ff ff             # Partion Leader Epoch
+      02                      # Magic
+      9d 21 1f 5b             # CRC
+      00 00                   # Attributes
+      00 00 00 00             # Last Offset Delta
+      00 00 01 85 e0 70 60 54 # Base Timestamp
+      00 00 01 85 e0 70 60 54 # Max Timestamp
+      00 00 00 00 00 00 03 eb # Producer ID
+      00 00                   # Producer Epoch
+      00 00 00 00             # Base Sequence
+      00 00 00 01             # Array of records (length 1)
+         34                    # Length
+         00                    # Attributes
+         00                    # Timestamp Delta (varlong)
+         00                    # Offset Delta (varlong)
+         01                    # Key Length: 0 (follow empty key absent)
+         28                    # Value length: 20
+         61 62 63 64 65 66 67 68 69 6a 6b 6c 6d 6e 6f 70 71 72 73 74 # Alphabet: a through t
+         00                    # Length of headers (0 headers)
+      00 # Tag Buffer for partition_data.0: length 0
+   00 # Tag Buffer for topic_data.0: length 0
+00 # Tag Buffer for Produce Request: length 0
