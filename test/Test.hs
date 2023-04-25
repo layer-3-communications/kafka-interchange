@@ -16,7 +16,10 @@ import Prelude hiding (readFile)
 import Data.Bytes (Bytes)
 import Data.Bytes.Chunks (Chunks)
 import Data.Bytes.Parser (Parser)
+import Kafka.Parser.Context (Context)
+import Text.Show.Pretty (ppShow)
 
+import qualified Kafka.Interchange.ApiVersions.Response.V3
 import qualified Test.Tasty.Golden.Advanced as Advanced
 import qualified Data.ByteString.Char8 as BC8
 import qualified Data.Bytes.Chunks as Chunks
@@ -28,6 +31,7 @@ import qualified Data.Bytes.Parser.Latin as Latin
 import qualified Data.ByteString.Lazy.Char8 as LBC8
 import qualified Data.ByteString.Base16 as Base16
 import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
+import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.Message.Request.V2 as Req
 import qualified Kafka.Data.RecordBatch as RecordBatch
 import qualified Kafka.Data.Record as Record
@@ -35,7 +39,7 @@ import qualified GHC.Exts as Exts
 import qualified Kafka.Data.Acknowledgments as Acknowledgments
 
 main :: IO ()
-main = defaultMain $ testGroup "test"
+main = defaultMain $ testGroup "kafka"
   [ goldenHex
       "produce-request-v9-001"
       "golden/produce-request/v9/001.txt"
@@ -48,7 +52,33 @@ main = defaultMain $ testGroup "test"
       "produce-request-v9-003"
       "golden/produce-request/v9/003.txt"
       produceRequestV9_003
+  , goldenHex
+      "api-versions-request-v3-001"
+      "golden/api-versions-request/v3/001.txt"
+      apiVersionsRequestV3_001
+  , goldenHexDecode
+      "api-versions-request-v3-001"
+      Kafka.Interchange.ApiVersions.Response.V3.decode
+      "golden/api-versions-response/v3/001.input.txt"
+      "golden/api-versions-response/v3/001.output.txt"
   ]
+
+apiVersionsRequestV3_001 :: Chunks
+apiVersionsRequestV3_001 =
+  let encApiVersionsReq = ApiVersionsReqV3.toChunks ApiVersionsReqV3.Request
+        { clientSoftwareName = "apache-kafka-java"
+        , clientSoftwareVersion = "3.3.1"
+        }
+      req = Req.Request
+        { header = Req.Header
+          { apiKey = ApiVersionsReqV3.apiKey
+          , apiVersion = ApiVersionsReqV3.apiVersion
+          , correlationId = 0
+          , clientId = Just "admin-1"
+          }
+        , body = encApiVersionsReq
+        }
+   in Req.toChunks req
 
 produceRequestV9_001 :: Chunks
 produceRequestV9_001 =
@@ -237,15 +267,46 @@ produceRequestV9_003 =
         }
    in Req.toChunks req
 
+goldenHexDecode
+  :: Show a
+  => TestName -- ^ test name
+  -> (Bytes -> Either Context a)
+  -> FilePath -- ^ path to the hex file to be decoded
+  -> FilePath -- ^ path to the golden file with the expected result of Show
+  -> TestTree
+goldenHexDecode name decode src ref = Advanced.goldenTest
+  name
+  (fmap Latin1.toString (Bytes.readFile ref))
+  (do contents <- Bytes.readFile src
+      case cleanAsciiHex contents of
+        Nothing -> fail "input file was malformed"
+        Just contents' -> case decode (Bytes.fromByteArray contents') of
+          Left e -> fail (show e)
+          Right r -> pure (ppShow r)
+  )
+  (\expected actual -> pure $ if expected == actual
+    then Nothing
+    else Just $ concat
+      [ "Test output did not match.\nExpected:\n"
+      , expected
+      , "\nGot:\n"
+      , actual
+      , "\n"
+      ]
+  )
+  upd
+  where
+  upd str = createDirectoriesAndWriteFile ref (LBC8.pack str)
+
 -- | Compare a given string against the golden file's contents.
 goldenHex
   :: TestName -- ^ test name
-  -> FilePath -- ^ path to the «golden» file (the file that contains correct output)
+  -> FilePath -- ^ path to the golden file (the file that contains correct output)
   -> Chunks.Chunks -- ^ action that returns a string
   -> TestTree -- ^ the test verifies that the returned string is the same as the golden file contents
 goldenHex name ref act = Advanced.goldenTest
   name
-  ((maybe (fail "expected output malformed") pure . cleanExpectedOutput) =<< Bytes.readFile ref)
+  ((maybe (fail "expected output malformed") pure . cleanAsciiHex) =<< Bytes.readFile ref)
   (pure (Chunks.concatU act))
   (\expected actual -> pure $ if expected == actual
     then Nothing
@@ -278,8 +339,8 @@ injectSpaces (x : y : zs) = x : y : ' ' : injectSpaces zs
 injectSpaces [] = []
 injectSpaces _ = error "injectSpaces: expected an even number of characters"
 
-cleanExpectedOutput :: Bytes -> Maybe ByteArray
-cleanExpectedOutput =
+cleanAsciiHex :: Bytes -> Maybe ByteArray
+cleanAsciiHex =
     decodeSpacedHex
   . Bytes.intercalate (Bytes.singleton 0x20)
   . fmap (Bytes.takeWhile (/= 0x23))

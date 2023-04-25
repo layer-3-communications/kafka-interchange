@@ -1,0 +1,12 @@
+00 00 00 2b # Length
+00 12       # API Key 0x12 (18) 
+00 03       # API Version 3
+00 00 00 00 # Correlation ID: 0
+00 07                # String Length (7)
+61 64 6d 69 6e 2d 31 # Client ID: admin-1
+00                   # Zero tagged fields in RequestMessage
+12                   # String Length (17)
+61 70 61 63 68 65 2d 6b 61 66 6b 61 2d 6a 61 76 61 # Client Name: apache-kafka-java
+06                   # String Length (5)
+33 2e 33 2e 31       # Client Version: 3.3.1
+00                   # Zero tagged fields in API Version Request
