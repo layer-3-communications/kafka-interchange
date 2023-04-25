@@ -1,0 +1,15 @@
+02 # Length: 1
+  0a # String Length: 9
+  69 6e 63 69 64 65 6e 74 73 # Name: incidents
+  02 # Length: 1
+    00 00 00 00 # Index: 0
+    00 00       # Error Code: 0
+    00 00 00 00 00 00 00 01 # Base Offset: 1
+    ff ff ff ff ff ff ff ff # Log Append Time: -1
+    00 00 00 00 00 00 00 00 # Log Start Offset: 0
+    01 # Record Errors Length: 0
+    00 # Error Message: Null
+    00 # Tag Buffer: empty
+  00 # Tag Buffer: empty
+00 00 00 00 # Throttle Time ms: 0
+00 # Tag Buffer: empty
