@@ -15,6 +15,7 @@ library
     Kafka.Interchange.ApiVersions.Request.V3
     Kafka.Interchange.ApiVersions.Response.V3
     Kafka.Interchange.Produce.Request.V9
+    Kafka.Interchange.Produce.Response.V9
     Kafka.Data.Record
     Kafka.Data.RecordBatch
     Kafka.Data.Acknowledgments

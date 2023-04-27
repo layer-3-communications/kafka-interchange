@@ -2,22 +2,42 @@
 
 module Kafka.Parser
   ( compactArray
+  , compactString
   , varintLengthPrefixedArray
   , BigEndian.int16
   , BigEndian.int32
+  , BigEndian.int64
   ) where
 
 import Data.Primitive (SmallArray)
 import Data.Bytes.Parser (Parser)
 import Kafka.Parser.Context (Context)
+import Data.Text (Text)
 
 import qualified Kafka.Parser.Context as Ctx
 import qualified Data.Primitive as PM
 import qualified Data.Bytes.Parser as Parser
 import qualified Data.Bytes.Parser.Leb128 as Leb128
 import qualified Data.Bytes.Parser.BigEndian as BigEndian
+import qualified Data.Text.Short as TS
+import qualified Data.Bytes as Bytes
 
--- | This maps both NULL and the empty array to the empty array.
+-- | This maps NULL to the empty string.
+compactString :: Context -> Parser Context s Text
+compactString ctx = do
+  len0 <- Leb128.word32 ctx
+  let !lenSucc = fromIntegral len0 :: Int
+  if lenSucc < 2
+    then pure mempty
+    else do
+      let len = lenSucc - 1
+      b <- Parser.take ctx len
+      let sbs = Bytes.toShortByteString b
+      case TS.fromShortByteString sbs of
+        Nothing -> Parser.fail ctx
+        Just ts -> pure (TS.toText ts)
+
+-- | This maps NULL to the empty array.
 compactArray :: (Context -> Parser Context s a) -> Context -> Parser Context s (SmallArray a)
 {-# inline compactArray #-}
 compactArray f ctx = do

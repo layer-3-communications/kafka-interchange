@@ -36,7 +36,7 @@ data ApiKeyVersionSupport = ApiKeyVersionSupport
   } deriving (Show)
 
 decode :: Bytes -> Either Context Response
-decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.Top) b
+decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End) b
 
 parserApiKey :: Context -> Parser Context s ApiKeyVersionSupport
 parserApiKey ctx = do

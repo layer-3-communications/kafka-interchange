@@ -31,6 +31,7 @@ import qualified Data.Bytes.Parser.Latin as Latin
 import qualified Data.ByteString.Lazy.Char8 as LBC8
 import qualified Data.ByteString.Base16 as Base16
 import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
+import qualified Kafka.Interchange.Produce.Response.V9
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.Message.Request.V2 as Req
 import qualified Kafka.Data.RecordBatch as RecordBatch
@@ -61,6 +62,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.ApiVersions.Response.V3.decode
       "golden/api-versions-response/v3/001.input.txt"
       "golden/api-versions-response/v3/001.output.txt"
+  , goldenHexDecode
+      "produce-response-v9-001"
+      Kafka.Interchange.Produce.Response.V9.decode
+      "golden/produce-response/v9/001.input.txt"
+      "golden/produce-response/v9/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks
