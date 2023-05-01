@@ -1,4 +1,5 @@
 {-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NumericUnderscores #-}
@@ -18,6 +19,7 @@ import Data.Bytes.Chunks (Chunks)
 import Data.Bytes.Parser (Parser)
 import Kafka.Parser.Context (Context)
 import Text.Show.Pretty (ppShow)
+import KafkaFromJson ()
 
 import qualified Kafka.Interchange.ApiVersions.Response.V3
 import qualified Test.Tasty.Golden.Advanced as Advanced
@@ -33,6 +35,7 @@ import qualified Data.ByteString.Base16 as Base16
 import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
 import qualified Kafka.Interchange.Produce.Response.V9
 import qualified Kafka.Interchange.Metadata.Response.V12
+import qualified Kafka.Interchange.Metadata.Request.V12
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.Message.Request.V2 as Req
 import qualified Kafka.Data.RecordBatch as RecordBatch
@@ -40,6 +43,7 @@ import qualified Kafka.Data.Record as Record
 import qualified GHC.Exts as Exts
 import qualified Kafka.Data.Acknowledgments as Acknowledgments
 import qualified Kafka.ApiKey as ApiKey
+import qualified Data.Aeson as Aeson
 
 main :: IO ()
 main = defaultMain $ testGroup "kafka"
@@ -74,6 +78,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.Metadata.Response.V12.decode
       "golden/metadata-response/v12/001.input.txt"
       "golden/metadata-response/v12/001.output.txt"
+  , goldenHexEncode
+      "metadata-request-v12-001"
+      Kafka.Interchange.Metadata.Request.V12.toChunks
+      "golden/metadata-request/v12/001.input.json"
+      "golden/metadata-request/v12/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks
@@ -310,6 +319,36 @@ goldenHexDecode name decode src ref = Advanced.goldenTest
   upd
   where
   upd str = createDirectoriesAndWriteFile ref (LBC8.pack str)
+
+goldenHexEncode :: forall a.
+     Aeson.FromJSON a
+  => TestName -- ^ test name
+  -> (a -> Chunks.Chunks)
+  -> FilePath -- ^ path to the json file to decode
+  -> FilePath -- ^ path to the golden file (the file that contains correct output)
+  -> TestTree
+goldenHexEncode name encode src ref = Advanced.goldenTest
+  name
+  ((maybe (fail "expected output malformed") pure . cleanAsciiHex) =<< Bytes.readFile ref)
+  (do Aeson.eitherDecodeFileStrict src >>= \case
+        Left e -> fail e
+        Right (r :: a) -> pure (Chunks.concatU (encode r))
+  )
+  (\expected actual -> pure $ if expected == actual
+    then Nothing
+    else Just $ concat
+      [ "Test output did not match.\nExpected:\n"
+      , prettyByteArray expected
+      , "\nGot:\n"
+      , prettyByteArray actual
+      , "\n"
+      ]
+  )
+  upd
+  where
+  upd bytes = createDirectoriesAndWriteFile ref
+    $ LBC8.pack
+    $ prettyByteArray bytes
 
 -- | Compare a given string against the golden file's contents.
 goldenHex

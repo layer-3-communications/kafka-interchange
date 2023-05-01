@@ -29,7 +29,7 @@ data Headed a = Headed
 
 data Header = Header
   { correlationId :: !Int32
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving (Show)
 
 -- | Note: Decode is here for the benefit of the test suite. A response
@@ -41,6 +41,6 @@ decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End
 parser :: Context -> Parser Context s Header
 parser ctx = do
   correlationId <- Kafka.Parser.int32 (Ctx.Field Ctx.CorrelationId ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Header{correlationId,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Header{correlationId,taggedFields}
 

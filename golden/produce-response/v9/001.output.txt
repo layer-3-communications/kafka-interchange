@@ -15,12 +15,12 @@ Response
                       , logStartOffset = 0
                       , errors = fromListN 0 []
                       , errorMessage = ""
-                      , tagBuffer = fromListN 0 []
+                      , taggedFields = fromListN 0 []
                       }
                   ]
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         ]
   , throttleTimeMilliseconds = 0
-  , tagBuffer = fromListN 0 []
+  , taggedFields = fromListN 0 []
   }

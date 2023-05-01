@@ -29,14 +29,14 @@ data Response = Response
   { errorCode :: !Int16
   , apiKeys :: !(SmallArray ApiKeyVersionSupport)
   , throttleTimeMilliseconds :: !Int32
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving (Show)
 
 data ApiKeyVersionSupport = ApiKeyVersionSupport
   { apiKey :: !Int16
   , minVersion :: !Int16
   , maxVersion :: !Int16
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving (Show)
 
 decodeHeaded :: Bytes -> Either Context (Header.Headed Response)
@@ -54,13 +54,13 @@ parserApiKey ctx = do
   apiKey <- Kafka.Parser.int16 (Ctx.Field Ctx.ApiKey ctx)
   minVersion <- Kafka.Parser.int16 (Ctx.Field Ctx.MinVersion ctx)
   maxVersion <- Kafka.Parser.int16 (Ctx.Field Ctx.MaxVersion ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure ApiKeyVersionSupport{apiKey,minVersion,maxVersion,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure ApiKeyVersionSupport{apiKey,minVersion,maxVersion,taggedFields}
 
 parser :: Context -> Parser Context s Response
 parser ctx = do
   errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
   apiKeys <- Kafka.Parser.compactArray parserApiKey (Ctx.Field Ctx.ApiKeys ctx) 
   throttleTimeMilliseconds <- Kafka.Parser.int32 (Ctx.Field Ctx.ThrottleTimeMilliseconds ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Response{errorCode,apiKeys,throttleTimeMilliseconds,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Response{errorCode,apiKeys,throttleTimeMilliseconds,taggedFields}

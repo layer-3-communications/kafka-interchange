@@ -7,299 +7,299 @@ Response
             { apiKey = 0
             , minVersion = 0
             , maxVersion = 9
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 1
             , minVersion = 0
             , maxVersion = 13
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 2
             , minVersion = 0
             , maxVersion = 7
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 3
             , minVersion = 0
             , maxVersion = 12
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 8
             , minVersion = 0
             , maxVersion = 8
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 9
             , minVersion = 0
             , maxVersion = 8
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 10
             , minVersion = 0
             , maxVersion = 4
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 11
             , minVersion = 0
             , maxVersion = 9
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 12
             , minVersion = 0
             , maxVersion = 4
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 13
             , minVersion = 0
             , maxVersion = 5
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 14
             , minVersion = 0
             , maxVersion = 5
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 15
             , minVersion = 0
             , maxVersion = 5
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 16
             , minVersion = 0
             , maxVersion = 4
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 17
             , minVersion = 0
             , maxVersion = 1
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 18
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 19
             , minVersion = 0
             , maxVersion = 7
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 20
             , minVersion = 0
             , maxVersion = 6
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 21
             , minVersion = 0
             , maxVersion = 2
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 22
             , minVersion = 0
             , maxVersion = 4
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 23
             , minVersion = 0
             , maxVersion = 4
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 24
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 25
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 26
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 27
             , minVersion = 0
             , maxVersion = 1
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 28
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 29
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 30
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 31
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 32
             , minVersion = 0
             , maxVersion = 4
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 33
             , minVersion = 0
             , maxVersion = 2
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 34
             , minVersion = 0
             , maxVersion = 2
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 35
             , minVersion = 0
             , maxVersion = 4
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 36
             , minVersion = 0
             , maxVersion = 2
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 37
             , minVersion = 0
             , maxVersion = 3
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 42
             , minVersion = 0
             , maxVersion = 2
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 43
             , minVersion = 0
             , maxVersion = 2
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 44
             , minVersion = 0
             , maxVersion = 1
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 45
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 46
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 47
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 48
             , minVersion = 0
             , maxVersion = 1
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 49
             , minVersion = 0
             , maxVersion = 1
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 55
             , minVersion = 0
             , maxVersion = 1
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 57
             , minVersion = 0
             , maxVersion = 1
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 60
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 61
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 64
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 65
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
             { apiKey = 66
             , minVersion = 0
             , maxVersion = 0
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         ]
   , throttleTimeMilliseconds = 0
-  , tagBuffer =
+  , taggedFields =
       fromListN
         3
         [ TaggedField

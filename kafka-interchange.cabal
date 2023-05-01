@@ -15,8 +15,9 @@ library
     Kafka.Interchange.ApiVersions.Request.V3
     Kafka.Interchange.ApiVersions.Response.V3
     Kafka.Interchange.ApiVersions.V3
-    -- Kafka.Interchange.Metadata.Request.V12
+    Kafka.Interchange.Metadata.Request.V12
     Kafka.Interchange.Metadata.Response.V12
+    Kafka.Interchange.Metadata.V12
     Kafka.Interchange.Produce.Request.V9
     Kafka.Interchange.Produce.Response.V9
     Kafka.Interchange.Header.Response.V0
@@ -68,6 +69,8 @@ test-suite test
     exitcode-stdio-1.0
   main-is:
     Test.hs
+  other-modules:
+    KafkaFromJson
   hs-source-dirs:
     test
   build-depends:
@@ -86,6 +89,8 @@ test-suite test
     , byteslice
     , text
     , pretty-show >=1.10
+    , aeson >=2.1.2.1
+    , wide-word >=0.1.5
   default-language:
     Haskell2010
   ghc-options:

@@ -25,13 +25,13 @@ import qualified Kafka.Parser
 data Response = Response
   { topics :: !(SmallArray Topic)
   , throttleTimeMilliseconds :: !Int32
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 data Topic = Topic
   { name :: !Text
   , partitions :: !(SmallArray Partition)
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 data Partition = Partition
@@ -47,13 +47,13 @@ data Partition = Partition
     -- batch to be dropped". Although kafka allows both NULL and the empty
     -- string as distinct values, we decode NULL by mapping it to the
     -- empty string.
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 data Error = Error
   { index :: !Int32
   , message :: !Text
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 decode :: Bytes -> Either Context Response
@@ -63,16 +63,16 @@ parser :: Context -> Parser Context s Response
 parser ctx = do
   topics <- Kafka.Parser.compactArray parserTopic ctx
   throttleTimeMilliseconds <- Kafka.Parser.int32 (Ctx.Field Ctx.ThrottleTimeMilliseconds ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Response{topics,throttleTimeMilliseconds,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Response{topics,throttleTimeMilliseconds,taggedFields}
 
 parserTopic :: Context -> Parser Context s Topic
 parserTopic ctx = do
   name <- Kafka.Parser.compactString (Ctx.Field Ctx.Name ctx)
   partitions <- Kafka.Parser.compactArray parserPartition
     (Ctx.Field Ctx.Partitions ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Topic{name,partitions,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Topic{name,partitions,taggedFields}
 
 parserPartition :: Context -> Parser Context s Partition
 parserPartition ctx = do
@@ -84,7 +84,7 @@ parserPartition ctx = do
   errors <- Kafka.Parser.compactArray parserError
     (Ctx.Field Ctx.Errors ctx)
   errorMessage <- Kafka.Parser.compactString (Ctx.Field Ctx.ErrorMessage ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Partition
     { index
     , errorCode
@@ -93,12 +93,12 @@ parserPartition ctx = do
     , logStartOffset
     , errors
     , errorMessage
-    , tagBuffer
+    , taggedFields
     }
 
 parserError :: Context -> Parser Context s Error
 parserError ctx = do
   index <- Kafka.Parser.int32 (Ctx.Field Ctx.Ix ctx)
   message <- Kafka.Parser.compactString (Ctx.Field Ctx.Message ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Error{index,message,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Error{index,message,taggedFields}

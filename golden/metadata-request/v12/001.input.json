@@ -1,0 +1,12 @@
+{
+    "topics": [
+        {
+            "id": 0,
+            "name": "incidents",
+            "taggedFields": []
+        }
+    ],
+    "allowAutoTopicCreation": true,
+    "includeTopicAuthorizedOperations": false,
+    "taggedFields": []
+}

@@ -8,7 +8,7 @@ Response
             , host = "localhost"
             , port = 9092
             , rack = ""
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         ]
   , clusterId = "yBNMd-CcQ76SLr-d4k-Rdg"
@@ -32,12 +32,12 @@ Response
                       , replicaNodes = fromListN 1 [ 1 ]
                       , isrNodes = fromListN 1 [ 1 ]
                       , offlineReplicas = fromListN 0 []
-                      , tagBuffer = fromListN 0 []
+                      , taggedFields = fromListN 0 []
                       }
                   ]
             , authorizedOperations = 2147483648
-            , tagBuffer = fromListN 0 []
+            , taggedFields = fromListN 0 []
             }
         ]
-  , tagBuffer = fromListN 0 []
+  , taggedFields = fromListN 0 []
   }

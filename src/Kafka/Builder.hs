@@ -37,10 +37,12 @@ module Kafka.Builder
   , int16
   , int32
   , int64
+  , word128
   , varWordNative
   , varIntNative
   , varInt32
   , varInt64
+  , boolean
     -- * Re-exports
   , word8
   , copy
@@ -57,6 +59,7 @@ import Data.Int (Int8,Int16,Int32,Int64)
 import Data.Primitive (SmallArray)
 import Data.Text (Text)
 import Data.Bytes.Chunks (Chunks)
+import Data.WideWord (Word128)
 import qualified Data.Bytes as Bytes
 import qualified Data.Bytes.Builder as Builder
 import qualified Data.Bytes.Text.Utf8 as Utf8
@@ -116,6 +119,10 @@ int64 :: Int64 -> Builder
 {-# inline int64 #-}
 int64 = Builder.int64BE
 
+word128 :: Word128 -> Builder
+{-# inline word128 #-}
+word128 = Builder.word128BE
+
 varWordNative :: Word -> Builder
 {-# inline varWordNative #-}
 varWordNative = Builder.wordLEB128
@@ -131,3 +138,8 @@ varInt64 = Builder.int64LEB128
 varInt32 :: Int32 -> Builder
 {-# inline varInt32 #-}
 varInt32 = Builder.int32LEB128
+
+boolean :: Bool -> Builder
+boolean b = case b of
+  False -> Builder.word8 0
+  True -> Builder.word8 1

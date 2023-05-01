@@ -5,12 +5,18 @@
 
 module Kafka.Interchange.Metadata.Response.V12
   ( Response(..)
+  , Broker(..)
+  , Topic(..)
+  , Partition(..)
+  , Error(..)
   , parser
   , decode
+  , decodeHeaded
   ) where
 
 import Prelude hiding (id)
 
+import Control.Applicative (liftA2)
 import Data.WideWord (Word128)
 import Data.Primitive (SmallArray,PrimArray)
 import Data.Int (Int16,Int32)
@@ -25,6 +31,7 @@ import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
 import qualified Kafka.Data.TaggedField as TaggedField
 import qualified Kafka.Parser
+import qualified Kafka.Interchange.Header.Response.V1 as Header
 
 data Response = Response
   { throttleTimeMilliseconds :: !Int32
@@ -32,7 +39,7 @@ data Response = Response
   , clusterId :: !Text
   , controllerId :: !Int32
   , topics :: !(SmallArray Topic)
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 data Broker = Broker
@@ -40,7 +47,7 @@ data Broker = Broker
   , host :: !Text
   , port :: !Int32
   , rack :: !Text
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 data Topic = Topic
@@ -53,7 +60,7 @@ data Topic = Topic
     -- ^ Authorized Operations: a bitfield. The spec has this as a
     -- signed integral type, but that was probably only done because
     -- of limitations with Java.
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 data Partition = Partition
@@ -64,14 +71,21 @@ data Partition = Partition
   , replicaNodes :: !(PrimArray Int32)
   , isrNodes :: !(PrimArray Int32)
   , offlineReplicas :: !(PrimArray Int32)
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
 data Error = Error
   { index :: !Int32
   , message :: !Text
-  , tagBuffer :: !(SmallArray TaggedField)
+  , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
+
+decodeHeaded :: Bytes -> Either Context (Header.Headed Response)
+decodeHeaded !b = Parser.parseBytesEither
+  (liftA2 Header.Headed
+    (Header.parser Ctx.Top)
+    (parser Ctx.Top <* Parser.endOfInput Ctx.End)
+  ) b
 
 decode :: Bytes -> Either Context Response
 decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End) b
@@ -83,8 +97,8 @@ parser ctx = do
   clusterId <- Kafka.Parser.compactString (Ctx.Field Ctx.ClusterId ctx)
   controllerId <- Kafka.Parser.int32 (Ctx.Field Ctx.ControllerId ctx)
   topics <- Kafka.Parser.compactArray parserTopic (Ctx.Field Ctx.Topics ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Response{throttleTimeMilliseconds,brokers,clusterId,controllerId,topics,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Response{throttleTimeMilliseconds,brokers,clusterId,controllerId,topics,taggedFields}
 
 parserBroker :: Context -> Parser Context s Broker
 parserBroker ctx = do
@@ -92,8 +106,8 @@ parserBroker ctx = do
   host <- Kafka.Parser.compactString (Ctx.Field Ctx.Host ctx)
   port <- Kafka.Parser.int32 (Ctx.Field Ctx.Port ctx)
   rack <- Kafka.Parser.compactString (Ctx.Field Ctx.Rack ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Broker{nodeId,host,port,rack,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Broker{nodeId,host,port,rack,taggedFields}
 
 parserTopic :: Context -> Parser Context s Topic
 parserTopic ctx = do
@@ -104,8 +118,8 @@ parserTopic ctx = do
   partitions <- Kafka.Parser.compactArray parserPartition
     (Ctx.Field Ctx.Partitions ctx)
   authorizedOperations <- Kafka.Parser.word32 (Ctx.Field Ctx.AuthorizedOperations ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Topic{errorCode,name,id,internal,partitions,authorizedOperations,tagBuffer}
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  pure Topic{errorCode,name,id,internal,partitions,authorizedOperations,taggedFields}
 
 parserPartition :: Context -> Parser Context s Partition
 parserPartition ctx = do
@@ -116,7 +130,7 @@ parserPartition ctx = do
   replicaNodes <- Kafka.Parser.compactInt32Array (Ctx.Field Ctx.ReplicaNodes ctx)
   isrNodes <- Kafka.Parser.compactInt32Array (Ctx.Field Ctx.IsrNodes ctx)
   offlineReplicas <- Kafka.Parser.compactInt32Array (Ctx.Field Ctx.OfflineReplicas ctx)
-  tagBuffer <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
+  taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Partition
     { errorCode
     , index
@@ -125,5 +139,5 @@ parserPartition ctx = do
     , replicaNodes
     , isrNodes
     , offlineReplicas
-    , tagBuffer
+    , taggedFields
     }

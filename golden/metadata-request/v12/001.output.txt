@@ -1,0 +1,8 @@
+02 # Topics length: 1
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 # Topic ID (uuid)
+  0a # Name length
+  69 6e 63 69 64 65 6e 74 73 # Name: incidents
+  00 # Tag Buffer Length
+01 # Allow auto topic creation: true
+00 # IncludeTopicAuthorizedOperations: false
+00 # Tag Buffer Length
