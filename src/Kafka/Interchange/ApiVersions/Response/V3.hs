@@ -4,20 +4,24 @@
 
 module Kafka.Interchange.ApiVersions.Response.V3
   ( Response(..)
+  , ApiKeyVersionSupport(..)
   , parser
   , decode
+  , decodeHeaded
   ) where
 
-import Data.Primitive (SmallArray)
+import Control.Applicative (liftA2)
+import Data.Bytes (Bytes)
+import Data.Bytes.Parser (Parser)
 import Data.Int (Int16)
 import Data.Int (Int32)
-import Kafka.Parser.Context (Context)
-import Data.Bytes.Parser (Parser)
-import Data.Bytes (Bytes)
+import Data.Primitive (SmallArray)
 import Kafka.Data.TaggedField (TaggedField)
+import Kafka.Parser.Context (Context)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
+import qualified Kafka.Interchange.Header.Response.V0 as Header
 import qualified Kafka.Data.TaggedField as TaggedField
 import qualified Kafka.Parser
 
@@ -34,6 +38,13 @@ data ApiKeyVersionSupport = ApiKeyVersionSupport
   , maxVersion :: !Int16
   , tagBuffer :: !(SmallArray TaggedField)
   } deriving (Show)
+
+decodeHeaded :: Bytes -> Either Context (Header.Headed Response)
+decodeHeaded !b = Parser.parseBytesEither
+  (liftA2 Header.Headed
+    (Header.parser Ctx.Top)
+    (parser Ctx.Top <* Parser.endOfInput Ctx.End)
+  ) b
 
 decode :: Bytes -> Either Context Response
 decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End) b

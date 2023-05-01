@@ -32,12 +32,14 @@ import qualified Data.ByteString.Lazy.Char8 as LBC8
 import qualified Data.ByteString.Base16 as Base16
 import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
 import qualified Kafka.Interchange.Produce.Response.V9
+import qualified Kafka.Interchange.Metadata.Response.V12
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.Message.Request.V2 as Req
 import qualified Kafka.Data.RecordBatch as RecordBatch
 import qualified Kafka.Data.Record as Record
 import qualified GHC.Exts as Exts
 import qualified Kafka.Data.Acknowledgments as Acknowledgments
+import qualified Kafka.ApiKey as ApiKey
 
 main :: IO ()
 main = defaultMain $ testGroup "kafka"
@@ -67,6 +69,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.Produce.Response.V9.decode
       "golden/produce-response/v9/001.input.txt"
       "golden/produce-response/v9/001.output.txt"
+  , goldenHexDecode
+      "metadata-response-v12-001"
+      Kafka.Interchange.Metadata.Response.V12.decode
+      "golden/metadata-response/v12/001.input.txt"
+      "golden/metadata-response/v12/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks
@@ -77,7 +84,7 @@ apiVersionsRequestV3_001 =
         }
       req = Req.Request
         { header = Req.Header
-          { apiKey = ApiVersionsReqV3.apiKey
+          { apiKey = ApiKey.ApiVersions
           , apiVersion = ApiVersionsReqV3.apiVersion
           , correlationId = 0
           , clientId = Just "admin-1"

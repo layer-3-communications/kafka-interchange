@@ -16,7 +16,6 @@
 module Kafka.Interchange.ApiVersions.Request.V3
   ( Request(..)
   , toChunks
-  , apiKey
   , apiVersion
   ) where
 
@@ -28,9 +27,6 @@ import qualified Kafka.Builder as Builder
 
 apiVersion :: Int16
 apiVersion = 3
-
-apiKey :: Int16
-apiKey = 18
 
 -- | Kafka API Versions request V3.
 data Request = Request

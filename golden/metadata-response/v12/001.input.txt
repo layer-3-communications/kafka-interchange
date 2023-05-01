@@ -1,0 +1,31 @@
+00 00 00 00   # Throttle Time ms
+02            # Brokers Length: 1
+  00 00 00 01 # Node ID: 1
+  0a          # Host String length
+  6c 6f 63 61 6c 68 6f 73 74 # Host: localhost
+  00 00 23 84 # Port: 9092
+  00          # Rack: null
+  00          # Tag Buffer: empty
+17            # Cluster ID Length: 22
+79 42 4e 4d 64 2d 43 63 51 37 36 53 4c 72 2d 64 34 6b 2d 52 64 67 # yBNMd-CcQ76SLr-d4k-Rdg
+00 00 00 01   # Controller ID: 1
+02            # Topics Length: 1
+  00 00       # Error Code: 0
+  0a          # Name Length
+  69 6e 63 69 64 65 6e 74 73 # Name: incidents
+  33 df e5 87 3d 3d 46 e8 8f dd 92 b1 c2 92 d3 92 # ID (128-bit uuid)
+  00          # IsInternal: false
+  02          # Partitions Length: 1
+    00 00        # ErrorCode: 0
+    00 00 00 00  # Index: 0
+    00 00 00 01  # Leader ID
+    00 00 00 03  # Leader Epoch
+    02            # Replica Nodes (list of int32) Length: 1
+      00 00 00 01 # Node 1
+    02            # IsrNodes Length: 1
+      00 00 00 01 # Node1 1
+    01            # OfflineReplicas Length: 0
+    00            # Tag Buffer: empty
+  80 00 00 00     # TopicAuthorizedOperations (bitfield)
+  00              # Tag Buffer: empty
+00                # Tag Buffer: empty

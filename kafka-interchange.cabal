@@ -14,12 +14,18 @@ library
     Kafka.Interchange.Message.Request.V2
     Kafka.Interchange.ApiVersions.Request.V3
     Kafka.Interchange.ApiVersions.Response.V3
+    Kafka.Interchange.ApiVersions.V3
+    -- Kafka.Interchange.Metadata.Request.V12
+    Kafka.Interchange.Metadata.Response.V12
     Kafka.Interchange.Produce.Request.V9
     Kafka.Interchange.Produce.Response.V9
+    Kafka.Interchange.Header.Response.V0
+    Kafka.Interchange.Header.Response.V1
     Kafka.Data.Record
     Kafka.Data.RecordBatch
     Kafka.Data.Acknowledgments
     Kafka.Data.TaggedField
+    Kafka.ApiKey
     Kafka.Parser.Context
   other-modules:
     Kafka.Parser
@@ -51,6 +57,7 @@ library
     , bytestring >=0.11
     , natural-arithmetic >=0.1.3
     , zigzag >=0.0.1
+    , wide-word >=0.1.5
   hs-source-dirs:
     src
   default-language:

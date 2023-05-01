@@ -15,9 +15,11 @@ data Field
   = ApiKey
   | ApiKeys
   | BaseOffset
+  | CorrelationId
   | ErrorCode
   | ErrorMessage
   | Errors
+  | Id
   | Ix
   | LogAppendTimeMilliseconds
   | LogStartOffset
@@ -25,10 +27,25 @@ data Field
   | Message
   | MinVersion
   | Name
+  | NodeId
   | Partitions
   | TagBuffer
   | TaggedFieldContents
   | TaggedFieldLength
   | TaggedFieldTag
   | ThrottleTimeMilliseconds
+  | IsrNodes
+  | ReplicaNodes
+  | OfflineReplicas
+  | Internal
+  | AuthorizedOperations
+  | LeaderId
+  | LeaderEpoch
+  | Topics
+  | Host
+  | Port
+  | ControllerId
+  | Brokers
+  | ClusterId
+  | Rack
   deriving (Show)
