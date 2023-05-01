@@ -38,7 +38,7 @@ library
   build-depends:
     , base >= 4.11 && < 5
     , byteslice >= 0.1.1.0 && < 0.3.0.0
-    , bytebuild >= 0.3.9
+    , bytebuild >= 0.3.13
     , bytesmith >= 0.3 && < 0.4
     , castagnoli >= 0.2
     , chronos >= 1.1.5
