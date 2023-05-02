@@ -5,22 +5,28 @@
 
 module Kafka.Interchange.Produce.Response.V9
   ( Response(..)
+  , Topic(..)
+  , Partition(..)
+  , Error(..)
   , parser
   , decode
+  , decodeHeaded
   ) where
 
-import Data.Primitive (SmallArray)
-import Data.Int (Int16,Int32,Int64)
-import Kafka.Parser.Context (Context)
-import Data.Text (Text)
-import Data.Bytes.Parser (Parser)
+import Control.Applicative (liftA2)
 import Data.Bytes (Bytes)
+import Data.Bytes.Parser (Parser)
+import Data.Int (Int16,Int32,Int64)
+import Data.Primitive (SmallArray)
+import Data.Text (Text)
 import Kafka.Data.TaggedField (TaggedField)
+import Kafka.Parser.Context (Context)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
 import qualified Kafka.Data.TaggedField as TaggedField
 import qualified Kafka.Parser
+import qualified Kafka.Interchange.Header.Response.V1 as Header
 
 data Response = Response
   { topics :: !(SmallArray Topic)
@@ -55,6 +61,13 @@ data Error = Error
   , message :: !Text
   , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
+
+decodeHeaded :: Bytes -> Either Context (Header.Headed Response)
+decodeHeaded !b = Parser.parseBytesEither
+  (liftA2 Header.Headed
+    (Header.parser Ctx.Top)
+    (parser Ctx.Top <* Parser.endOfInput Ctx.End)
+  ) b
 
 decode :: Bytes -> Either Context Response
 decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End) b

@@ -38,7 +38,7 @@ ff ff ff ff # partition leader epoch
 # Record 1
 40 # length
 00 # attributes
-18 # timestamp delta (this makes no sense, it causes us to exceed the maximum)
+18 # timestamp delta (12ms)
 02 # offset delta (1)
 01 # key length: 0
 12 # value length: 9
