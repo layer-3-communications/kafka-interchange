@@ -1,0 +1,5 @@
+00 00 00 00                # Throttle Time ms
+00 00                      # Error Code
+00 00 00 00 00 00 03 e8    # Producer ID
+00 00                      # Producer Epoch
+00                         # Tagged Fields Length

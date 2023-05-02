@@ -1,0 +1,5 @@
+00                      # Transactional ID: none
+7f ff ff ff             # Transaction Timeout ms
+ff ff ff ff ff ff ff ff # Producer ID
+ff ff                   # Producer Epoch
+00                      # Tagged fields length

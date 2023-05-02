@@ -18,6 +18,8 @@ library
     Kafka.Interchange.Metadata.Request.V12
     Kafka.Interchange.Metadata.Response.V12
     Kafka.Interchange.Metadata.V12
+    Kafka.Interchange.InitProducerId.Request.V4
+    Kafka.Interchange.InitProducerId.Response.V4
     Kafka.Interchange.Produce.Request.V9
     Kafka.Interchange.Produce.Response.V9
     Kafka.Interchange.Header.Response.V0

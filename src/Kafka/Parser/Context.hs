@@ -14,13 +14,22 @@ data Context
 data Field
   = ApiKey
   | ApiKeys
+  | AuthorizedOperations
   | BaseOffset
+  | Brokers
+  | ClusterId
+  | ControllerId
   | CorrelationId
   | ErrorCode
   | ErrorMessage
   | Errors
+  | Host
   | Id
+  | Internal
+  | IsrNodes
   | Ix
+  | LeaderEpoch
+  | LeaderId
   | LogAppendTimeMilliseconds
   | LogStartOffset
   | MaxVersion
@@ -28,24 +37,17 @@ data Field
   | MinVersion
   | Name
   | NodeId
+  | OfflineReplicas
   | Partitions
+  | Port
+  | ProducerEpoch
+  | ProducerId
+  | Rack
+  | ReplicaNodes
   | TagBuffer
   | TaggedFieldContents
   | TaggedFieldLength
   | TaggedFieldTag
   | ThrottleTimeMilliseconds
-  | IsrNodes
-  | ReplicaNodes
-  | OfflineReplicas
-  | Internal
-  | AuthorizedOperations
-  | LeaderId
-  | LeaderEpoch
   | Topics
-  | Host
-  | Port
-  | ControllerId
-  | Brokers
-  | ClusterId
-  | Rack
   deriving (Show)

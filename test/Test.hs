@@ -21,6 +21,7 @@ import Kafka.Parser.Context (Context)
 import Text.Show.Pretty (ppShow)
 import KafkaFromJson ()
 
+import qualified Data.List as List
 import qualified Kafka.Interchange.ApiVersions.Response.V3
 import qualified Test.Tasty.Golden.Advanced as Advanced
 import qualified Data.ByteString.Char8 as BC8
@@ -36,6 +37,8 @@ import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
 import qualified Kafka.Interchange.Produce.Response.V9
 import qualified Kafka.Interchange.Metadata.Response.V12
 import qualified Kafka.Interchange.Metadata.Request.V12
+import qualified Kafka.Interchange.InitProducerId.Response.V4
+import qualified Kafka.Interchange.InitProducerId.Request.V4
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.Message.Request.V2 as Req
 import qualified Kafka.Data.RecordBatch as RecordBatch
@@ -83,6 +86,16 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.Metadata.Request.V12.toChunks
       "golden/metadata-request/v12/001.input.json"
       "golden/metadata-request/v12/001.output.txt"
+  , goldenHexDecode
+      "init-producer-id-response-v4-001"
+      Kafka.Interchange.InitProducerId.Response.V4.decode
+      "golden/init-producer-id-response/v4/001.input.txt"
+      "golden/init-producer-id-response/v4/001.output.txt"
+  , goldenHexEncode
+      "init-producer-id-request-v4-001"
+      Kafka.Interchange.InitProducerId.Request.V4.toChunks
+      "golden/init-producer-id-request/v4/001.input.json"
+      "golden/init-producer-id-request/v4/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks
@@ -304,7 +317,11 @@ goldenHexDecode name decode src ref = Advanced.goldenTest
         Nothing -> fail "input file was malformed"
         Just contents' -> case decode (Bytes.fromByteArray contents') of
           Left e -> fail (show e)
-          Right r -> pure (ppShow r)
+          Right r ->
+            let s = ppShow r
+             in case List.isSuffixOf "\n" s of
+                  True -> pure s
+                  False -> pure $ s ++ "\n"
   )
   (\expected actual -> pure $ if expected == actual
     then Nothing
