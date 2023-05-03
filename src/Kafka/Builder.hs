@@ -51,6 +51,7 @@ module Kafka.Builder
   , consLength
   , bytes
   , Builder.runOnto
+  , Builder.runOntoLength
   , Builder.chunks
   ) where
 

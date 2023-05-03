@@ -68,10 +68,10 @@ toChunks r = toChunksOnto r ChunksNil
 -- > foldr toChunksOnto ChunksNil records
 toChunksOnto :: Record -> Chunks -> Chunks
 toChunksOnto r c = ChunksCons
-  (Bytes.fromByteArray (Bounded.run Nat.constant (Bounded.varIntNative (fromIntegral (Chunks.length recordChunks)))))
+  (Bytes.fromByteArray (Bounded.run Nat.constant (Bounded.varIntNative (fromIntegral n))))
   recordChunks
   where
-  recordChunks = Builder.runOnto 128 (encodeWithoutLength r) c
+  (n,recordChunks) = Builder.runOntoLength 128 (encodeWithoutLength r) c
 
 encodeWithoutLength :: Record -> Builder
 encodeWithoutLength Record{timestampDelta,offsetDelta,key,value,headers} =
