@@ -7,14 +7,15 @@ module Kafka.Data.Record
   ( Record(..)
   , Header(..)
   , toChunks
+  , toChunksOnto
   ) where
 
 import Kafka.Builder (Builder)
 import Data.Bytes (Bytes)
 import Data.Text (Text)
-import Data.Int (Int8,Int16,Int32,Int64)
+import Data.Int (Int32,Int64)
 import Data.Primitive (SmallArray)
-import Data.Bytes.Chunks (Chunks(ChunksCons))
+import Data.Bytes.Chunks (Chunks(ChunksCons,ChunksNil))
 
 import qualified Arithmetic.Nat as Nat
 import qualified Kafka.Builder as Builder
@@ -46,15 +47,31 @@ data Record = Record
     -- thing by wrapping the Bytes with Maybe, but using the empty string
     -- as the key is a terrible idea anyway.
   , value :: {-# UNPACK #-} !Bytes
+    -- ^ In a data-encoding setting, it actually makes more sense for this
+    -- to be Chunks, not Bytes. But in a data-decoding setting, Bytes makes
+    -- more sense. It might be better to create a separate type for each
+    -- setting.
   , headers :: {-# UNPACK #-} !(SmallArray Header)
   }
 
 toChunks :: Record -> Chunks
-toChunks r = ChunksCons
+toChunks r = toChunksOnto r ChunksNil
+
+-- | Variant of 'toChunks' that gives the caller control over what chunks
+-- come after the encoded record. For example, it is possible to improve
+-- the performance of
+--
+-- > foldMap toChunks records
+--
+-- by rewriting it as
+--
+-- > foldr toChunksOnto ChunksNil records
+toChunksOnto :: Record -> Chunks -> Chunks
+toChunksOnto r c = ChunksCons
   (Bytes.fromByteArray (Bounded.run Nat.constant (Bounded.varIntNative (fromIntegral (Chunks.length recordChunks)))))
   recordChunks
   where
-  recordChunks = Builder.run 128 (encodeWithoutLength r)
+  recordChunks = Builder.runOnto 128 (encodeWithoutLength r) c
 
 encodeWithoutLength :: Record -> Builder
 encodeWithoutLength Record{timestampDelta,offsetDelta,key,value,headers} =
