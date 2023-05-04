@@ -1,0 +1,13 @@
+{ "replicaId": -1
+, "isolationLevel": 0
+, "topics":
+  [ {"name": "incidents"
+    ,"partitions":
+      [ {"index": 0
+        ,"currentLeaderEpoch": 0
+        ,"timestamp": -2
+        }
+      ]
+    }
+  ]
+}

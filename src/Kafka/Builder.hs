@@ -34,6 +34,7 @@ module Kafka.Builder
   , string
   , array
   , compactArray
+  , int8
   , int16
   , int32
   , int64
@@ -107,6 +108,10 @@ compactArray f !xs = Builder.wordLEB128 (fromIntegral @Int @Word (1 + PM.sizeofS
 -- x compactArrayChunks f !xs = Builder.runOnto 20
 -- x   (Builder.wordLEB128 (fromIntegral @Int @Word (1 + PM.sizeofSmallArray xs)))
 -- x   (foldMap f xs)
+
+int8 :: Int8 -> Builder
+{-# inline int8 #-}
+int8 = Builder.word8 . fromIntegral
 
 int16 :: Int16 -> Builder
 {-# inline int16 #-}

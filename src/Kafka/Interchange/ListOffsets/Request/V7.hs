@@ -13,52 +13,68 @@
 {-# language UnboxedTuples #-}
 {-# language UndecidableInstances #-}
 
-module Kafka.Interchange.Metadata.Request.V12
+module Kafka.Interchange.ListOffsets.Request.V7
   ( Request(..)
   , Topic(..)
+  , Partition(..)
   , toChunks
   ) where
 
 import Prelude hiding (id)
 
-import Data.Int (Int16)
+import Data.Primitive (SmallArray)
+import Data.Int (Int8,Int32,Int64)
 import Data.Text (Text)
 import Data.Bytes.Builder (Builder)
 import Data.Bytes.Chunks (Chunks)
-import Data.WideWord (Word128)
-import Data.Primitive (SmallArray)
 
 import qualified Kafka.Builder as Builder
 
--- | Kafka API Versions request V3.
+-- | Kafka List Offsets request V7.
 data Request = Request
-  { topics :: !(SmallArray Topic)
-  , allowAutoTopicCreation :: !Bool
-  , includeTopicAuthorizedOperations :: !Bool
+  { replicaId :: !Int32
+  , isolationLevel :: !Int8
+  , topics :: !(SmallArray Topic)
   }
 
 data Topic = Topic
-  { id :: {-# UNPACK #-} !Word128
-  , name :: !(Maybe Text)
-  } 
+  { name :: !Text
+  , partitions :: !(SmallArray Partition)
+  }
+
+data Partition = Partition
+  { index :: !Int32
+  , currentLeaderEpoch :: !Int32
+  , timestamp :: !Int64
+  }
 
 toChunks :: Request -> Chunks
 toChunks = Builder.run 128 . encode
 
 encode :: Request -> Builder
-encode Request{topics,allowAutoTopicCreation,includeTopicAuthorizedOperations} =
+encode Request{replicaId,isolationLevel,topics} =
+  Builder.int32 replicaId
+  <>
+  Builder.int8 isolationLevel
+  <>
   Builder.compactArray encodeTopic topics
-  <>
-  Builder.boolean allowAutoTopicCreation
-  <>
-  Builder.boolean includeTopicAuthorizedOperations
   <>
   Builder.word8 0 -- zero tagged fields
 
 encodeTopic :: Topic -> Builder
-encodeTopic Topic{id,name} =
-  Builder.word128 id
+encodeTopic Topic{name,partitions} =
+  Builder.compactString name
   <>
-  Builder.compactNullableString name
+  Builder.compactArray encodePartition partitions
+  <>
+  Builder.word8 0 -- zero tagged fields
+
+encodePartition :: Partition -> Builder
+encodePartition Partition{index,currentLeaderEpoch,timestamp} =
+  Builder.int32 index
+  <>
+  Builder.int32 currentLeaderEpoch
+  <>
+  Builder.int64 timestamp
   <>
   Builder.word8 0 -- zero tagged fields

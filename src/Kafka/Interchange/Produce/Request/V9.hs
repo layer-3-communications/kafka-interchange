@@ -17,8 +17,6 @@ module Kafka.Interchange.Produce.Request.V9
   ( Request(..)
   , Topic(..)
   , Partition(..)
-  , apiVersion
-  , apiKey
   , encode
   , toChunks
   ) where
@@ -48,12 +46,6 @@ import qualified Kafka.Data.Acknowledgments as Acknowledgments
 -- >     partition_data => index records TAG_BUFFER 
 -- >       index => INT32
 -- >       records => COMPACT_RECORDS
-
-apiVersion :: Int16
-apiVersion = 9
-
-apiKey :: Int16
-apiKey = 0
 
 toChunks :: Request -> Chunks
 toChunks = Builder.run 256 . encode

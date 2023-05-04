@@ -13,52 +13,34 @@
 {-# language UnboxedTuples #-}
 {-# language UndecidableInstances #-}
 
-module Kafka.Interchange.Metadata.Request.V12
+module Kafka.Interchange.FindCoordinator.Request.V4
   ( Request(..)
-  , Topic(..)
   , toChunks
   ) where
 
 import Prelude hiding (id)
 
-import Data.Int (Int16)
+import Data.Primitive (SmallArray)
+import Data.Int (Int8)
 import Data.Text (Text)
 import Data.Bytes.Builder (Builder)
 import Data.Bytes.Chunks (Chunks)
-import Data.WideWord (Word128)
-import Data.Primitive (SmallArray)
 
 import qualified Kafka.Builder as Builder
 
 -- | Kafka API Versions request V3.
 data Request = Request
-  { topics :: !(SmallArray Topic)
-  , allowAutoTopicCreation :: !Bool
-  , includeTopicAuthorizedOperations :: !Bool
+  { keyType :: !Int8
+  , coordinatorKeys :: !(SmallArray Text)
   }
-
-data Topic = Topic
-  { id :: {-# UNPACK #-} !Word128
-  , name :: !(Maybe Text)
-  } 
 
 toChunks :: Request -> Chunks
 toChunks = Builder.run 128 . encode
 
 encode :: Request -> Builder
-encode Request{topics,allowAutoTopicCreation,includeTopicAuthorizedOperations} =
-  Builder.compactArray encodeTopic topics
+encode Request{keyType,coordinatorKeys} =
+  Builder.int8 keyType
   <>
-  Builder.boolean allowAutoTopicCreation
-  <>
-  Builder.boolean includeTopicAuthorizedOperations
-  <>
-  Builder.word8 0 -- zero tagged fields
-
-encodeTopic :: Topic -> Builder
-encodeTopic Topic{id,name} =
-  Builder.word128 id
-  <>
-  Builder.compactNullableString name
+  Builder.compactArray Builder.compactString coordinatorKeys
   <>
   Builder.word8 0 -- zero tagged fields

@@ -23,6 +23,7 @@ import KafkaFromJson ()
 
 import qualified Data.List as List
 import qualified Kafka.Interchange.ApiVersions.Response.V3
+import qualified Kafka.Interchange.ApiVersions.V3 as ApiVersionsV3
 import qualified Test.Tasty.Golden.Advanced as Advanced
 import qualified Data.ByteString.Char8 as BC8
 import qualified Data.Bytes.Chunks as Chunks
@@ -33,6 +34,7 @@ import qualified Data.Bytes.Text.Latin1 as Latin1
 import qualified Data.Bytes.Parser.Latin as Latin
 import qualified Data.ByteString.Lazy.Char8 as LBC8
 import qualified Data.ByteString.Base16 as Base16
+import qualified Kafka.Interchange.Produce.V9 as ProduceV9
 import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
 import qualified Kafka.Interchange.Produce.Response.V9
 import qualified Kafka.Interchange.Metadata.Response.V12
@@ -40,6 +42,8 @@ import qualified Kafka.Interchange.Metadata.Request.V12
 import qualified Kafka.Interchange.InitProducerId.Response.V4
 import qualified Kafka.Interchange.InitProducerId.Request.V4
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
+import qualified Kafka.Interchange.FindCoordinator.Request.V4
+import qualified Kafka.Interchange.ListOffsets.Request.V7
 import qualified Kafka.Interchange.Message.Request.V2 as Req
 import qualified Kafka.Data.RecordBatch as RecordBatch
 import qualified Kafka.Data.Record as Record
@@ -96,6 +100,16 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.InitProducerId.Request.V4.toChunks
       "golden/init-producer-id-request/v4/001.input.json"
       "golden/init-producer-id-request/v4/001.output.txt"
+  , goldenHexEncode
+      "find-coordinator-request-v4-001"
+      Kafka.Interchange.FindCoordinator.Request.V4.toChunks
+      "golden/find-coordinator-request/v4/001.input.json"
+      "golden/find-coordinator-request/v4/001.output.txt"
+  , goldenHexEncode
+      "list-offsets-request-v7-001"
+      Kafka.Interchange.ListOffsets.Request.V7.toChunks
+      "golden/list-offsets-request/v7/001.input.json"
+      "golden/list-offsets-request/v7/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks
@@ -106,8 +120,8 @@ apiVersionsRequestV3_001 =
         }
       req = Req.Request
         { header = Req.Header
-          { apiKey = ApiKey.ApiVersions
-          , apiVersion = ApiVersionsReqV3.apiVersion
+          { apiKey = ApiVersionsV3.apiKey
+          , apiVersion = ApiVersionsV3.apiVersion
           , correlationId = 0
           , clientId = Just "admin-1"
           }
@@ -155,8 +169,8 @@ produceRequestV9_001 =
       encProduceReq = ProduceReqV9.toChunks produceReq
       req = Req.Request
         { header = Req.Header
-          { apiKey = ProduceReqV9.apiKey
-          , apiVersion = ProduceReqV9.apiVersion
+          { apiKey = ProduceV9.apiKey
+          , apiVersion = ProduceV9.apiVersion
           , correlationId = 4
           , clientId = Just "console-producer"
           } 
@@ -213,8 +227,8 @@ produceRequestV9_002 =
       encProduceReq = ProduceReqV9.toChunks produceReq
       req = Req.Request
         { header = Req.Header
-          { apiKey = ProduceReqV9.apiKey
-          , apiVersion = ProduceReqV9.apiVersion
+          { apiKey = ProduceV9.apiKey
+          , apiVersion = ProduceV9.apiVersion
           , correlationId = 5
           , clientId = Just "console-producer"
           } 
@@ -293,8 +307,8 @@ produceRequestV9_003 =
       encProduceReq = ProduceReqV9.toChunks produceReq
       req = Req.Request
         { header = Req.Header
-          { apiKey = ProduceReqV9.apiKey
-          , apiVersion = ProduceReqV9.apiVersion
+          { apiKey = ProduceV9.apiKey
+          , apiVersion = ProduceV9.apiVersion
           , correlationId = 4
           , clientId = Just "console-producer"
           } 

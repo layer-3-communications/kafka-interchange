@@ -9,6 +9,45 @@ copyright: 2023 Layer 3 Communications
 category: Data
 extra-source-files: README.md
 
+library exchange
+  visibility: public
+  build-depends:
+    , base >= 4.11.1.0 && <5
+    , kafka-interchange
+    , text >=2.0
+    , byteslice >=0.2.8
+    , primitive >=0.8 
+    , bytesmith >=0.3.9
+    , byte-order >=0.1.3
+  signatures:
+    Communication
+    Channel
+  exposed-modules:
+    Exchange
+  hs-source-dirs: src-exchange
+  default-language: Haskell2010
+  ghc-options: -O2 -Wall
+
+-- Inherited signature: Channel
+library exchange-all
+  visibility: public
+  build-depends:
+    , base >=4.10 && <5
+    , kafka-interchange
+    , kafka-interchange:exchange
+  mixins:
+    kafka-interchange:exchange (Exchange as Produce.V9)
+      requires (Communication as Kafka.Interchange.Produce.V9),
+    kafka-interchange:exchange (Exchange as ApiVersions.V3)
+      requires (Communication as Kafka.Interchange.ApiVersions.V3),
+    kafka-interchange:exchange (Exchange as Metadata.V12)
+      requires (Communication as Kafka.Interchange.Metadata.V12)
+  exposed-modules:
+    Client
+  hs-source-dirs: src-exchange-all
+  default-language: Haskell2010
+  ghc-options: -O2 -Wall
+
 library
   exposed-modules:
     Kafka.Interchange.Message.Request.V2
@@ -20,16 +59,20 @@ library
     Kafka.Interchange.Metadata.V12
     Kafka.Interchange.InitProducerId.Request.V4
     Kafka.Interchange.InitProducerId.Response.V4
+    Kafka.Interchange.Produce.V9
     Kafka.Interchange.Produce.Request.V9
     Kafka.Interchange.Produce.Response.V9
     Kafka.Interchange.Header.Response.V0
     Kafka.Interchange.Header.Response.V1
+    Kafka.Interchange.FindCoordinator.Request.V4
+    Kafka.Interchange.ListOffsets.Request.V7
     Kafka.Data.Record
     Kafka.Data.RecordBatch
     Kafka.Data.Acknowledgments
     Kafka.Data.TaggedField
     Kafka.ApiKey
     Kafka.Parser.Context
+    Kafka.Exchange.Error
   other-modules:
     Kafka.Parser
     Kafka.Builder
@@ -48,10 +91,9 @@ library
     , contiguous >= 0.6
     , ip >= 1.5.0 && < 1.8
     , mtl >= 2.2.2 && < 2.3
-    , primitive >= 0.7.0.0 && < 0.8.0.0
+    , primitive >= 0.7.0.0 && < 0.10
     , primitive-unaligned >= 0.1.1.0 && < 0.2.0.0
     , primitive-unlifted >= 0.1.1.0 && < 0.2.0.0
-    , primitive-slice >= 0.1.0.0 && < 0.2.0.0
     , stm >= 2.5.0.0
     , text >= 2.0
     , text-short >= 0.1.5

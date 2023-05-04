@@ -1,11 +1,12 @@
 {-# language BangPatterns #-}
-{-# language NamedFieldPuns #-}
 {-# language DataKinds #-}
 {-# language DeriveFunctor #-}
+{-# language DerivingStrategies #-}
 {-# language DuplicateRecordFields #-}
 {-# language FlexibleContexts #-}
 {-# language GeneralizedNewtypeDeriving #-}
 {-# language MultiParamTypeClasses #-}
+{-# language NamedFieldPuns #-}
 {-# language OverloadedStrings #-}
 {-# language PolyKinds #-}
 {-# language RankNTypes #-}
@@ -35,7 +36,7 @@ data Header = Header
   , apiVersion :: !Int16
   , correlationId :: !Int32
   , clientId :: !(Maybe Text)
-  }
+  } deriving stock (Show)
 
 -- | A Kafka request. This data type does not enforce the agreement of
 -- the @apiKey@ and the serialized @body@. That resposibility is left

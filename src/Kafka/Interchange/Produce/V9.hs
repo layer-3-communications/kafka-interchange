@@ -1,4 +1,4 @@
-module Kafka.Interchange.ApiVersions.V3
+module Kafka.Interchange.Produce.V9
   ( Rqst.Request
   , Resp.Response
   , Rqst.toChunks
@@ -10,14 +10,14 @@ module Kafka.Interchange.ApiVersions.V3
 
 import Data.Int (Int16)
 
-import qualified Kafka.Interchange.ApiVersions.Request.V3 as Rqst
-import qualified Kafka.Interchange.ApiVersions.Response.V3 as Resp
+import qualified Kafka.Interchange.Produce.Request.V9 as Rqst
+import qualified Kafka.Interchange.Produce.Response.V9 as Resp
 
 responseHeaderVersion :: Int16
-responseHeaderVersion = 0
+responseHeaderVersion = 1
 
 apiVersion :: Int16
-apiVersion = 3
+apiVersion = 9
 
 apiKey :: Int16
-apiKey = 18
+apiKey = 0

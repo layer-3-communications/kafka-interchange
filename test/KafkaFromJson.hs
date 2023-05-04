@@ -8,6 +8,8 @@ import Data.Aeson.TH (deriveFromJSON,defaultOptions)
 
 import qualified Kafka.Interchange.Metadata.Request.V12
 import qualified Kafka.Interchange.InitProducerId.Request.V4
+import qualified Kafka.Interchange.FindCoordinator.Request.V4
+import qualified Kafka.Interchange.ListOffsets.Request.V7
 
 instance FromJSON Word128 where
   parseJSON = fmap fromInteger . parseJSON
@@ -15,3 +17,7 @@ instance FromJSON Word128 where
 $(deriveFromJSON defaultOptions ''Kafka.Interchange.Metadata.Request.V12.Topic)
 $(deriveFromJSON defaultOptions ''Kafka.Interchange.Metadata.Request.V12.Request)
 $(deriveFromJSON defaultOptions ''Kafka.Interchange.InitProducerId.Request.V4.Request)
+$(deriveFromJSON defaultOptions ''Kafka.Interchange.FindCoordinator.Request.V4.Request)
+$(deriveFromJSON defaultOptions ''Kafka.Interchange.ListOffsets.Request.V7.Partition)
+$(deriveFromJSON defaultOptions ''Kafka.Interchange.ListOffsets.Request.V7.Topic)
+$(deriveFromJSON defaultOptions ''Kafka.Interchange.ListOffsets.Request.V7.Request)
