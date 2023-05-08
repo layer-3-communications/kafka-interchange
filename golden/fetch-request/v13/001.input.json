@@ -1,0 +1,22 @@
+{ "replicaId": -1
+, "maxWaitMilliseconds": 500
+, "minBytes": 1
+, "maxBytes": 52428800
+, "isolationLevel": 0
+, "sessionId": 0
+, "sessionEpoch": 0
+, "topics":
+  [ { "id": 265319427525095655998139032066294586608
+    , "partitions":
+      [ { "index": 0
+        , "currentLeaderEpoch": 0
+        , "fetchOffset": 0
+        , "lastFetchedEpoch": -1
+        , "logStartOffset": -1
+        , "maxBytes": 1048576
+        }
+      ]
+    }
+  ]
+, "rackId": ""
+}

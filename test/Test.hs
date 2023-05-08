@@ -44,6 +44,7 @@ import qualified Kafka.Interchange.InitProducerId.Request.V4
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.FindCoordinator.Request.V4
 import qualified Kafka.Interchange.ListOffsets.Request.V7
+import qualified Kafka.Interchange.Fetch.Request.V13
 import qualified Kafka.Interchange.Message.Request.V2 as Req
 import qualified Kafka.Data.RecordBatch as RecordBatch
 import qualified Kafka.Data.Record as Record
@@ -110,6 +111,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.ListOffsets.Request.V7.toChunks
       "golden/list-offsets-request/v7/001.input.json"
       "golden/list-offsets-request/v7/001.output.txt"
+  , goldenHexEncode
+      "fetch-request-v13-001"
+      Kafka.Interchange.Fetch.Request.V13.toChunks
+      "golden/fetch-request/v13/001.input.json"
+      "golden/fetch-request/v13/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks

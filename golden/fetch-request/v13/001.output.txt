@@ -1,0 +1,21 @@
+ff ff ff ff       # replica id
+00 00 01 f4       # max wait ms
+00 00 00 01       # min bytes
+03 20 00 00       # max bytes
+00                # isolation level
+00 00 00 00       # session id
+00 00 00 00       # session epoch
+02                # topics length: 1
+  c7 9a a9 bc 52 9b 41 95 a2 8f c6 65 ee 18 9c f0   # topic id (uuid)
+  02              # partitions length
+    00 00 00 00   # partition index
+    00 00 00 00   # current leader epoch
+    00 00 00 00 00 00 00 00 # fetch offset
+    ff ff ff ff   # last fetched epoch
+    ff ff ff ff ff ff ff ff # log start offset
+    00 10 00 00   # partition max bytes
+    00            # no tagged fields
+  00              # no tagged fields
+01 # forgotten topics array: null
+01 # rack id: empty string
+00 # no tagged fields
