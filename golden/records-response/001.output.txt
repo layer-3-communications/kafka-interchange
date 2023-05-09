@@ -1,0 +1,89 @@
+fromListN
+  3
+  [ Record
+      { attributes = 0
+      , timestampDelta = 0
+      , offsetDelta = 0
+      , key = []
+      , value = [ 0x68 , 0x65 , 0x61 , 0x6c , 0x74 , 0x68 , 0x79 ]
+      , headers =
+          fromListN
+            1
+            [ Header
+                { key = "host"
+                , value =
+                    [ 0x65
+                    , 0x78
+                    , 0x61
+                    , 0x6d
+                    , 0x70
+                    , 0x6c
+                    , 0x65
+                    , 0x2e
+                    , 0x63
+                    , 0x6f
+                    , 0x6d
+                    ]
+                }
+            ]
+      }
+  , Record
+      { attributes = 0
+      , timestampDelta = 16
+      , offsetDelta = 1
+      , key = []
+      , value =
+          [ 0x75 , 0x6e , 0x68 , 0x65 , 0x61 , 0x6c , 0x74 , 0x68 , 0x79 ]
+      , headers =
+          fromListN
+            1
+            [ Header
+                { key = "host"
+                , value =
+                    [ 0x65
+                    , 0x78
+                    , 0x61
+                    , 0x6d
+                    , 0x70
+                    , 0x6c
+                    , 0x65
+                    , 0x2e
+                    , 0x63
+                    , 0x6f
+                    , 0x6d
+                    ]
+                }
+            ]
+      }
+  , Record
+      { attributes = 0
+      , timestampDelta = 16
+      , offsetDelta = 2
+      , key = []
+      , value = [ 0x68 , 0x65 , 0x61 , 0x6c , 0x74 , 0x68 , 0x79 ]
+      , headers =
+          fromListN
+            1
+            [ Header
+                { key = "host"
+                , value =
+                    [ 0x66
+                    , 0x6f
+                    , 0x6f
+                    , 0x2e
+                    , 0x65
+                    , 0x78
+                    , 0x61
+                    , 0x6d
+                    , 0x70
+                    , 0x6c
+                    , 0x65
+                    , 0x2e
+                    , 0x63
+                    , 0x6f
+                    , 0x6d
+                    ]
+                }
+            ]
+      }
+  ]

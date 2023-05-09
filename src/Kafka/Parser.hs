@@ -1,24 +1,31 @@
 {-# language BangPatterns #-}
 {-# language LambdaCase #-}
+{-# language NumericUnderscores #-}
 
 module Kafka.Parser
   ( compactArray
   , compactString
   , compactInt32Array
   , varintLengthPrefixedArray
+  , varWordNative
+  , varIntNative
+  , varInt32
+  , varInt64
   , boolean
   , BigEndian.int16
   , BigEndian.int32
+  , BigEndian.word16
   , BigEndian.word32
   , BigEndian.int64
   , BigEndian.word128
+  , Parser.fail
   ) where
 
 import Data.Primitive (SmallArray,PrimArray)
 import Data.Bytes.Parser (Parser)
 import Kafka.Parser.Context (Context)
 import Data.Text (Text)
-import Data.Int (Int32)
+import Data.Int (Int32,Int64)
 
 import qualified Kafka.Parser.Context as Ctx
 import qualified Data.Primitive as PM
@@ -88,7 +95,8 @@ varintLengthPrefixedArray f ctx = do
   let !len = fromIntegral len0 :: Int
   case len of
     0 -> pure mempty
-    _ -> replicateN f len ctx
+    _ | len >= 10_000_000 -> Parser.fail ctx
+      | otherwise -> replicateN f len ctx
 
 replicateN :: (Context -> Parser Context s a) -> Int -> Context -> Parser Context s (SmallArray a)
 {-# inline replicateN #-}
@@ -104,3 +112,21 @@ replicateN f !len ctx = do
 
 uninitializedArray :: a
 uninitializedArray = errorWithoutStackTrace "Kafka.Parser: uninitializedArray"
+
+varWordNative :: e -> Parser e s Word
+{-# inline varWordNative #-}
+varWordNative e = fmap fromIntegral (Leb128.word32 e)
+
+-- This is only ever used for array lengths, so we restrict the
+-- range to 32-bit integers.
+varIntNative :: e -> Parser e s Int
+{-# inline varIntNative #-}
+varIntNative e = fmap fromIntegral (Leb128.int32 e)
+
+varInt32 :: e -> Parser e s Int32
+{-# inline varInt32 #-}
+varInt32 e = Leb128.int32 e
+
+varInt64 :: e -> Parser e s Int64
+{-# inline varInt64 #-}
+varInt64 e = Leb128.int64 e

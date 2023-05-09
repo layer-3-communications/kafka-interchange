@@ -17,7 +17,7 @@ import Prelude hiding (readFile)
 import Data.Bytes (Bytes)
 import Data.Bytes.Chunks (Chunks)
 import Data.Bytes.Parser (Parser)
-import Kafka.Parser.Context (Context)
+import Kafka.Parser.Context (Context(Top))
 import Text.Show.Pretty (ppShow)
 import KafkaFromJson ()
 
@@ -45,9 +45,11 @@ import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.FindCoordinator.Request.V4
 import qualified Kafka.Interchange.ListOffsets.Request.V7
 import qualified Kafka.Interchange.Fetch.Request.V13
+import qualified Kafka.Interchange.Fetch.Response.V13
 import qualified Kafka.Interchange.Message.Request.V2 as Req
-import qualified Kafka.Data.RecordBatch as RecordBatch
-import qualified Kafka.Data.Record as Record
+import qualified Kafka.Interchange.RecordBatch.Request as RecordBatch
+import qualified Kafka.Interchange.Record.Request as Record
+import qualified Kafka.Interchange.Record.Response
 import qualified GHC.Exts as Exts
 import qualified Kafka.Data.Acknowledgments as Acknowledgments
 import qualified Kafka.ApiKey as ApiKey
@@ -116,6 +118,16 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.Fetch.Request.V13.toChunks
       "golden/fetch-request/v13/001.input.json"
       "golden/fetch-request/v13/001.output.txt"
+  , goldenHexDecode
+      "fetch-response-v13-001"
+      Kafka.Interchange.Fetch.Response.V13.decode
+      "golden/fetch-response/v13/001.input.txt"
+      "golden/fetch-response/v13/001.output.txt"
+  , goldenHexDecode
+      "records-001"
+      (maybe (Left Top) Right . Kafka.Interchange.Record.Response.decodeArray)
+      "golden/records-response/001.input.txt"
+      "golden/records-response/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks

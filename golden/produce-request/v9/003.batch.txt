@@ -1,13 +1,3 @@
-00 00 00 d7 # Length
-00 00 00 09
-00 00 00 04 # Correlation ID: 4
-00 10 
-63 6f 6e 73 6f 6c 65 2d 70 72 6f 64 75 63 65 72 # console-producer
-00 00
-ff ff 00 00 05 dc 02 0a 69 6e 63 69 64 65 6e 74
-73 02
-00 00 00 00 # index: 0
-a1 01 # length in bytes
 00 00 00 00 00 00 00 00 # base offset
 00 00 00 94 # batch length
 ff ff ff ff # partition leader epoch
@@ -64,5 +54,4 @@ ff ff ff ff # partition leader epoch
 68 6f 73 74 # host
 1e
 66 6f 6f 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d # foo.example.com
-00 00 00
 

@@ -1,0 +1,72 @@
+00 00 00 00 00 00 00 00 # base offset
+00 00 00 94             # batch length
+00 00 00 00             # partition leader epoch
+02                      # magic byte
+b3 8c 8c 11             # CRC
+00 00                   # attributes
+00 00 00 02             # last offset delta
+00 00 01 87 e8 02 50 51 # base timestamp
+00 00 01 87 e8 02 50 61 # max timestamp
+00 00 00 00 00 00 00 00 # producer id
+00 00                   # producer epoch
+00 00 00 00             # base sequence
+00 00 00 03             # array of records (length 3)
+  3c                    # length
+  00                    # attributes
+  00                    # timestamp delta
+  00                    # offset delta
+  01                    # key length (empty key follows)
+  0e                    # value length
+  68 65 61 6c 74 68 79  # Value: healthy
+  02 08
+  68 6f 73 74 # host
+  16
+  65 78 61 6d 70 6c 65 2e 63 6f 6d     # example.com
+  40 00 20 02 01 12
+  75 6e 68 65 61 6c 74 68 79   # unhealthy
+  02
+  08
+  68 6f 73 74 # host
+  16
+  65 78 61 6d 70 6c 65 2e 63 6f 6d     # example.com
+  44 00 20 04 01 0e
+  68 65 61 6c 74 68 79       # healthy
+  02 08
+  68 6f 73 74 # host
+  1e
+  66 6f 6f 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d    # foo.example.com
+  
+# Another record batch. The same data was publish two different
+# times about 13s apart.
+00 00 00 00 00 00 00 03
+00 00 00 94
+00 00 00 00
+02
+67 69 b5 98       # CRC
+00 00             # attributes
+00 00 00 02       # last offset delta
+00 00 01 87 e8 02 86 29 # base timestamp
+00 00 01 87 e8 02 86 3c
+00 00 00 00 00 00 00 01
+00 00             # producer epoch
+00 00 00 00       # base sequence
+00 00 00 03       # array of records (length 3)
+  3c 00 00 00 01 0e
+  68 65 61 6c 74 68 79    # healthy
+  02 08
+  68 6f 73 74 # host
+  16
+  65 78 61 6d 70 6c 65 2e 63 6f 6d     # example.com
+  40 00 26 02 01 12
+  75 6e 68 65 61 6c 74 68 79       # unhealthy
+  02 08
+  68 6f 73 74 # host
+  16
+  65 78 61 6d 70 6c 65 2e 63 6f 6d # example.com
+  44 00 26 04 01 0e
+  68 65 61 6c 74 68 79 # healthy
+  02
+  08
+  68 6f 73 74 # host
+  1e     
+  66 6f 6f 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d             # foo.example.com

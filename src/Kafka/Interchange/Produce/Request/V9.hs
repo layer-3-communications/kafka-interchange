@@ -24,14 +24,14 @@ module Kafka.Interchange.Produce.Request.V9
 import Data.Int
 import Data.Primitive (SmallArray)
 import Data.Text (Text)
-import Kafka.Data.RecordBatch (RecordBatch(..))
+import Kafka.Interchange.RecordBatch.Request (RecordBatch(..))
 import Data.Bytes.Chunks (Chunks)
 
 import qualified Kafka.Builder as Builder
 import qualified Kafka.Builder.Bounded as Bounded
 import qualified Data.Bytes.Chunks as Chunks
 import qualified Arithmetic.Nat as Nat
-import qualified Kafka.Data.RecordBatch as RecordBatch
+import qualified Kafka.Interchange.RecordBatch.Request as RecordBatch
 
 import qualified Kafka.Data.Acknowledgments as Acknowledgments
 

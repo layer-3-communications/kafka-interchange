@@ -12,38 +12,61 @@ data Context
 
 -- | This exists so that we can get better error messages when decoding fails.
 data Field
-  = ApiKey
+  = AbortedTransactions
+  | ApiKey
   | ApiKeys
+  | Attributes
   | AuthorizedOperations
   | BaseOffset
+  | BaseSequence
+  | BaseTimestamp
+  | BatchLength
+  | BatchLengthLeftoverBytes
+  | BatchLengthNegative
+  | BatchLengthNotEnoughBytes
   | Brokers
   | ClusterId
   | ControllerId
   | CorrelationId
+  | Crc
+  | CrcMismatch
   | ErrorCode
   | ErrorMessage
   | Errors
+  | HighWatermark
   | Host
   | Id
   | Internal
   | IsrNodes
   | Ix
+  | LastOffsetDelta
+  | LastStableOffset
   | LeaderEpoch
   | LeaderId
   | LogAppendTimeMilliseconds
   | LogStartOffset
+  | Magic
+  | MaxTimestamp
   | MaxVersion
   | Message
   | MinVersion
   | Name
   | NodeId
   | OfflineReplicas
+  | PartitionLeaderEpoch
   | Partitions
   | Port
+  | PreferredReadReplica
   | ProducerEpoch
   | ProducerId
   | Rack
+  | RecordBatch
+  | RecordBatchLeftoverBytes
+  | RecordBatchLength
+  | RecordBatchNotEnoughBytes
+  | RecordsCount
   | ReplicaNodes
+  | SessionId
   | TagBuffer
   | TaggedFieldContents
   | TaggedFieldLength

@@ -2,7 +2,7 @@
 {-# language NamedFieldPuns #-}
 {-# language TypeApplications #-}
 
-module Kafka.Data.RecordBatch
+module Kafka.Interchange.RecordBatch.Request
   ( RecordBatch(..)
   , toChunks
   ) where
@@ -58,8 +58,8 @@ import qualified Crc32c
 -- * The docs add a note that that last field @records@ is not really what
 --   it looks like. The array length is always serialized in the usual way,
 --   but the payload might be compressed.
--- * The field @batchLength@ includes the size of everything (including itself)
---   except for @baseOffset@.
+-- * The field @batchLength@ includes the size of everything after it.
+--   So, not itself and not @baseOffset@.
 data RecordBatch = RecordBatch
   { baseOffset :: !Int64
   , partitionLeaderEpoch :: !Int32
@@ -117,5 +117,3 @@ toChunks RecordBatch
         Bounded.int32 recordsCount
       )
     ) recordsPayload
-
-

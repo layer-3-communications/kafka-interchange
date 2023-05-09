@@ -3,27 +3,27 @@
 {-# language NamedFieldPuns #-}
 {-# language TypeApplications #-}
 
-module Kafka.Data.Record
+module Kafka.Interchange.Record.Request
   ( Record(..)
   , Header(..)
   , toChunks
   , toChunksOnto
   ) where
 
-import Kafka.Builder (Builder)
 import Data.Bytes (Bytes)
-import Data.Text (Text)
+import Data.Bytes.Chunks (Chunks(ChunksCons,ChunksNil))
 import Data.Int (Int32,Int64)
 import Data.Primitive (SmallArray)
-import Data.Bytes.Chunks (Chunks(ChunksCons,ChunksNil))
+import Data.Text (Text)
+import Kafka.Builder (Builder)
 
 import qualified Arithmetic.Nat as Nat
+import qualified Data.Bytes as Bytes
+import qualified Data.Bytes.Chunks as Chunks
+import qualified Data.Bytes.Text.Utf8 as Utf8
+import qualified Data.Primitive as PM
 import qualified Kafka.Builder as Builder
 import qualified Kafka.Builder.Bounded as Bounded
-import qualified Data.Bytes.Text.Utf8 as Utf8
-import qualified Data.Bytes as Bytes
-import qualified Data.Primitive as PM
-import qualified Data.Bytes.Chunks as Chunks
 
 -- | Information about @Record@ from Kafka documentation:
 --
@@ -105,7 +105,15 @@ encodeWithoutLength Record{timestampDelta,offsetDelta,key,value,headers} =
 -- > value: byte[]
 data Header = Header
   { key :: {-# UNPACK #-} !Text
+    -- ^ Header key. For records that we are encoding, text (rather than
+    -- some kind of builder) is a reasonable choice since header keys are
+    -- typically not assembled from smaller pieces.
   , value :: {-# UNPACK #-} !Bytes
+    -- ^ Header value. This is currently Bytes, and I'm torn about whether
+    -- or not to change it to a builder or chunks type. On one hand, it
+    -- makes a more sense for it to be done that way, but on the
+    -- other hand, I do not think that values are particularly likely
+    -- to be constructed since they are small.
   }
 
 encodeHeader :: Header -> Builder

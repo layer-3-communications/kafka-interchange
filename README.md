@@ -26,8 +26,6 @@ Response modules include a decode function.
 Some shared types are used by both requests and responses. For such types, we
 use the `Kafka.Data` namespace. For example:
 
-    Kafka.Data.Record
-    Kafka.Data.RecordBatch
     Kafka.Data.Acknowledgments
 
 These are not versioned, and they include both encode and decode functions.
