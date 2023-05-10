@@ -67,6 +67,7 @@ library
     Kafka.Interchange.FindCoordinator.Request.V4
     Kafka.Interchange.FindCoordinator.Response.V4
     Kafka.Interchange.ListOffsets.Request.V7
+    Kafka.Interchange.ListOffsets.Response.V7
     Kafka.Interchange.Fetch.Request.V13
     Kafka.Interchange.Fetch.Response.V13
     Kafka.Interchange.Record.Request

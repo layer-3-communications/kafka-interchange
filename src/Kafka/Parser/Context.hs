@@ -57,10 +57,12 @@ data Field
   | MemberId
   | Members
   | Message
+  | Metadata
   | MinVersion
   | Name
   | NodeId
   | OfflineReplicas
+  | Offset
   | PartitionLeaderEpoch
   | Partitions
   | Port
@@ -83,5 +85,6 @@ data Field
   | TaggedFieldLength
   | TaggedFieldTag
   | ThrottleTimeMilliseconds
+  | Timestamp
   | Topics
   deriving (Show)

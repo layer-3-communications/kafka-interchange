@@ -42,6 +42,7 @@ data Response = Response
 data Member = Member
   { memberId :: !Text
   , groupInstanceId :: !Text
+  , metadata :: !Bytes
   , taggedFields :: !(SmallArray TaggedField)
   } deriving (Show)
 
@@ -59,8 +60,9 @@ parserMember :: Context -> Parser Context s Member
 parserMember ctx = do
   memberId <- Kafka.Parser.compactString (Ctx.Field Ctx.MemberId ctx)
   groupInstanceId <- Kafka.Parser.compactString (Ctx.Field Ctx.GroupInstanceId ctx)
+  metadata <- Kafka.Parser.compactBytes (Ctx.Field Ctx.Metadata ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
-  pure Member{memberId,groupInstanceId,taggedFields}
+  pure Member{memberId,groupInstanceId,metadata,taggedFields}
 
 parser :: Context -> Parser Context s Response
 parser ctx = do

@@ -45,6 +45,7 @@ import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.FindCoordinator.Request.V4
 import qualified Kafka.Interchange.FindCoordinator.Response.V4
 import qualified Kafka.Interchange.ListOffsets.Request.V7
+import qualified Kafka.Interchange.ListOffsets.Response.V7
 import qualified Kafka.Interchange.SyncGroup.Request.V5
 import qualified Kafka.Interchange.SyncGroup.Response.V5
 import qualified Kafka.Interchange.JoinGroup.Request.V9
@@ -123,6 +124,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.ListOffsets.Request.V7.toChunks
       "golden/list-offsets-request/v7/001.input.json"
       "golden/list-offsets-request/v7/001.output.txt"
+  , goldenHexDecode
+      "list-offsets-response-v7-001"
+      Kafka.Interchange.ListOffsets.Response.V7.decode
+      "golden/list-offsets-response/v7/001.input.txt"
+      "golden/list-offsets-response/v7/001.output.txt"
   , goldenHexEncode
       "fetch-request-v13-001"
       Kafka.Interchange.Fetch.Request.V13.toChunks
@@ -143,11 +149,21 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.JoinGroup.Request.V9.toChunks
       "golden/join-group-request/v9/001.input.json"
       "golden/join-group-request/v9/001.output.txt"
+  , goldenHexEncode
+      "join-group-request-v9-002"
+      Kafka.Interchange.JoinGroup.Request.V9.toChunks
+      "golden/join-group-request/v9/002.input.json"
+      "golden/join-group-request/v9/002.output.txt"
   , goldenHexDecode
       "join-group-response-v9-001"
       Kafka.Interchange.JoinGroup.Response.V9.decode
       "golden/join-group-response/v9/001.input.txt"
       "golden/join-group-response/v9/001.output.txt"
+  , goldenHexDecode
+      "join-group-response-v9-002"
+      Kafka.Interchange.JoinGroup.Response.V9.decode
+      "golden/join-group-response/v9/002.input.txt"
+      "golden/join-group-response/v9/002.output.txt"
   , goldenHexEncode
       "sync-group-request-v5-001"
       Kafka.Interchange.SyncGroup.Request.V5.toChunks
