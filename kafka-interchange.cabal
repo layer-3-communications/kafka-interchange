@@ -75,7 +75,7 @@ library
     Kafka.Interchange.JoinGroup.Request.V9
     Kafka.Interchange.JoinGroup.Response.V9
     Kafka.Interchange.SyncGroup.Request.V5
-    -- Kafka.Interchange.SyncGroup.Response.V5
+    Kafka.Interchange.SyncGroup.Response.V5
     Kafka.Data.Acknowledgments
     Kafka.Data.TaggedField
     Kafka.ApiKey

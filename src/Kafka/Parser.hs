@@ -4,6 +4,7 @@
 
 module Kafka.Parser
   ( compactArray
+  , compactBytes
   , compactString
   , compactInt32Array
   , varintLengthPrefixedArray
@@ -26,6 +27,7 @@ import Data.Bytes.Parser (Parser)
 import Kafka.Parser.Context (Context)
 import Data.Text (Text)
 import Data.Int (Int32,Int64)
+import Data.Bytes (Bytes)
 
 import qualified Kafka.Parser.Context as Ctx
 import qualified Data.Primitive as PM
@@ -39,6 +41,17 @@ boolean :: Context -> Parser Context s Bool
 boolean ctx = Parser.any ctx >>= \case
   0 -> pure False
   _ -> pure True
+
+-- | This maps NULL to the empty byte sequence.
+compactBytes :: Context -> Parser Context s Bytes
+compactBytes ctx = do
+  len0 <- Leb128.word32 ctx
+  let !lenSucc = fromIntegral len0 :: Int
+  if lenSucc < 2
+    then pure mempty
+    else do
+      let len = lenSucc - 1
+      Parser.take ctx len
 
 -- | This maps NULL to the empty string.
 compactString :: Context -> Parser Context s Text

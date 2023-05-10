@@ -45,6 +45,7 @@ import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.FindCoordinator.Request.V4
 import qualified Kafka.Interchange.ListOffsets.Request.V7
 import qualified Kafka.Interchange.SyncGroup.Request.V5
+import qualified Kafka.Interchange.SyncGroup.Response.V5
 import qualified Kafka.Interchange.JoinGroup.Request.V9
 import qualified Kafka.Interchange.JoinGroup.Response.V9
 import qualified Kafka.Interchange.Fetch.Request.V13
@@ -146,6 +147,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.SyncGroup.Request.V5.toChunks
       "golden/sync-group-request/v5/001.input.json"
       "golden/sync-group-request/v5/001.output.txt"
+  , goldenHexDecode
+      "sync-group-response-v5-001"
+      Kafka.Interchange.SyncGroup.Response.V5.decode
+      "golden/sync-group-response/v5/001.input.txt"
+      "golden/sync-group-response/v5/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks

@@ -15,6 +15,7 @@ data Field
   = AbortedTransactions
   | ApiKey
   | ApiKeys
+  | Assignment
   | Attributes
   | AuthorizedOperations
   | BaseOffset
@@ -33,6 +34,8 @@ data Field
   | ErrorCode
   | ErrorMessage
   | Errors
+  | GenerationId
+  | GroupInstanceId
   | HighWatermark
   | Host
   | Id
@@ -41,6 +44,7 @@ data Field
   | Ix
   | LastOffsetDelta
   | LastStableOffset
+  | Leader
   | LeaderEpoch
   | LeaderId
   | LogAppendTimeMilliseconds
@@ -48,6 +52,8 @@ data Field
   | Magic
   | MaxTimestamp
   | MaxVersion
+  | MemberId
+  | Members
   | Message
   | MinVersion
   | Name
@@ -59,6 +65,8 @@ data Field
   | PreferredReadReplica
   | ProducerEpoch
   | ProducerId
+  | ProtocolName
+  | ProtocolType
   | Rack
   | RecordBatch
   | RecordBatchLeftoverBytes
@@ -67,18 +75,11 @@ data Field
   | RecordsCount
   | ReplicaNodes
   | SessionId
+  | SkipAssignment
   | TagBuffer
   | TaggedFieldContents
   | TaggedFieldLength
   | TaggedFieldTag
   | ThrottleTimeMilliseconds
-  | Members
-  | MemberId
-  | SkipAssignment
-  | Leader
-  | ProtocolType
-  | ProtocolName
-  | GroupInstanceId
-  | GenerationId
   | Topics
   deriving (Show)

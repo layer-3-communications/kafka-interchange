@@ -1,0 +1,38 @@
+Response
+  { throttleTimeMilliseconds = 0
+  , errorCode = 0
+  , protocolType = "consumer"
+  , protocolName = "range"
+  , assignment =
+      [ 0x00
+      , 0x01
+      , 0x00
+      , 0x00
+      , 0x00
+      , 0x01
+      , 0x00
+      , 0x09
+      , 0x69
+      , 0x6e
+      , 0x63
+      , 0x69
+      , 0x64
+      , 0x65
+      , 0x6e
+      , 0x74
+      , 0x73
+      , 0x00
+      , 0x00
+      , 0x00
+      , 0x01
+      , 0x00
+      , 0x00
+      , 0x00
+      , 0x00
+      , 0xff
+      , 0xff
+      , 0xff
+      , 0xff
+      ]
+  , taggedFields = fromListN 0 []
+  }
