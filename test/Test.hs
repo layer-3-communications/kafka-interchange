@@ -44,6 +44,7 @@ import qualified Kafka.Interchange.InitProducerId.Request.V4
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.FindCoordinator.Request.V4
 import qualified Kafka.Interchange.ListOffsets.Request.V7
+import qualified Kafka.Interchange.JoinGroup.Request.V9
 import qualified Kafka.Interchange.Fetch.Request.V13
 import qualified Kafka.Interchange.Fetch.Response.V13
 import qualified Kafka.Interchange.Message.Request.V2 as Req
@@ -128,6 +129,11 @@ main = defaultMain $ testGroup "kafka"
       (maybe (Left Top) Right . Kafka.Interchange.Record.Response.decodeArray)
       "golden/records-response/001.input.txt"
       "golden/records-response/001.output.txt"
+  , goldenHexEncode
+      "join-group-v9-001"
+      Kafka.Interchange.JoinGroup.Request.V9.toChunks
+      "golden/join-group/v9/001.input.json"
+      "golden/join-group/v9/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks
@@ -390,7 +396,9 @@ goldenHexEncode name encode src ref = Advanced.goldenTest
       , prettyByteArray expected
       , "\nGot:\n"
       , prettyByteArray actual
-      , "\n"
+      , "\nFirst differing byte at index "
+      , show (findFirstDifferingByteIndex expected actual)
+      , ".\n"
       ]
   )
   upd
@@ -398,6 +406,16 @@ goldenHexEncode name encode src ref = Advanced.goldenTest
   upd bytes = createDirectoriesAndWriteFile ref
     $ LBC8.pack
     $ prettyByteArray bytes
+
+findFirstDifferingByteIndex :: ByteArray -> ByteArray -> Int
+findFirstDifferingByteIndex a b = go 0
+  where
+  len = min (PM.sizeofByteArray a) (PM.sizeofByteArray b)
+  go !ix = if ix < len
+    then if PM.indexByteArray a ix == (PM.indexByteArray b ix :: Word8)
+      then go (ix + 1)
+      else ix
+    else len
 
 -- | Compare a given string against the golden file's contents.
 goldenHex
@@ -429,7 +447,7 @@ prettyByteArray :: ByteArray -> String
 prettyByteArray =
     injectSpaces
   . BC8.unpack
-  . Base16.encode
+  . Base16.encodeBase16'
   . Bytes.toByteString
   . Bytes.fromByteArray
 

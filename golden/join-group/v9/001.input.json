@@ -1,0 +1,15 @@
+{ "groupId": "console-consumer-56596"
+, "sessionTimeoutMilliseconds": 45000
+, "rebalanceTimeoutMilliseconds": 300000
+, "memberId": ""
+, "protocolType": "consumer"
+, "protocols":
+  [ { "name": "range"
+    , "metadata":"0001000000010009696e636964656e7473ffffffff00000000"
+    }
+  , { "name": "cooperative-sticky"
+    , "metadata":"0001000000010009696e636964656e747300000004ffffffff00000000"
+    }
+  ]
+, "reason": ""
+}

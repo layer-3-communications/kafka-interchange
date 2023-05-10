@@ -72,6 +72,7 @@ library
     Kafka.Interchange.Record.Response
     Kafka.Interchange.RecordBatch.Request
     Kafka.Interchange.RecordBatch.Response
+    Kafka.Interchange.JoinGroup.Request.V9
     Kafka.Data.Acknowledgments
     Kafka.Data.TaggedField
     Kafka.ApiKey
@@ -133,7 +134,7 @@ test-suite test
     , tasty-golden
     , tasty-hunit
     , bytebuild
-    , base16-bytestring >=1.0.2
+    , base16 >=0.3.2.1
     , byteslice
     , text
     , pretty-show >=1.10

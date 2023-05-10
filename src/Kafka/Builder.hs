@@ -31,6 +31,7 @@ module Kafka.Builder
   , nullableString
   , compactNullableString
   , compactString
+  , compactBytes
   , string
   , array
   , compactArray
@@ -60,6 +61,7 @@ import Data.Bytes.Builder (Builder,fromBounded,run,word8,consLength,copy,bytes)
 import Data.Int (Int8,Int16,Int32,Int64)
 import Data.Primitive (SmallArray)
 import Data.Text (Text)
+import Data.Bytes (Bytes)
 import Data.Bytes.Chunks (Chunks)
 import Data.WideWord (Word128)
 import qualified Data.Bytes as Bytes
@@ -85,7 +87,10 @@ compactNullableString = \case
 compactString :: Text -> Builder
 compactString s =
   let b = Utf8.fromText s
-   in Builder.wordLEB128 (fromIntegral @Int @Word (Bytes.length b + 1)) <> Builder.copy b
+   in compactBytes b
+
+compactBytes :: Bytes -> Builder
+compactBytes b = Builder.wordLEB128 (fromIntegral @Int @Word (Bytes.length b + 1)) <> Builder.copy b
 
 string :: Text -> Builder
 string !s = 
