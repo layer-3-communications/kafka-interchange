@@ -72,5 +72,13 @@ data Field
   | TaggedFieldLength
   | TaggedFieldTag
   | ThrottleTimeMilliseconds
+  | Members
+  | MemberId
+  | SkipAssignment
+  | Leader
+  | ProtocolType
+  | ProtocolName
+  | GroupInstanceId
+  | GenerationId
   | Topics
   deriving (Show)
