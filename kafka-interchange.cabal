@@ -41,7 +41,19 @@ library exchange-all
     kafka-interchange:exchange (Exchange as ApiVersions.V3)
       requires (Communication as Kafka.Interchange.ApiVersions.V3),
     kafka-interchange:exchange (Exchange as Metadata.V12)
-      requires (Communication as Kafka.Interchange.Metadata.V12)
+      requires (Communication as Kafka.Interchange.Metadata.V12),
+    kafka-interchange:exchange (Exchange as SyncGroup.V5)
+      requires (Communication as Kafka.Interchange.SyncGroup.V5),
+    kafka-interchange:exchange (Exchange as JoinGroup.V9)
+      requires (Communication as Kafka.Interchange.JoinGroup.V9),
+    kafka-interchange:exchange (Exchange as Fetch.V13)
+      requires (Communication as Kafka.Interchange.Fetch.V13),
+    kafka-interchange:exchange (Exchange as FindCoordinator.V4)
+      requires (Communication as Kafka.Interchange.FindCoordinator.V4),
+    kafka-interchange:exchange (Exchange as ListOffsets.V7)
+      requires (Communication as Kafka.Interchange.ListOffsets.V7),
+    kafka-interchange:exchange (Exchange as InitProducerId.V4)
+      requires (Communication as Kafka.Interchange.InitProducerId.V4),
   exposed-modules:
     Client
   hs-source-dirs: src-exchange-all
@@ -59,6 +71,7 @@ library
     Kafka.Interchange.Metadata.V12
     Kafka.Interchange.InitProducerId.Request.V4
     Kafka.Interchange.InitProducerId.Response.V4
+    Kafka.Interchange.InitProducerId.V4
     Kafka.Interchange.Produce.V9
     Kafka.Interchange.Produce.Request.V9
     Kafka.Interchange.Produce.Response.V9
@@ -66,18 +79,23 @@ library
     Kafka.Interchange.Header.Response.V1
     Kafka.Interchange.FindCoordinator.Request.V4
     Kafka.Interchange.FindCoordinator.Response.V4
+    Kafka.Interchange.FindCoordinator.V4
     Kafka.Interchange.ListOffsets.Request.V7
     Kafka.Interchange.ListOffsets.Response.V7
+    Kafka.Interchange.ListOffsets.V7
     Kafka.Interchange.Fetch.Request.V13
     Kafka.Interchange.Fetch.Response.V13
+    Kafka.Interchange.Fetch.V13
     Kafka.Interchange.Record.Request
     Kafka.Interchange.Record.Response
     Kafka.Interchange.RecordBatch.Request
     Kafka.Interchange.RecordBatch.Response
     Kafka.Interchange.JoinGroup.Request.V9
     Kafka.Interchange.JoinGroup.Response.V9
+    Kafka.Interchange.JoinGroup.V9
     Kafka.Interchange.SyncGroup.Request.V5
     Kafka.Interchange.SyncGroup.Response.V5
+    Kafka.Interchange.SyncGroup.V5
     Kafka.Data.Acknowledgments
     Kafka.Data.TaggedField
     Kafka.ApiKey
