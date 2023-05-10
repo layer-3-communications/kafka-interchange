@@ -1,0 +1,12 @@
+{ "groupId": "console-consumer-56596"
+, "generationId": 1
+, "memberId": "console-consumer-b62c9429-29d9-4838-a948-9188cc48d5c7"
+, "groupInstanceId": null
+, "protocolType": "consumer"
+, "protocolName": "range"
+, "assignments":
+  [ { "memberId": "console-consumer-b62c9429-29d9-4838-a948-9188cc48d5c7"
+    , "assignment":"0001000000010009696e636964656e74730000000100000000ffffffff"
+    }
+  ]
+}

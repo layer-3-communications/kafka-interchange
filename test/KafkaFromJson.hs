@@ -18,6 +18,7 @@ import qualified Kafka.Interchange.FindCoordinator.Request.V4
 import qualified Kafka.Interchange.ListOffsets.Request.V7
 import qualified Kafka.Interchange.Fetch.Request.V13
 import qualified Kafka.Interchange.JoinGroup.Request.V9
+import qualified Kafka.Interchange.SyncGroup.Request.V5
 
 instance FromJSON Word128 where
   parseJSON = fmap fromInteger . parseJSON
@@ -40,3 +41,5 @@ $(deriveFromJSON defaultOptions ''Kafka.Interchange.Fetch.Request.V13.Topic)
 $(deriveFromJSON defaultOptions ''Kafka.Interchange.Fetch.Request.V13.Request)
 $(deriveFromJSON defaultOptions ''Kafka.Interchange.JoinGroup.Request.V9.Protocol)
 $(deriveFromJSON defaultOptions ''Kafka.Interchange.JoinGroup.Request.V9.Request)
+$(deriveFromJSON defaultOptions ''Kafka.Interchange.SyncGroup.Request.V5.Assignment)
+$(deriveFromJSON defaultOptions ''Kafka.Interchange.SyncGroup.Request.V5.Request)
