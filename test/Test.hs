@@ -43,6 +43,7 @@ import qualified Kafka.Interchange.InitProducerId.Response.V4
 import qualified Kafka.Interchange.InitProducerId.Request.V4
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.FindCoordinator.Request.V4
+import qualified Kafka.Interchange.FindCoordinator.Response.V4
 import qualified Kafka.Interchange.ListOffsets.Request.V7
 import qualified Kafka.Interchange.SyncGroup.Request.V5
 import qualified Kafka.Interchange.SyncGroup.Response.V5
@@ -112,6 +113,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.FindCoordinator.Request.V4.toChunks
       "golden/find-coordinator-request/v4/001.input.json"
       "golden/find-coordinator-request/v4/001.output.txt"
+  , goldenHexDecode
+      "find-coordinator-response-v4-001"
+      Kafka.Interchange.FindCoordinator.Response.V4.decode
+      "golden/find-coordinator-response/v4/001.input.txt"
+      "golden/find-coordinator-response/v4/001.output.txt"
   , goldenHexEncode
       "list-offsets-request-v7-001"
       Kafka.Interchange.ListOffsets.Request.V7.toChunks

@@ -1,0 +1,17 @@
+Response
+  { throttleTimeMilliseconds = 0
+  , coordinators =
+      fromListN
+        1
+        [ Coordinator
+            { key = "console-consumer-56596"
+            , nodeId = 1
+            , host = "localhost"
+            , port = 9092
+            , errorCode = 0
+            , errorMessage = ""
+            , taggedFields = fromListN 0 []
+            }
+        ]
+  , taggedFields = fromListN 0 []
+  }

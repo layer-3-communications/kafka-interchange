@@ -28,6 +28,7 @@ data Field
   | Brokers
   | ClusterId
   | ControllerId
+  | Coordinators
   | CorrelationId
   | Crc
   | CrcMismatch
@@ -42,6 +43,7 @@ data Field
   | Internal
   | IsrNodes
   | Ix
+  | Key
   | LastOffsetDelta
   | LastStableOffset
   | Leader

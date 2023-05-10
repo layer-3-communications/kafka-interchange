@@ -1,0 +1,5 @@
+00 00 00 00 # Throttle time milliseconds: 0
+02 17 63
+6f 6e 73 6f 6c 65 2d 63 6f 6e 73 75 6d 65 72 2d   # onsole-consumer-
+35 36 35 39 36 00 00 00 01 0a 6c 6f 63 61 6c 68   # 56596.....localh
+6f 73 74 00 00 23 84 00 00 01 00 00               # ost..#......
