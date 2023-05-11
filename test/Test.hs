@@ -21,45 +21,47 @@ import Kafka.Parser.Context (Context(Top))
 import Text.Show.Pretty (ppShow)
 import KafkaFromJson ()
 
+import qualified Data.Aeson as Aeson
+import qualified Data.ByteString.Base16 as Base16
+import qualified Data.ByteString.Char8 as BC8
+import qualified Data.ByteString.Lazy.Char8 as LBC8
+import qualified Data.Bytes as Bytes
+import qualified Data.Bytes.Chunks as Chunks
+import qualified Data.Bytes.Parser as Parser
+import qualified Data.Bytes.Parser.Latin as Latin
+import qualified Data.Bytes.Text.Latin1 as Latin1
 import qualified Data.List as List
+import qualified Data.Primitive as PM
+import qualified GHC.Exts as Exts
+import qualified Kafka.ApiKey as ApiKey
+import qualified Kafka.Data.Acknowledgments as Acknowledgments
+import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.ApiVersions.Response.V3
 import qualified Kafka.Interchange.ApiVersions.V3 as ApiVersionsV3
-import qualified Test.Tasty.Golden.Advanced as Advanced
-import qualified Data.ByteString.Char8 as BC8
-import qualified Data.Bytes.Chunks as Chunks
-import qualified Data.Primitive as PM
-import qualified Data.Bytes.Parser as Parser
-import qualified Data.Bytes as Bytes
-import qualified Data.Bytes.Text.Latin1 as Latin1
-import qualified Data.Bytes.Parser.Latin as Latin
-import qualified Data.ByteString.Lazy.Char8 as LBC8
-import qualified Data.ByteString.Base16 as Base16
-import qualified Kafka.Interchange.Produce.V9 as ProduceV9
-import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
-import qualified Kafka.Interchange.Produce.Response.V9
-import qualified Kafka.Interchange.Metadata.Response.V12
-import qualified Kafka.Interchange.Metadata.Request.V12
-import qualified Kafka.Interchange.InitProducerId.Response.V4
-import qualified Kafka.Interchange.InitProducerId.Request.V4
-import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
-import qualified Kafka.Interchange.FindCoordinator.Request.V4
-import qualified Kafka.Interchange.FindCoordinator.Response.V4
-import qualified Kafka.Interchange.ListOffsets.Request.V7
-import qualified Kafka.Interchange.ListOffsets.Response.V7
-import qualified Kafka.Interchange.SyncGroup.Request.V5
-import qualified Kafka.Interchange.SyncGroup.Response.V5
-import qualified Kafka.Interchange.JoinGroup.Request.V9
-import qualified Kafka.Interchange.JoinGroup.Response.V9
 import qualified Kafka.Interchange.Fetch.Request.V13
 import qualified Kafka.Interchange.Fetch.Response.V13
+import qualified Kafka.Interchange.FindCoordinator.Request.V4
+import qualified Kafka.Interchange.FindCoordinator.Response.V4
+import qualified Kafka.Interchange.InitProducerId.Request.V4
+import qualified Kafka.Interchange.InitProducerId.Response.V4
+import qualified Kafka.Interchange.JoinGroup.Request.V9
+import qualified Kafka.Interchange.JoinGroup.Response.V9
+import qualified Kafka.Interchange.ListOffsets.Request.V7
+import qualified Kafka.Interchange.ListOffsets.Response.V7
 import qualified Kafka.Interchange.Message.Request.V2 as Req
-import qualified Kafka.Interchange.RecordBatch.Request as RecordBatch
+import qualified Kafka.Interchange.Metadata.Request.V12
+import qualified Kafka.Interchange.Metadata.Response.V12
+import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
+import qualified Kafka.Interchange.Produce.Response.V9
+import qualified Kafka.Interchange.Produce.V9 as ProduceV9
 import qualified Kafka.Interchange.Record.Request as Record
 import qualified Kafka.Interchange.Record.Response
-import qualified GHC.Exts as Exts
-import qualified Kafka.Data.Acknowledgments as Acknowledgments
-import qualified Kafka.ApiKey as ApiKey
-import qualified Data.Aeson as Aeson
+import qualified Kafka.Interchange.RecordBatch.Request as RecordBatch
+import qualified Kafka.Interchange.Subscription.Request.V1
+import qualified Kafka.Interchange.Subscription.Response.V1
+import qualified Kafka.Interchange.SyncGroup.Request.V5
+import qualified Kafka.Interchange.SyncGroup.Response.V5
+import qualified Test.Tasty.Golden.Advanced as Advanced
 
 main :: IO ()
 main = defaultMain $ testGroup "kafka"
@@ -174,6 +176,16 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Interchange.SyncGroup.Response.V5.decode
       "golden/sync-group-response/v5/001.input.txt"
       "golden/sync-group-response/v5/001.output.txt"
+  , goldenHexEncode
+      "subscription-request-v1-001"
+      Kafka.Interchange.Subscription.Request.V1.toChunks
+      "golden/subscription-request/v1/001.input.json"
+      "golden/subscription-request/v1/001.output.txt"
+  , goldenHexDecode
+      "subscription-response-v1-001"
+      Kafka.Interchange.Subscription.Response.V1.decode
+      "golden/subscription-response/v1/001.input.txt"
+      "golden/subscription-response/v1/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks

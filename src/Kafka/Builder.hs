@@ -32,12 +32,15 @@ module Kafka.Builder
   , compactNullableString
   , compactString
   , compactBytes
+  , nonCompactBytes
   , string
   , array
   , compactArray
+  , compactNullableArray
   , int8
   , int16
   , int32
+  , int32Array
   , int64
   , word128
   , varWordNative
@@ -59,7 +62,7 @@ module Kafka.Builder
 
 import Data.Bytes.Builder (Builder,fromBounded,run,word8,consLength,copy,bytes)
 import Data.Int (Int8,Int16,Int32,Int64)
-import Data.Primitive (SmallArray)
+import Data.Primitive (SmallArray,PrimArray)
 import Data.Text (Text)
 import Data.Bytes (Bytes)
 import Data.Bytes.Chunks (Chunks)
@@ -84,6 +87,12 @@ compactNullableString = \case
     let b = Utf8.fromText s
      in Builder.wordLEB128 (fromIntegral @Int @Word (Bytes.length b + 1)) <> Builder.copy b
 
+compactNullableArray :: (a -> Builder) -> Maybe (SmallArray a) -> Builder
+{-# inline compactNullableArray #-}
+compactNullableArray f m = case m of
+  Nothing -> Builder.word8 0
+  Just xs -> Builder.wordLEB128 (fromIntegral @Int @Word (1 + PM.sizeofSmallArray xs)) <> foldMap f xs
+
 compactString :: Text -> Builder
 compactString s =
   let b = Utf8.fromText s
@@ -96,6 +105,12 @@ string :: Text -> Builder
 string !s = 
   let b = Utf8.fromText s
    in Builder.int16BE (fromIntegral @Int @Int16 (Bytes.length b)) <> Builder.copy b
+
+nonCompactBytes :: Bytes -> Builder
+nonCompactBytes !b = 
+  Builder.int32BE (fromIntegral @Int @Int32 (Bytes.length b))
+  <>
+  Builder.copy b
 
 -- | Encode the length as @int32@. Then, encode all the elements one after another.
 -- Does not support nullable array.
@@ -154,3 +169,11 @@ boolean :: Bool -> Builder
 boolean b = case b of
   False -> Builder.word8 0
   True -> Builder.word8 1
+
+int32Array :: PrimArray Int32 -> Builder
+int32Array !x =
+  Builder.int32BE (fromIntegral @Int @Int32 n)
+  <>
+  Builder.int32ArrayBE x 0 n
+  where
+  !n = PM.sizeofPrimArray x

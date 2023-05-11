@@ -32,7 +32,8 @@ import qualified Kafka.Builder as Builder
 
 -- | Kafka API Versions request V3.
 data Request = Request
-  { topics :: !(SmallArray Topic)
+  { topics :: !(Maybe (SmallArray Topic))
+    -- ^ Null means "all topics", and the empty array means "no topics".
   , allowAutoTopicCreation :: !Bool
   , includeTopicAuthorizedOperations :: !Bool
   }
@@ -47,7 +48,7 @@ toChunks = Builder.run 128 . encode
 
 encode :: Request -> Builder
 encode Request{topics,allowAutoTopicCreation,includeTopicAuthorizedOperations} =
-  Builder.compactArray encodeTopic topics
+  Builder.compactNullableArray encodeTopic topics
   <>
   Builder.boolean allowAutoTopicCreation
   <>

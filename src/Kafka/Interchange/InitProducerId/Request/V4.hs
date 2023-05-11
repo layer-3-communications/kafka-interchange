@@ -16,7 +16,6 @@
 module Kafka.Interchange.InitProducerId.Request.V4
   ( Request(..)
   , toChunks
-  , apiVersion
   ) where
 
 import Prelude hiding (id)
@@ -29,9 +28,6 @@ import Data.WideWord (Word128)
 import Data.Primitive (SmallArray)
 
 import qualified Kafka.Builder as Builder
-
-apiVersion :: Int16
-apiVersion = 4
 
 -- | Kafka Init Producer ID request V4.
 data Request = Request

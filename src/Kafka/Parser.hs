@@ -1,12 +1,17 @@
 {-# language BangPatterns #-}
 {-# language LambdaCase #-}
+{-# language MultiWayIf #-}
 {-# language NumericUnderscores #-}
 
 module Kafka.Parser
   ( compactArray
+  , array
   , compactBytes
+  , nonCompactBytes
   , compactString
+  , string
   , compactInt32Array
+  , int32Array
   , varintLengthPrefixedArray
   , varWordNative
   , varIntNative
@@ -42,6 +47,14 @@ boolean ctx = Parser.any ctx >>= \case
   0 -> pure False
   _ -> pure True
 
+nonCompactBytes :: Context -> Parser Context s Bytes
+nonCompactBytes ctx = do
+  len <- BigEndian.int32 ctx
+  if | len <= (-2) -> Parser.fail ctx
+     | len <= 0 -> pure mempty
+     | len >= 1000000 -> Parser.fail ctx
+     | otherwise -> Parser.take ctx (fromIntegral len)
+
 -- | This maps NULL to the empty byte sequence.
 compactBytes :: Context -> Parser Context s Bytes
 compactBytes ctx = do
@@ -52,6 +65,18 @@ compactBytes ctx = do
     else do
       let len = lenSucc - 1
       Parser.take ctx len
+
+string :: Context -> Parser Context s Text
+string ctx = do
+  len <- BigEndian.int16 ctx
+  if | len <= (-2) -> Parser.fail ctx
+     | len <= 0 -> pure mempty
+     | otherwise -> do
+         b <- Parser.take ctx (fromIntegral len)
+         let sbs = Bytes.toShortByteString b
+         case TS.fromShortByteString sbs of
+           Nothing -> Parser.fail ctx
+           Just ts -> pure (TS.toText ts)
 
 -- | This maps NULL to the empty string.
 compactString :: Context -> Parser Context s Text
@@ -67,6 +92,23 @@ compactString ctx = do
       case TS.fromShortByteString sbs of
         Nothing -> Parser.fail ctx
         Just ts -> pure (TS.toText ts)
+
+int32Array :: Context -> Parser Context s (PrimArray Int32)
+int32Array ctx = do
+  len0 <- BigEndian.int32 ctx
+  if | len0 <= (-2) -> Parser.fail ctx
+     | len0 <= 0 -> pure mempty
+     | len0 >= 1000000 -> Parser.fail ctx
+     | otherwise -> do
+         let len = fromIntegral len0 :: Int
+         dst <- Parser.effect (PM.newPrimArray len)
+         let go !ix = if ix < len
+               then do
+                 a <- BigEndian.int32 (Ctx.Index ix ctx)
+                 Parser.effect (PM.writePrimArray dst ix a)
+                 go (ix + 1)
+               else Parser.effect (PM.unsafeFreezePrimArray dst)
+         go (0 :: Int)
 
 -- | This maps NULL to the empty array.
 compactInt32Array :: Context -> Parser Context s (PrimArray Int32)
@@ -85,6 +127,16 @@ compactInt32Array ctx = do
               go (ix + 1)
             else Parser.effect (PM.unsafeFreezePrimArray dst)
       go (0 :: Int)
+
+-- | This maps NULL to the empty array.
+array :: (Context -> Parser Context s a) -> Context -> Parser Context s (SmallArray a)
+{-# inline array #-}
+array f ctx = do
+  len <- BigEndian.int32 ctx
+  if | len <= (-2) -> Parser.fail ctx
+     | len <= 0 -> pure mempty
+     | len >= 1000000 -> Parser.fail ctx
+     | otherwise -> replicateN f (fromIntegral len) ctx
 
 -- | This maps NULL to the empty array.
 compactArray :: (Context -> Parser Context s a) -> Context -> Parser Context s (SmallArray a)

@@ -1,0 +1,8 @@
+00 01                           # version: 1
+00 00 00 01                     # topics array length: 1
+  00 09     
+  69 6e 63 69 64 65 6e 74 73    # incidents
+00 00 00 04                     # user data length: 4
+ff ff ff ff                     # user data: probably -1
+00 00 00 00                     # owned partitions: empty array
+

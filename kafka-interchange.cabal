@@ -90,6 +90,8 @@ library
     Kafka.Interchange.Record.Response
     Kafka.Interchange.RecordBatch.Request
     Kafka.Interchange.RecordBatch.Response
+    Kafka.Interchange.Subscription.Request.V1
+    Kafka.Interchange.Subscription.Response.V1
     Kafka.Interchange.JoinGroup.Request.V9
     Kafka.Interchange.JoinGroup.Response.V9
     Kafka.Interchange.JoinGroup.V9

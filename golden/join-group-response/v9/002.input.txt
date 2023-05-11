@@ -6,10 +6,20 @@
 63 63 34 38 64 35 63 37 00 36 63 6f 6e 73 6f 6c   # cc48d5c7.6consol
 65 2d 63 6f 6e 73 75 6d 65 72 2d 62 36 32 63 39   # e-consumer-b62c9
 34 32 39 2d 32 39 64 39 2d 34 38 33 38 2d 61 39   # 429-29d9-4838-a9
-34 38 2d 39 31 38 38 63 63 34 38 64 35 63 37 02   # 48-9188cc48d5c7.
-36 63 6f 6e 73 6f 6c 65 2d 63 6f 6e 73 75 6d 65   # 6console-consume
-72 2d 62 36 32 63 39 34 32 39 2d 32 39 64 39 2d   # r-b62c9429-29d9-
-34 38 33 38 2d 61 39 34 38 2d 39 31 38 38 63 63   # 4838-a948-9188cc
-34 38 64 35 63 37 00 1a 00 01 00 00 00 01 00 09   # 48d5c7..........
-69 6e 63 69 64 65 6e 74 73 ff ff ff ff 00 00 00   # incidents.......
-00 00 00                                          # ...
+34 38 2d 39 31 38 38 63 63 34 38 64 35 63 37      # 48-9188cc48d5c7
+02    # members length: 1
+  36  # member id length
+  63 6f 6e 73 6f 6c 65 2d 63 6f 6e 73 75 6d 65      # console-consume
+  72 2d 62 36 32 63 39 34 32 39 2d 32 39 64 39 2d   # r-b62c9429-29d9-
+  34 38 33 38 2d 61 39 34 38 2d 39 31 38 38 63 63   # 4838-a948-9188cc
+  34 38 64 35 63 37                                 # 48d5c7
+  00  # group instance id: null
+  1a  # metadata length (metadata is compact bytes)
+    00 01                         # version: 1
+    00 00 00 01                   # array length: non-compact
+      00 09                       # incidents length: non-compact
+      69 6e 63 69 64 65 6e 74 73  # incidents
+    ff ff ff ff                   # user data: null
+    00 00 00 00                   # owned partitions: empty array
+  00
+00

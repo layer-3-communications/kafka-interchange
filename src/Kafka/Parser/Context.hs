@@ -63,6 +63,7 @@ data Field
   | NodeId
   | OfflineReplicas
   | Offset
+  | OwnedPartitions
   | PartitionLeaderEpoch
   | Partitions
   | Port
@@ -86,5 +87,8 @@ data Field
   | TaggedFieldTag
   | ThrottleTimeMilliseconds
   | Timestamp
+  | Topic
   | Topics
+  | UserData
+  | Version
   deriving (Show)
