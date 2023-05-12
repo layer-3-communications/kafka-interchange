@@ -42,6 +42,10 @@ data Request = Request
   , maxBytes :: !Int32
   , isolationLevel :: !Int8
   , sessionId :: !Int32
+    -- ^ Setting session ID to 0 means that we are requesting that the
+    -- broker create a new session. The broker will return a randomly
+    -- generated session ID in the response. A request with a session ID
+    -- of -1 indicates that we do not want to use a fetch session at all.
   , sessionEpoch :: !Int32
   , topics :: !(SmallArray Topic)
   , rackId :: !Text

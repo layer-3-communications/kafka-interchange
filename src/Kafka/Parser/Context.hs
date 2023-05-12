@@ -15,6 +15,7 @@ data Field
   = AbortedTransactions
   | ApiKey
   | ApiKeys
+  | AssignedPartitions
   | Assignment
   | Attributes
   | AuthorizedOperations

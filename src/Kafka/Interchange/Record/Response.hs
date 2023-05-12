@@ -52,7 +52,7 @@ data Record = Record
   , timestampDelta :: !Int64
   , offsetDelta :: !Int32
   , key :: {-# UNPACK #-} !Bytes
-    -- ^ We decode a null key to the bytes.
+    -- ^ We decode a null key to the empty byte sequence.
   , value :: {-# UNPACK #-} !Bytes
   , headers :: {-# UNPACK #-} !(SmallArray Header)
   } deriving stock (Show)

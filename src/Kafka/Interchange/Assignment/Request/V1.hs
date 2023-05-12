@@ -14,10 +14,9 @@
 {-# language UnboxedTuples #-}
 {-# language UndecidableInstances #-}
 
-module Kafka.Interchange.Subscription.Request.V1
-  ( Subscription(..)
+module Kafka.Interchange.Assignment.Request.V1
+  ( Assignment(..)
   , Ownership(..)
-  , encodeOwnership
   , toChunks
   ) where
 
@@ -28,40 +27,23 @@ import Data.Text (Text)
 import Data.Bytes (Bytes)
 import Data.Bytes.Builder (Builder)
 import Data.Bytes.Chunks (Chunks)
-import Data.WideWord (Word128)
-import Data.Primitive (SmallArray,PrimArray)
+import Data.Primitive (SmallArray)
+import Kafka.Interchange.Subscription.Request.V1 (Ownership(..),encodeOwnership)
 
 import qualified Kafka.Builder as Builder
 
 -- | Kafka Init Producer ID request V4.
-data Subscription = Subscription
-  { topics :: !(SmallArray Text)
+data Assignment = Assignment
+  { assignedPartitions :: !(SmallArray Ownership)
   , userData :: !Bytes
-  , ownedPartitions :: !(SmallArray Ownership)
-  } deriving stock (Show)
-
-data Ownership = Ownership
-  { topic :: !Text
-  , partitions :: !(PrimArray Int32)
   } deriving stock (Show)
 
 -- | Serializes the version number at the beginning.
-toChunks :: Subscription -> Chunks
+toChunks :: Assignment -> Chunks
 toChunks = Builder.run 128 . encode
 
-encode :: Subscription -> Builder
-encode Subscription{topics,userData,ownedPartitions} =
-  Builder.int16 1
-  <>
-  Builder.array Builder.string topics
+encode :: Assignment -> Builder
+encode Assignment{assignedPartitions,userData} =
+  Builder.array encodeOwnership assignedPartitions
   <>
   Builder.nonCompactBytes userData
-  <>
-  Builder.array encodeOwnership ownedPartitions
-
-encodeOwnership :: Ownership -> Builder
-encodeOwnership Ownership{topic,partitions} =
-  Builder.string topic
-  <>
-  Builder.int32Array partitions
-

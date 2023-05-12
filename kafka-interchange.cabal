@@ -88,8 +88,11 @@ library
     Kafka.Interchange.Fetch.V13
     Kafka.Interchange.Record.Request
     Kafka.Interchange.Record.Response
+    Kafka.Interchange.RecordBatch.Attributes
     Kafka.Interchange.RecordBatch.Request
     Kafka.Interchange.RecordBatch.Response
+    Kafka.Interchange.Assignment.Request.V1
+    Kafka.Interchange.Assignment.Response.V1
     Kafka.Interchange.Subscription.Request.V1
     Kafka.Interchange.Subscription.Response.V1
     Kafka.Interchange.JoinGroup.Request.V9
