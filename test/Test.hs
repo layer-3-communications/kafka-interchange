@@ -35,32 +35,32 @@ import qualified Data.Primitive as PM
 import qualified GHC.Exts as Exts
 import qualified Kafka.ApiKey as ApiKey
 import qualified Kafka.Acknowledgments as Acknowledgments
-import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
-import qualified Kafka.Interchange.ApiVersions.Response.V3
-import qualified Kafka.Interchange.ApiVersions.V3 as ApiVersionsV3
-import qualified Kafka.Interchange.Fetch.Request.V13
-import qualified Kafka.Interchange.Fetch.Response.V13
-import qualified Kafka.Interchange.FindCoordinator.Request.V4
-import qualified Kafka.Interchange.FindCoordinator.Response.V4
-import qualified Kafka.Interchange.InitProducerId.Request.V4
-import qualified Kafka.Interchange.InitProducerId.Response.V4
-import qualified Kafka.Interchange.JoinGroup.Request.V9
-import qualified Kafka.Interchange.JoinGroup.Response.V9
-import qualified Kafka.Interchange.ListOffsets.Request.V7
-import qualified Kafka.Interchange.ListOffsets.Response.V7
-import qualified Kafka.Interchange.Message.Request.V2 as Req
-import qualified Kafka.Interchange.Metadata.Request.V12
-import qualified Kafka.Interchange.Metadata.Response.V12
-import qualified Kafka.Interchange.Produce.Request.V9 as ProduceReqV9
-import qualified Kafka.Interchange.Produce.Response.V9
-import qualified Kafka.Interchange.Produce.V9 as ProduceV9
-import qualified Kafka.Interchange.Record.Request as Record
-import qualified Kafka.Interchange.Record.Response
-import qualified Kafka.Interchange.RecordBatch.Request as RecordBatch
-import qualified Kafka.Interchange.Subscription.Request.V1
-import qualified Kafka.Interchange.Subscription.Response.V1
-import qualified Kafka.Interchange.SyncGroup.Request.V5
-import qualified Kafka.Interchange.SyncGroup.Response.V5
+import qualified Kafka.ApiVersions.Request.V3 as ApiVersionsReqV3
+import qualified Kafka.ApiVersions.Response.V3
+import qualified Kafka.ApiVersions.V3 as ApiVersionsV3
+import qualified Kafka.Fetch.Request.V13
+import qualified Kafka.Fetch.Response.V13
+import qualified Kafka.FindCoordinator.Request.V4
+import qualified Kafka.FindCoordinator.Response.V4
+import qualified Kafka.InitProducerId.Request.V4
+import qualified Kafka.InitProducerId.Response.V4
+import qualified Kafka.JoinGroup.Request.V9
+import qualified Kafka.JoinGroup.Response.V9
+import qualified Kafka.ListOffsets.Request.V7
+import qualified Kafka.ListOffsets.Response.V7
+import qualified Kafka.Message.Request.V2 as Req
+import qualified Kafka.Metadata.Request.V12
+import qualified Kafka.Metadata.Response.V12
+import qualified Kafka.Produce.Request.V9 as ProduceReqV9
+import qualified Kafka.Produce.Response.V9
+import qualified Kafka.Produce.V9 as ProduceV9
+import qualified Kafka.Record.Request as Record
+import qualified Kafka.Record.Response
+import qualified Kafka.RecordBatch.Request as RecordBatch
+import qualified Kafka.Subscription.Request.V1
+import qualified Kafka.Subscription.Response.V1
+import qualified Kafka.SyncGroup.Request.V5
+import qualified Kafka.SyncGroup.Response.V5
 import qualified Test.Tasty.Golden.Advanced as Advanced
 
 main :: IO ()
@@ -83,107 +83,107 @@ main = defaultMain $ testGroup "kafka"
       apiVersionsRequestV3_001
   , goldenHexDecode
       "api-versions-request-v3-001"
-      Kafka.Interchange.ApiVersions.Response.V3.decode
+      Kafka.ApiVersions.Response.V3.decode
       "golden/api-versions-response/v3/001.input.txt"
       "golden/api-versions-response/v3/001.output.txt"
   , goldenHexDecode
       "produce-response-v9-001"
-      Kafka.Interchange.Produce.Response.V9.decode
+      Kafka.Produce.Response.V9.decode
       "golden/produce-response/v9/001.input.txt"
       "golden/produce-response/v9/001.output.txt"
   , goldenHexDecode
       "metadata-response-v12-001"
-      Kafka.Interchange.Metadata.Response.V12.decode
+      Kafka.Metadata.Response.V12.decode
       "golden/metadata-response/v12/001.input.txt"
       "golden/metadata-response/v12/001.output.txt"
   , goldenHexEncode
       "metadata-request-v12-001"
-      Kafka.Interchange.Metadata.Request.V12.toChunks
+      Kafka.Metadata.Request.V12.toChunks
       "golden/metadata-request/v12/001.input.json"
       "golden/metadata-request/v12/001.output.txt"
   , goldenHexDecode
       "init-producer-id-response-v4-001"
-      Kafka.Interchange.InitProducerId.Response.V4.decode
+      Kafka.InitProducerId.Response.V4.decode
       "golden/init-producer-id-response/v4/001.input.txt"
       "golden/init-producer-id-response/v4/001.output.txt"
   , goldenHexEncode
       "init-producer-id-request-v4-001"
-      Kafka.Interchange.InitProducerId.Request.V4.toChunks
+      Kafka.InitProducerId.Request.V4.toChunks
       "golden/init-producer-id-request/v4/001.input.json"
       "golden/init-producer-id-request/v4/001.output.txt"
   , goldenHexEncode
       "find-coordinator-request-v4-001"
-      Kafka.Interchange.FindCoordinator.Request.V4.toChunks
+      Kafka.FindCoordinator.Request.V4.toChunks
       "golden/find-coordinator-request/v4/001.input.json"
       "golden/find-coordinator-request/v4/001.output.txt"
   , goldenHexDecode
       "find-coordinator-response-v4-001"
-      Kafka.Interchange.FindCoordinator.Response.V4.decode
+      Kafka.FindCoordinator.Response.V4.decode
       "golden/find-coordinator-response/v4/001.input.txt"
       "golden/find-coordinator-response/v4/001.output.txt"
   , goldenHexEncode
       "list-offsets-request-v7-001"
-      Kafka.Interchange.ListOffsets.Request.V7.toChunks
+      Kafka.ListOffsets.Request.V7.toChunks
       "golden/list-offsets-request/v7/001.input.json"
       "golden/list-offsets-request/v7/001.output.txt"
   , goldenHexDecode
       "list-offsets-response-v7-001"
-      Kafka.Interchange.ListOffsets.Response.V7.decode
+      Kafka.ListOffsets.Response.V7.decode
       "golden/list-offsets-response/v7/001.input.txt"
       "golden/list-offsets-response/v7/001.output.txt"
   , goldenHexEncode
       "fetch-request-v13-001"
-      Kafka.Interchange.Fetch.Request.V13.toChunks
+      Kafka.Fetch.Request.V13.toChunks
       "golden/fetch-request/v13/001.input.json"
       "golden/fetch-request/v13/001.output.txt"
   , goldenHexDecode
       "fetch-response-v13-001"
-      Kafka.Interchange.Fetch.Response.V13.decode
+      Kafka.Fetch.Response.V13.decode
       "golden/fetch-response/v13/001.input.txt"
       "golden/fetch-response/v13/001.output.txt"
   , goldenHexDecode
       "records-001"
-      (maybe (Left Top) Right . Kafka.Interchange.Record.Response.decodeArray)
+      (maybe (Left Top) Right . Kafka.Record.Response.decodeArray)
       "golden/records-response/001.input.txt"
       "golden/records-response/001.output.txt"
   , goldenHexEncode
       "join-group-request-v9-001"
-      Kafka.Interchange.JoinGroup.Request.V9.toChunks
+      Kafka.JoinGroup.Request.V9.toChunks
       "golden/join-group-request/v9/001.input.json"
       "golden/join-group-request/v9/001.output.txt"
   , goldenHexEncode
       "join-group-request-v9-002"
-      Kafka.Interchange.JoinGroup.Request.V9.toChunks
+      Kafka.JoinGroup.Request.V9.toChunks
       "golden/join-group-request/v9/002.input.json"
       "golden/join-group-request/v9/002.output.txt"
   , goldenHexDecode
       "join-group-response-v9-001"
-      Kafka.Interchange.JoinGroup.Response.V9.decode
+      Kafka.JoinGroup.Response.V9.decode
       "golden/join-group-response/v9/001.input.txt"
       "golden/join-group-response/v9/001.output.txt"
   , goldenHexDecode
       "join-group-response-v9-002"
-      Kafka.Interchange.JoinGroup.Response.V9.decode
+      Kafka.JoinGroup.Response.V9.decode
       "golden/join-group-response/v9/002.input.txt"
       "golden/join-group-response/v9/002.output.txt"
   , goldenHexEncode
       "sync-group-request-v5-001"
-      Kafka.Interchange.SyncGroup.Request.V5.toChunks
+      Kafka.SyncGroup.Request.V5.toChunks
       "golden/sync-group-request/v5/001.input.json"
       "golden/sync-group-request/v5/001.output.txt"
   , goldenHexDecode
       "sync-group-response-v5-001"
-      Kafka.Interchange.SyncGroup.Response.V5.decode
+      Kafka.SyncGroup.Response.V5.decode
       "golden/sync-group-response/v5/001.input.txt"
       "golden/sync-group-response/v5/001.output.txt"
   , goldenHexEncode
       "subscription-request-v1-001"
-      Kafka.Interchange.Subscription.Request.V1.toChunks
+      Kafka.Subscription.Request.V1.toChunks
       "golden/subscription-request/v1/001.input.json"
       "golden/subscription-request/v1/001.output.txt"
   , goldenHexDecode
       "subscription-response-v1-001"
-      Kafka.Interchange.Subscription.Response.V1.decode
+      Kafka.Subscription.Response.V1.decode
       "golden/subscription-response/v1/001.input.txt"
       "golden/subscription-response/v1/001.output.txt"
   ]

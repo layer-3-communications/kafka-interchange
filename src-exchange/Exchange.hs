@@ -14,9 +14,9 @@ import Data.Bytes.Types (Bytes(Bytes))
 import Control.Monad (when)
 import Kafka.Exchange.Error (Error(Error),Message(..))
 
-import qualified Kafka.Interchange.Message.Request.V2 as Message.Request
-import qualified Kafka.Interchange.Header.Response.V0 as Header.Response.V0
-import qualified Kafka.Interchange.Header.Response.V1 as Header.Response.V1
+import qualified Kafka.Message.Request.V2 as Message.Request
+import qualified Kafka.Header.Response.V0 as Header.Response.V0
+import qualified Kafka.Header.Response.V1 as Header.Response.V1
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
 import qualified Channel

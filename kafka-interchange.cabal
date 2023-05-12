@@ -37,23 +37,23 @@ library exchange-all
     , kafka-interchange:exchange
   mixins:
     kafka-interchange:exchange (Exchange as Produce.V9)
-      requires (Communication as Kafka.Interchange.Produce.V9),
+      requires (Communication as Kafka.Produce.V9),
     kafka-interchange:exchange (Exchange as ApiVersions.V3)
-      requires (Communication as Kafka.Interchange.ApiVersions.V3),
+      requires (Communication as Kafka.ApiVersions.V3),
     kafka-interchange:exchange (Exchange as Metadata.V12)
-      requires (Communication as Kafka.Interchange.Metadata.V12),
+      requires (Communication as Kafka.Metadata.V12),
     kafka-interchange:exchange (Exchange as SyncGroup.V5)
-      requires (Communication as Kafka.Interchange.SyncGroup.V5),
+      requires (Communication as Kafka.SyncGroup.V5),
     kafka-interchange:exchange (Exchange as JoinGroup.V9)
-      requires (Communication as Kafka.Interchange.JoinGroup.V9),
+      requires (Communication as Kafka.JoinGroup.V9),
     kafka-interchange:exchange (Exchange as Fetch.V13)
-      requires (Communication as Kafka.Interchange.Fetch.V13),
+      requires (Communication as Kafka.Fetch.V13),
     kafka-interchange:exchange (Exchange as FindCoordinator.V4)
-      requires (Communication as Kafka.Interchange.FindCoordinator.V4),
+      requires (Communication as Kafka.FindCoordinator.V4),
     kafka-interchange:exchange (Exchange as ListOffsets.V7)
-      requires (Communication as Kafka.Interchange.ListOffsets.V7),
+      requires (Communication as Kafka.ListOffsets.V7),
     kafka-interchange:exchange (Exchange as InitProducerId.V4)
-      requires (Communication as Kafka.Interchange.InitProducerId.V4),
+      requires (Communication as Kafka.InitProducerId.V4),
   exposed-modules:
     Client
   hs-source-dirs: src-exchange-all
@@ -62,45 +62,45 @@ library exchange-all
 
 library
   exposed-modules:
-    Kafka.Interchange.Message.Request.V2
-    Kafka.Interchange.ApiVersions.Request.V3
-    Kafka.Interchange.ApiVersions.Response.V3
-    Kafka.Interchange.ApiVersions.V3
-    Kafka.Interchange.Metadata.Request.V12
-    Kafka.Interchange.Metadata.Response.V12
-    Kafka.Interchange.Metadata.V12
-    Kafka.Interchange.InitProducerId.Request.V4
-    Kafka.Interchange.InitProducerId.Response.V4
-    Kafka.Interchange.InitProducerId.V4
-    Kafka.Interchange.Produce.V9
-    Kafka.Interchange.Produce.Request.V9
-    Kafka.Interchange.Produce.Response.V9
-    Kafka.Interchange.Header.Response.V0
-    Kafka.Interchange.Header.Response.V1
-    Kafka.Interchange.FindCoordinator.Request.V4
-    Kafka.Interchange.FindCoordinator.Response.V4
-    Kafka.Interchange.FindCoordinator.V4
-    Kafka.Interchange.ListOffsets.Request.V7
-    Kafka.Interchange.ListOffsets.Response.V7
-    Kafka.Interchange.ListOffsets.V7
-    Kafka.Interchange.Fetch.Request.V13
-    Kafka.Interchange.Fetch.Response.V13
-    Kafka.Interchange.Fetch.V13
-    Kafka.Interchange.Record.Request
-    Kafka.Interchange.Record.Response
-    Kafka.Interchange.RecordBatch.Attributes
-    Kafka.Interchange.RecordBatch.Request
-    Kafka.Interchange.RecordBatch.Response
-    Kafka.Interchange.Assignment.Request.V1
-    Kafka.Interchange.Assignment.Response.V1
-    Kafka.Interchange.Subscription.Request.V1
-    Kafka.Interchange.Subscription.Response.V1
-    Kafka.Interchange.JoinGroup.Request.V9
-    Kafka.Interchange.JoinGroup.Response.V9
-    Kafka.Interchange.JoinGroup.V9
-    Kafka.Interchange.SyncGroup.Request.V5
-    Kafka.Interchange.SyncGroup.Response.V5
-    Kafka.Interchange.SyncGroup.V5
+    Kafka.Message.Request.V2
+    Kafka.ApiVersions.Request.V3
+    Kafka.ApiVersions.Response.V3
+    Kafka.ApiVersions.V3
+    Kafka.Metadata.Request.V12
+    Kafka.Metadata.Response.V12
+    Kafka.Metadata.V12
+    Kafka.InitProducerId.Request.V4
+    Kafka.InitProducerId.Response.V4
+    Kafka.InitProducerId.V4
+    Kafka.Produce.V9
+    Kafka.Produce.Request.V9
+    Kafka.Produce.Response.V9
+    Kafka.Header.Response.V0
+    Kafka.Header.Response.V1
+    Kafka.FindCoordinator.Request.V4
+    Kafka.FindCoordinator.Response.V4
+    Kafka.FindCoordinator.V4
+    Kafka.ListOffsets.Request.V7
+    Kafka.ListOffsets.Response.V7
+    Kafka.ListOffsets.V7
+    Kafka.Fetch.Request.V13
+    Kafka.Fetch.Response.V13
+    Kafka.Fetch.V13
+    Kafka.Record.Request
+    Kafka.Record.Response
+    Kafka.RecordBatch.Attributes
+    Kafka.RecordBatch.Request
+    Kafka.RecordBatch.Response
+    Kafka.Assignment.Request.V1
+    Kafka.Assignment.Response.V1
+    Kafka.Subscription.Request.V1
+    Kafka.Subscription.Response.V1
+    Kafka.JoinGroup.Request.V9
+    Kafka.JoinGroup.Response.V9
+    Kafka.JoinGroup.V9
+    Kafka.SyncGroup.Request.V5
+    Kafka.SyncGroup.Response.V5
+    Kafka.SyncGroup.V5
     Kafka.Acknowledgments
     Kafka.TaggedField
     Kafka.ApiKey

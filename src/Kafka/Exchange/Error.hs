@@ -8,7 +8,7 @@ module Kafka.Exchange.Error
 
 import Control.Exception (Exception)
 
-import qualified Kafka.Interchange.Message.Request.V2 as Message.Request
+import qualified Kafka.Message.Request.V2 as Message.Request
 
 data Error = Error
   { context :: !Message.Request.Header
