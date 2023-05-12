@@ -33,7 +33,7 @@ import qualified Data.Bytes.Chunks as Chunks
 import qualified Arithmetic.Nat as Nat
 import qualified Kafka.Interchange.RecordBatch.Request as RecordBatch
 
-import qualified Kafka.Data.Acknowledgments as Acknowledgments
+import qualified Kafka.Acknowledgments as Acknowledgments
 
 -- Description from Kafka docs:
 --

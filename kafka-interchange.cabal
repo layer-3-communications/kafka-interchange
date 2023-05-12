@@ -101,8 +101,8 @@ library
     Kafka.Interchange.SyncGroup.Request.V5
     Kafka.Interchange.SyncGroup.Response.V5
     Kafka.Interchange.SyncGroup.V5
-    Kafka.Data.Acknowledgments
-    Kafka.Data.TaggedField
+    Kafka.Acknowledgments
+    Kafka.TaggedField
     Kafka.ApiKey
     Kafka.Parser.Context
     Kafka.Exchange.Error

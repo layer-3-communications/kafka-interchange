@@ -34,7 +34,7 @@ import qualified Data.List as List
 import qualified Data.Primitive as PM
 import qualified GHC.Exts as Exts
 import qualified Kafka.ApiKey as ApiKey
-import qualified Kafka.Data.Acknowledgments as Acknowledgments
+import qualified Kafka.Acknowledgments as Acknowledgments
 import qualified Kafka.Interchange.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.Interchange.ApiVersions.Response.V3
 import qualified Kafka.Interchange.ApiVersions.V3 as ApiVersionsV3

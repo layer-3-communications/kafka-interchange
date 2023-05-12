@@ -17,13 +17,13 @@ import Data.Int (Int16)
 import Data.Int (Int32)
 import Data.Primitive (SmallArray)
 import Data.Text (Text)
-import Kafka.Data.TaggedField (TaggedField)
+import Kafka.TaggedField (TaggedField)
 import Kafka.Parser.Context (Context)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
 import qualified Kafka.Interchange.Header.Response.V0 as Header
-import qualified Kafka.Data.TaggedField as TaggedField
+import qualified Kafka.TaggedField as TaggedField
 import qualified Kafka.Parser
 
 data Response = Response

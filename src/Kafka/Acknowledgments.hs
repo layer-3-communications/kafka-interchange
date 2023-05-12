@@ -1,6 +1,6 @@
 {-# language PatternSynonyms #-}
 
-module Kafka.Data.Acknowledgments
+module Kafka.Acknowledgments
   ( Acknowledgments(..)
   , pattern LeaderOnly
   , pattern None

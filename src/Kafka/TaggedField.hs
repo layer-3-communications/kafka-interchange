@@ -1,6 +1,6 @@
 {-# language NamedFieldPuns #-}
 
-module Kafka.Data.TaggedField
+module Kafka.TaggedField
   ( TaggedField(..)
   , parser
   , parserMany

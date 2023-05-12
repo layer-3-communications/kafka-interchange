@@ -19,12 +19,12 @@ import Data.Bytes.Parser (Parser)
 import Data.Int (Int16,Int32,Int64)
 import Data.Primitive (SmallArray)
 import Data.Text (Text)
-import Kafka.Data.TaggedField (TaggedField)
+import Kafka.TaggedField (TaggedField)
 import Kafka.Parser.Context (Context)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
-import qualified Kafka.Data.TaggedField as TaggedField
+import qualified Kafka.TaggedField as TaggedField
 import qualified Kafka.Parser
 import qualified Kafka.Interchange.Header.Response.V1 as Header
 
