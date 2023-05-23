@@ -10,9 +10,12 @@
 module Kafka.Record.Response
   ( Record(..)
   , Header(..)
-  , parser
-  , parserArray
+    -- * Decode
+    -- ** Relative Offsets
   , decodeArray
+    -- * Decode 
+    -- ** Absolute Offsets
+  , decodeArrayAbsolute
   ) where
 
 import Control.Monad (when)
@@ -49,8 +52,14 @@ import qualified Kafka.Parser
 --
 data Record = Record
   { attributes :: !Word8
+    -- ^ To the author's understanding, record attributes are unused,
+    -- and this will always be zero. But just to be safe, this library
+    -- parses it from the encoded record.
   , timestampDelta :: !Int64
-  , offsetDelta :: !Int32
+  , offsetDelta :: !Int64
+    -- ^ We deviate from the spec here by making this a 64-bit integer instead
+    -- of a 32-bit integer. We do this so that the integral type is wide enough
+    -- to hold an absolute offset.
   , key :: {-# UNPACK #-} !Bytes
     -- ^ We decode a null key to the empty byte sequence.
   , value :: {-# UNPACK #-} !Bytes
@@ -65,34 +74,45 @@ data Record = Record
 -- > value: byte[]
 data Header = Header
   { key :: {-# UNPACK #-} !Text
-    -- ^ Header key. For records that we are encoding, text (rather than
-    -- some kind of builder) is a reasonable choice since header keys are
-    -- typically not assembled from smaller pieces.
+    -- ^ Header key.
   , value :: {-# UNPACK #-} !Bytes
-    -- ^ Header value. This is currently Bytes, and I'm torn about whether
-    -- or not to change it to a builder or chunks type. On one hand, it
-    -- makes a more sense for it to be done that way, but on the
-    -- other hand, I do not think that values are particularly likely
-    -- to be constructed since they are small.
+    -- ^ Header value.
   } deriving stock (Show)
 
 -- | This consumes the entire input. If it succeeds, there were no
 -- leftovers.
 decodeArray :: Bytes -> Maybe (SmallArray Record)
-decodeArray = Parser.parseBytesMaybe parserArray
+{-# noinline decodeArray #-}
+decodeArray = Parser.parseBytesMaybe (parserArrayOf (parser 0 0))
+
+-- | Variant of 'decodeArray' that converts the timestamp and offset
+-- deltas to absolute timestamps and offsets. In the resulting records,
+-- the fields 'timestampDelta' and 'offsetDelta' are misnomers.
+decodeArrayAbsolute ::
+     Int64 -- ^ Base timestamp (from record batch)
+  -> Int64 -- ^ Base offset (from record batch)
+  -> Bytes
+  -> Maybe (SmallArray Record)
+{-# noinline decodeArrayAbsolute #-}
+decodeArrayAbsolute !baseTimestamp !baseOffset
+  = Parser.parseBytesMaybe (parserArrayOf (parser baseTimestamp baseOffset))
 
 -- | Parse several records laid out one after the other.
-parserArray :: Parser () s (SmallArray Record)
-parserArray = go [] 0
+parserArrayOf :: Parser () s Record -> Parser () s (SmallArray Record)
+{-# inline parserArrayOf #-} 
+parserArrayOf p = go [] 0
   where
   go !acc !n = Parser.isEndOfInput >>= \case
     True -> pure $! C.unsafeFromListReverseN n acc
     False -> do
-      r <- parser
+      r <- p
       go (r : acc) (n + 1)
 
-parser :: Parser () s Record
-parser = do
+parser ::
+     Int64 -- ^ base timestamp
+  -> Int64 -- ^ base offset
+  -> Parser () s Record
+parser !baseTimestamp !baseOffset = do
   len <- Kafka.Parser.varIntNative ()
   Parser.delimit () () len $ do
     attributes <- Parser.any ()
@@ -109,8 +129,8 @@ parser = do
     headers <- parserHeaders
     pure Record
       { attributes
-      , timestampDelta
-      , offsetDelta
+      , timestampDelta=timestampDelta + baseTimestamp
+      , offsetDelta=fromIntegral offsetDelta + baseOffset
       , key
       , value
       , headers

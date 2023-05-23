@@ -4,10 +4,10 @@ signature Communication where
 
 import Data.Int (Int16)
 import Data.Kind (Type)
-import Kafka.ApiKey (ApiKey)
 import Kafka.Parser.Context (Context)
 import Data.Bytes.Chunks (Chunks)
 import Data.Bytes (Bytes)
+import Kafka.ApiKey (ApiKey)
 
 data Request :: Type
 data Response :: Type

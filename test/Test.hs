@@ -61,6 +61,9 @@ import qualified Kafka.Subscription.Request.V1
 import qualified Kafka.Subscription.Response.V1
 import qualified Kafka.SyncGroup.Request.V5
 import qualified Kafka.SyncGroup.Response.V5
+import qualified Kafka.OffsetFetch.Request.V8
+import qualified Kafka.OffsetFetch.Response.V8
+import qualified Kafka.Heartbeat.Request.V4
 import qualified Test.Tasty.Golden.Advanced as Advanced
 
 main :: IO ()
@@ -167,6 +170,16 @@ main = defaultMain $ testGroup "kafka"
       "golden/join-group-response/v9/002.input.txt"
       "golden/join-group-response/v9/002.output.txt"
   , goldenHexEncode
+      "offset-fetch-request-v8-001"
+      Kafka.OffsetFetch.Request.V8.toChunks
+      "golden/offset-fetch-request/v8/001.input.json"
+      "golden/offset-fetch-request/v8/001.output.txt"
+  , goldenHexDecode
+      "offset-fetch-response-v8-001"
+      Kafka.OffsetFetch.Response.V8.decode
+      "golden/offset-fetch-response/v8/001.input.txt"
+      "golden/offset-fetch-response/v8/001.output.txt"
+  , goldenHexEncode
       "sync-group-request-v5-001"
       Kafka.SyncGroup.Request.V5.toChunks
       "golden/sync-group-request/v5/001.input.json"
@@ -186,6 +199,11 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Subscription.Response.V1.decode
       "golden/subscription-response/v1/001.input.txt"
       "golden/subscription-response/v1/001.output.txt"
+  , goldenHexEncode
+      "heartbeat-request-v4-001"
+      Kafka.Heartbeat.Request.V4.toChunks
+      "golden/heartbeat-request/v4/001.input.json"
+      "golden/heartbeat-request/v4/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks

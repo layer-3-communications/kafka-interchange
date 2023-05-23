@@ -17,6 +17,7 @@ module Kafka.Parser
   , varIntNative
   , varInt32
   , varInt64
+  , apiKey
   , boolean
   , BigEndian.int16
   , BigEndian.int32
@@ -27,12 +28,13 @@ module Kafka.Parser
   , Parser.fail
   ) where
 
-import Data.Primitive (SmallArray,PrimArray)
-import Data.Bytes.Parser (Parser)
-import Kafka.Parser.Context (Context)
-import Data.Text (Text)
-import Data.Int (Int32,Int64)
 import Data.Bytes (Bytes)
+import Data.Bytes.Parser (Parser)
+import Data.Int (Int32,Int64)
+import Data.Primitive (SmallArray,PrimArray)
+import Data.Text (Text)
+import Kafka.ApiKey (ApiKey(ApiKey))
+import Kafka.Parser.Context (Context)
 
 import qualified Kafka.Parser.Context as Ctx
 import qualified Data.Primitive as PM
@@ -195,3 +197,8 @@ varInt32 e = Leb128.int32 e
 varInt64 :: e -> Parser e s Int64
 {-# inline varInt64 #-}
 varInt64 e = Leb128.int64 e
+
+-- | Same thing as 'int16' but wraps it up in a newtype.
+apiKey :: e -> Parser e s ApiKey
+{-# inline apiKey #-}
+apiKey e = fmap ApiKey (BigEndian.int16 e)

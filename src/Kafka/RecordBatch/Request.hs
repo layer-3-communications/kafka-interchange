@@ -62,9 +62,15 @@ import qualified Crc32c
 --   So, not itself and not @baseOffset@.
 data RecordBatch = RecordBatch
   { baseOffset :: !Int64
+    -- ^ When producing records, this should always be set to zero.
+    -- It might make sense to just remove this field. The actual base
+    -- offset assigned to the batch can be found at
+    -- @Kafka.Produce.Response.V9:Partition.baseOffset@.
   , partitionLeaderEpoch :: !Int32
+    -- ^ It looks like this is always set to -1 during production.
   , attributes :: !Word16
   , lastOffsetDelta :: !Int32
+    -- ^ Should be set to the number of records minus one.
   , baseTimestamp :: !Int64
   , maxTimestamp :: !Int64
   , producerId :: !Int64

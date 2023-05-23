@@ -4,295 +4,295 @@ Response
       fromListN
         49
         [ ApiKeyVersionSupport
-            { apiKey = 0
+            { apiKey = Produce
             , minVersion = 0
             , maxVersion = 9
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 1
+            { apiKey = Fetch
             , minVersion = 0
             , maxVersion = 13
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 2
+            { apiKey = ListOffsets
             , minVersion = 0
             , maxVersion = 7
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 3
+            { apiKey = Metadata
             , minVersion = 0
             , maxVersion = 12
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 8
+            { apiKey = OffsetCommit
             , minVersion = 0
             , maxVersion = 8
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 9
+            { apiKey = OffsetFetch
             , minVersion = 0
             , maxVersion = 8
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 10
+            { apiKey = FindCoordinator
             , minVersion = 0
             , maxVersion = 4
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 11
+            { apiKey = JoinGroup
             , minVersion = 0
             , maxVersion = 9
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 12
+            { apiKey = Heartbeat
             , minVersion = 0
             , maxVersion = 4
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 13
+            { apiKey = LeaveGroup
             , minVersion = 0
             , maxVersion = 5
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 14
+            { apiKey = SyncGroup
             , minVersion = 0
             , maxVersion = 5
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 15
+            { apiKey = DescribeGroups
             , minVersion = 0
             , maxVersion = 5
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 16
+            { apiKey = ListGroups
             , minVersion = 0
             , maxVersion = 4
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 17
+            { apiKey = SaslHandshake
             , minVersion = 0
             , maxVersion = 1
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 18
+            { apiKey = ApiVersions
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 19
+            { apiKey = CreateTopics
             , minVersion = 0
             , maxVersion = 7
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 20
+            { apiKey = DeleteTopics
             , minVersion = 0
             , maxVersion = 6
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 21
+            { apiKey = DeleteRecords
             , minVersion = 0
             , maxVersion = 2
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 22
+            { apiKey = InitProducerId
             , minVersion = 0
             , maxVersion = 4
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 23
+            { apiKey = OffsetForLeaderEpoch
             , minVersion = 0
             , maxVersion = 4
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 24
+            { apiKey = AddPartitionsToTxn
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 25
+            { apiKey = AddOffsetsToTxn
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 26
+            { apiKey = EndTxn
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 27
+            { apiKey = WriteTxnMarkers
             , minVersion = 0
             , maxVersion = 1
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 28
+            { apiKey = TxnOffsetCommit
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 29
+            { apiKey = DescribeAcls
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 30
+            { apiKey = CreateAcls
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 31
+            { apiKey = DeleteAcls
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 32
+            { apiKey = DescribeConfigs
             , minVersion = 0
             , maxVersion = 4
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 33
+            { apiKey = AlterConfigs
             , minVersion = 0
             , maxVersion = 2
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 34
+            { apiKey = AlterReplicaLogDirs
             , minVersion = 0
             , maxVersion = 2
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 35
+            { apiKey = DescribeLogDirs
             , minVersion = 0
             , maxVersion = 4
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 36
+            { apiKey = SaslAuthenticate
             , minVersion = 0
             , maxVersion = 2
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 37
+            { apiKey = CreatePartitions
             , minVersion = 0
             , maxVersion = 3
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 42
+            { apiKey = DeleteGroups
             , minVersion = 0
             , maxVersion = 2
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 43
+            { apiKey = ElectLeaders
             , minVersion = 0
             , maxVersion = 2
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 44
+            { apiKey = IncrementalAlterConfigs
             , minVersion = 0
             , maxVersion = 1
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 45
+            { apiKey = AlterPartitionReassignments
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 46
+            { apiKey = ListPartitionReassignments
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 47
+            { apiKey = OffsetDelete
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 48
+            { apiKey = DescribeClientQuotas
             , minVersion = 0
             , maxVersion = 1
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 49
+            { apiKey = AlterClientQuotas
             , minVersion = 0
             , maxVersion = 1
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 55
+            { apiKey = DescribeQuorum
             , minVersion = 0
             , maxVersion = 1
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 57
+            { apiKey = UpdateFeatures
             , minVersion = 0
             , maxVersion = 1
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 60
+            { apiKey = DescribeCluster
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 61
+            { apiKey = DescribeProducers
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 64
+            { apiKey = UnregisterBroker
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 65
+            { apiKey = DescribeTransactions
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []
             }
         , ApiKeyVersionSupport
-            { apiKey = 66
+            { apiKey = ListTransactions
             , minVersion = 0
             , maxVersion = 0
             , taggedFields = fromListN 0 []

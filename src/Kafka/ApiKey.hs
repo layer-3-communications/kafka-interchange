@@ -1,7 +1,12 @@
+{-# language DerivingStrategies #-}
+{-# language GeneralizedNewtypeDeriving #-}
 {-# language PatternSynonyms #-}
 
 module Kafka.ApiKey
-  ( pattern Produce
+  ( -- * Type
+    ApiKey(..)
+    -- * Patterns
+  , pattern Produce
   , pattern Fetch
   , pattern ListOffsets
   , pattern Metadata
@@ -53,146 +58,218 @@ module Kafka.ApiKey
 
 import Data.Int (Int16)
 
-pattern Produce :: Int16
-pattern Produce = 0
+-- | An ApiKey. This is given its own type because it improves a lot
+-- of derived 'Show' instances and because it makes several type
+-- signatures more clear.
+newtype ApiKey = ApiKey Int16
+  deriving newtype (Eq)
 
-pattern Fetch :: Int16
-pattern Fetch = 1
+instance Show ApiKey where
+  showsPrec _ (ApiKey k) s = case k of
+    0  -> "Produce" ++ s
+    1  -> "Fetch" ++ s
+    2  -> "ListOffsets" ++ s
+    3  -> "Metadata" ++ s
+    4  -> "LeaderAndIsr" ++ s
+    5  -> "StopReplica" ++ s
+    6  -> "UpdateMetadata" ++ s
+    7  -> "ControlledShutdown" ++ s
+    8  -> "OffsetCommit" ++ s
+    9  -> "OffsetFetch" ++ s
+    10 -> "FindCoordinator" ++ s
+    11 -> "JoinGroup" ++ s
+    12 -> "Heartbeat" ++ s
+    13 -> "LeaveGroup" ++ s
+    14 -> "SyncGroup" ++ s
+    15 -> "DescribeGroups" ++ s
+    16 -> "ListGroups" ++ s
+    17 -> "SaslHandshake" ++ s
+    18 -> "ApiVersions" ++ s
+    19 -> "CreateTopics" ++ s
+    20 -> "DeleteTopics" ++ s
+    21 -> "DeleteRecords" ++ s
+    22 -> "InitProducerId" ++ s
+    23 -> "OffsetForLeaderEpoch" ++ s
+    24 -> "AddPartitionsToTxn" ++ s
+    25 -> "AddOffsetsToTxn" ++ s
+    26 -> "EndTxn" ++ s
+    27 -> "WriteTxnMarkers" ++ s
+    28 -> "TxnOffsetCommit" ++ s
+    29 -> "DescribeAcls" ++ s
+    30 -> "CreateAcls" ++ s
+    31 -> "DeleteAcls" ++ s
+    32 -> "DescribeConfigs" ++ s
+    33 -> "AlterConfigs" ++ s
+    34 -> "AlterReplicaLogDirs" ++ s
+    35 -> "DescribeLogDirs" ++ s
+    36 -> "SaslAuthenticate" ++ s
+    37 -> "CreatePartitions" ++ s
+    38 -> "CreateDelegationToken" ++ s
+    39 -> "RenewDelegationToken" ++ s
+    40 -> "ExpireDelegationToken" ++ s
+    41 -> "DescribeDelegationToken" ++ s
+    42 -> "DeleteGroups" ++ s
+    43 -> "ElectLeaders" ++ s
+    44 -> "IncrementalAlterConfigs" ++ s
+    45 -> "AlterPartitionReassignments" ++ s
+    46 -> "ListPartitionReassignments" ++ s
+    47 -> "OffsetDelete" ++ s
+    48 -> "DescribeClientQuotas" ++ s
+    49 -> "AlterClientQuotas" ++ s
+    50 -> "DescribeUserScramCredentials" ++ s
+    51 -> "AlterUserScramCredentials" ++ s
+    55 -> "DescribeQuorum" ++ s
+    56 -> "AlterPartition" ++ s
+    57 -> "UpdateFeatures" ++ s
+    58 -> "Envelope" ++ s
+    60 -> "DescribeCluster" ++ s
+    61 -> "DescribeProducers" ++ s
+    64 -> "UnregisterBroker" ++ s
+    65 -> "DescribeTransactions" ++ s
+    66 -> "ListTransactions" ++ s
+    67 -> "AllocateProducerIds" ++ s
+    _ -> "(ApiKey " ++ shows k (')':s)
 
-pattern ListOffsets :: Int16
-pattern ListOffsets = 2
+pattern Produce :: ApiKey
+pattern Produce = ApiKey 0
 
-pattern Metadata :: Int16
-pattern Metadata = 3
+pattern Fetch :: ApiKey
+pattern Fetch = ApiKey 1
 
-pattern LeaderAndIsr :: Int16
-pattern LeaderAndIsr = 4
+pattern ListOffsets :: ApiKey
+pattern ListOffsets = ApiKey 2
 
-pattern StopReplica :: Int16
-pattern StopReplica = 5
+pattern Metadata :: ApiKey
+pattern Metadata = ApiKey 3
 
-pattern UpdateMetadata :: Int16
-pattern UpdateMetadata = 6
+pattern LeaderAndIsr :: ApiKey
+pattern LeaderAndIsr = ApiKey 4
 
-pattern ControlledShutdown :: Int16
-pattern ControlledShutdown = 7
+pattern StopReplica :: ApiKey
+pattern StopReplica = ApiKey 5
 
-pattern OffsetCommit :: Int16
-pattern OffsetCommit = 8
+pattern UpdateMetadata :: ApiKey
+pattern UpdateMetadata = ApiKey 6
 
-pattern OffsetFetch :: Int16
-pattern OffsetFetch = 9
+pattern ControlledShutdown :: ApiKey
+pattern ControlledShutdown = ApiKey 7
 
-pattern FindCoordinator :: Int16
-pattern FindCoordinator = 10
+pattern OffsetCommit :: ApiKey
+pattern OffsetCommit = ApiKey 8
 
-pattern JoinGroup :: Int16
-pattern JoinGroup = 11
+pattern OffsetFetch :: ApiKey
+pattern OffsetFetch = ApiKey 9
 
-pattern Heartbeat :: Int16
-pattern Heartbeat = 12
+pattern FindCoordinator :: ApiKey
+pattern FindCoordinator = ApiKey 10
 
-pattern LeaveGroup :: Int16
-pattern LeaveGroup = 13
+pattern JoinGroup :: ApiKey
+pattern JoinGroup = ApiKey 11
 
-pattern SyncGroup :: Int16
-pattern SyncGroup = 14
+pattern Heartbeat :: ApiKey
+pattern Heartbeat = ApiKey 12
 
-pattern DescribeGroups :: Int16
-pattern DescribeGroups = 15
+pattern LeaveGroup :: ApiKey
+pattern LeaveGroup = ApiKey 13
 
-pattern ListGroups :: Int16
-pattern ListGroups = 16
+pattern SyncGroup :: ApiKey
+pattern SyncGroup = ApiKey 14
 
-pattern SaslHandshake :: Int16
-pattern SaslHandshake = 17
+pattern DescribeGroups :: ApiKey
+pattern DescribeGroups = ApiKey 15
 
-pattern ApiVersions :: Int16
-pattern ApiVersions = 18
+pattern ListGroups :: ApiKey
+pattern ListGroups = ApiKey 16
 
-pattern CreateTopics :: Int16
-pattern CreateTopics = 19
+pattern SaslHandshake :: ApiKey
+pattern SaslHandshake = ApiKey 17
 
-pattern DeleteTopics :: Int16
-pattern DeleteTopics = 20
+pattern ApiVersions :: ApiKey
+pattern ApiVersions = ApiKey 18
 
-pattern DeleteRecords :: Int16
-pattern DeleteRecords = 21
+pattern CreateTopics :: ApiKey
+pattern CreateTopics = ApiKey 19
 
-pattern InitProducerId :: Int16
-pattern InitProducerId = 22
+pattern DeleteTopics :: ApiKey
+pattern DeleteTopics = ApiKey 20
 
-pattern OffsetForLeaderEpoch :: Int16
-pattern OffsetForLeaderEpoch = 23
+pattern DeleteRecords :: ApiKey
+pattern DeleteRecords = ApiKey 21
 
-pattern AddPartitionsToTxn :: Int16
-pattern AddPartitionsToTxn = 24
+pattern InitProducerId :: ApiKey
+pattern InitProducerId = ApiKey 22
 
-pattern AddOffsetsToTxn :: Int16
-pattern AddOffsetsToTxn = 25
+pattern OffsetForLeaderEpoch :: ApiKey
+pattern OffsetForLeaderEpoch = ApiKey 23
 
-pattern EndTxn :: Int16
-pattern EndTxn = 26
+pattern AddPartitionsToTxn :: ApiKey
+pattern AddPartitionsToTxn = ApiKey 24
 
-pattern WriteTxnMarkers :: Int16
-pattern WriteTxnMarkers = 27
+pattern AddOffsetsToTxn :: ApiKey
+pattern AddOffsetsToTxn = ApiKey 25
 
-pattern TxnOffsetCommit :: Int16
-pattern TxnOffsetCommit = 28
+pattern EndTxn :: ApiKey
+pattern EndTxn = ApiKey 26
 
-pattern DescribeAcls :: Int16
-pattern DescribeAcls = 29
+pattern WriteTxnMarkers :: ApiKey
+pattern WriteTxnMarkers = ApiKey 27
 
-pattern CreateAcls :: Int16
-pattern CreateAcls = 30
+pattern TxnOffsetCommit :: ApiKey
+pattern TxnOffsetCommit = ApiKey 28
 
-pattern DeleteAcls :: Int16
-pattern DeleteAcls = 31
+pattern DescribeAcls :: ApiKey
+pattern DescribeAcls = ApiKey 29
 
-pattern DescribeConfigs :: Int16
-pattern DescribeConfigs = 32
+pattern CreateAcls :: ApiKey
+pattern CreateAcls = ApiKey 30
 
-pattern AlterConfigs :: Int16
-pattern AlterConfigs = 33
+pattern DeleteAcls :: ApiKey
+pattern DeleteAcls = ApiKey 31
 
-pattern AlterReplicaLogDirs :: Int16
-pattern AlterReplicaLogDirs = 34
+pattern DescribeConfigs :: ApiKey
+pattern DescribeConfigs = ApiKey 32
 
-pattern DescribeLogDirs :: Int16
-pattern DescribeLogDirs = 35
+pattern AlterConfigs :: ApiKey
+pattern AlterConfigs = ApiKey 33
 
-pattern SaslAuthenticate :: Int16
-pattern SaslAuthenticate = 36
+pattern AlterReplicaLogDirs :: ApiKey
+pattern AlterReplicaLogDirs = ApiKey 34
 
-pattern CreatePartitions :: Int16
-pattern CreatePartitions = 37
+pattern DescribeLogDirs :: ApiKey
+pattern DescribeLogDirs = ApiKey 35
 
-pattern CreateDelegationToken :: Int16
-pattern CreateDelegationToken = 38
+pattern SaslAuthenticate :: ApiKey
+pattern SaslAuthenticate = ApiKey 36
 
-pattern RenewDelegationToken :: Int16
-pattern RenewDelegationToken = 39
+pattern CreatePartitions :: ApiKey
+pattern CreatePartitions = ApiKey 37
 
-pattern ExpireDelegationToken :: Int16
-pattern ExpireDelegationToken = 40
+pattern CreateDelegationToken :: ApiKey
+pattern CreateDelegationToken = ApiKey 38
 
-pattern DescribeDelegationToken :: Int16
-pattern DescribeDelegationToken = 41
+pattern RenewDelegationToken :: ApiKey
+pattern RenewDelegationToken = ApiKey 39
 
-pattern DeleteGroups :: Int16
-pattern DeleteGroups = 42
+pattern ExpireDelegationToken :: ApiKey
+pattern ExpireDelegationToken = ApiKey 40
 
-pattern ElectLeaders :: Int16
-pattern ElectLeaders = 43
+pattern DescribeDelegationToken :: ApiKey
+pattern DescribeDelegationToken = ApiKey 41
 
-pattern IncrementalAlterConfigs :: Int16
-pattern IncrementalAlterConfigs = 44
+pattern DeleteGroups :: ApiKey
+pattern DeleteGroups = ApiKey 42
 
-pattern AlterPartitionReassignments :: Int16
-pattern AlterPartitionReassignments = 45
+pattern ElectLeaders :: ApiKey
+pattern ElectLeaders = ApiKey 43
 
-pattern ListPartitionReassignments :: Int16
-pattern ListPartitionReassignments = 46
+pattern IncrementalAlterConfigs :: ApiKey
+pattern IncrementalAlterConfigs = ApiKey 44
 
-pattern OffsetDelete :: Int16
-pattern OffsetDelete = 47
+pattern AlterPartitionReassignments :: ApiKey
+pattern AlterPartitionReassignments = ApiKey 45
+
+pattern ListPartitionReassignments :: ApiKey
+pattern ListPartitionReassignments = ApiKey 46
+
+pattern OffsetDelete :: ApiKey
+pattern OffsetDelete = ApiKey 47

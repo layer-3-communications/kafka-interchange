@@ -1,0 +1,11 @@
+{ "groups":
+  [ { "id": "console-consumer-56596"
+    , "topics":
+      [ { "name": "incidents"
+        , "partitions": [0]
+        }
+      ]
+    }
+  ]
+, "requireStable": true
+}

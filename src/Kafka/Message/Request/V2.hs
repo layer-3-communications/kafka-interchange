@@ -23,6 +23,7 @@ module Kafka.Message.Request.V2
 import Data.Int
 import Data.Text (Text)
 import Data.Bytes.Chunks (Chunks(ChunksCons))
+import Kafka.ApiKey (ApiKey)
 import Kafka.Builder (Builder)
 
 import qualified Kafka.Builder as Builder
@@ -32,7 +33,7 @@ import qualified Arithmetic.Nat as Nat
 import qualified Data.Bytes.Encode.BigEndian as Encode.BigEndian
 
 data Header = Header
-  { apiKey :: !Int16
+  { apiKey :: !ApiKey
   , apiVersion :: !Int16
   , correlationId :: !Int32
   , clientId :: !(Maybe Text)
@@ -56,7 +57,7 @@ toChunks Request{header,body} =
 builderHeader :: Header -> Builder
 builderHeader Header{apiKey,apiVersion,correlationId,clientId} =
   Builder.fromBounded Nat.constant
-    ( Bounded.int16 apiKey
+    ( Bounded.apiKey apiKey
       `Bounded.append`
       Bounded.int16 apiVersion
       `Bounded.append`

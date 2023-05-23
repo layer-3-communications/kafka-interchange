@@ -28,6 +28,8 @@ data Field
   | BatchLengthNotEnoughBytes
   | Brokers
   | ClusterId
+  | CommittedLeaderEpoch
+  | CommittedOffset
   | ControllerId
   | Coordinators
   | CorrelationId
@@ -38,6 +40,7 @@ data Field
   | Errors
   | GenerationId
   | GroupInstanceId
+  | Groups
   | HighWatermark
   | Host
   | Id

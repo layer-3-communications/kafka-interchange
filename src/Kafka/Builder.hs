@@ -42,6 +42,7 @@ module Kafka.Builder
   , int32
   , int32Array
   , int64
+  , compactInt32Array
   , word128
   , varWordNative
   , varIntNative
@@ -173,6 +174,14 @@ boolean b = case b of
 int32Array :: PrimArray Int32 -> Builder
 int32Array !x =
   Builder.int32BE (fromIntegral @Int @Int32 n)
+  <>
+  Builder.int32ArrayBE x 0 n
+  where
+  !n = PM.sizeofPrimArray x
+
+compactInt32Array :: PrimArray Int32 -> Builder
+compactInt32Array !x =
+  Builder.wordLEB128 (fromIntegral @Int @Word (1 + n))
   <>
   Builder.int32ArrayBE x 0 n
   where

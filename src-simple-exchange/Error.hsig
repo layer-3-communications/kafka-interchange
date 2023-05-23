@@ -1,0 +1,29 @@
+{-# language KindSignatures #-}
+
+signature Error where
+
+import Data.Kind (Type)
+import Channel (SendError,ReceiveError)
+import Kafka.ApiKey (ApiKey)
+
+data Error :: Type
+
+-- Failure to send a message. 
+send :: ApiKey -> SendError -> Error
+
+-- Failures that happen as a response is being received.
+-- There is some underlying error that the kernel tells
+-- us about (usually that the other end shut down the
+-- connection), and we can wrap this up and include it
+-- in the error message to the user.
+receiveLength :: ApiKey -> ReceiveError -> Error
+receiveBody :: ApiKey -> ReceiveError -> Error
+
+-- Failure that happen where we are processing data that
+-- was received. This includes problems parsing the payload
+-- and problems with the payload not making sense.
+responseLengthNegative :: ApiKey -> Error
+responseLengthTooHigh :: ApiKey -> Error
+responseHeaderMalformed :: ApiKey -> Error
+responseHeaderIncorrectCorrelationId :: ApiKey -> Error
+responseBodyMalformed :: ApiKey -> Error

@@ -16,8 +16,9 @@ import Data.Bytes.Parser (Parser)
 import Data.Int (Int16)
 import Data.Int (Int32)
 import Data.Primitive (SmallArray)
-import Kafka.TaggedField (TaggedField)
+import Kafka.ApiKey (ApiKey)
 import Kafka.Parser.Context (Context)
+import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
@@ -33,7 +34,7 @@ data Response = Response
   } deriving (Show)
 
 data ApiKeyVersionSupport = ApiKeyVersionSupport
-  { apiKey :: !Int16
+  { apiKey :: !ApiKey
   , minVersion :: !Int16
   , maxVersion :: !Int16
   , taggedFields :: !(SmallArray TaggedField)
@@ -51,7 +52,7 @@ decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End
 
 parserApiKey :: Context -> Parser Context s ApiKeyVersionSupport
 parserApiKey ctx = do
-  apiKey <- Kafka.Parser.int16 (Ctx.Field Ctx.ApiKey ctx)
+  apiKey <- Kafka.Parser.apiKey (Ctx.Field Ctx.ApiKey ctx)
   minVersion <- Kafka.Parser.int16 (Ctx.Field Ctx.MinVersion ctx)
   maxVersion <- Kafka.Parser.int16 (Ctx.Field Ctx.MaxVersion ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)

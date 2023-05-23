@@ -1,0 +1,18 @@
+00 00 00 00 # throttle time milliseconds
+02
+  17
+  63 6f 6e 73 6f 6c 65 2d 63 6f 6e 73 75 6d 65 72 2d 35 36 35 39 36 # group id: console-consumer-56596
+  02 # topics array length: 1
+    0a
+    69 6e 63 69 64 65 6e 74 73 # topic name: incidents
+    02                        # partitions length: 1
+      00 00 00 00             # partition index
+      ff ff ff ff ff ff ff ff # committed offset
+      ff ff ff ff             # committed leader epoch
+      01 # metadata: empty string
+      00 00 # error code
+      00 # no tagged fields
+    00 # no tagged fields
+  00 00 # error code
+  00 # no tagged fields
+00 # no tagged fields

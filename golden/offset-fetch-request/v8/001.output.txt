@@ -1,0 +1,13 @@
+02 # Array len: 1
+  17
+  # console-consumer-56596
+  63 6f 6e 73 6f 6c 65 2d 63 6f 6e 73 75 6d 65 72 2d 35 36 35 39 36
+  02 # array len: 1
+    0a
+    69 6e 63 69 64 65 6e 74 73  # topic name: incidents
+    02 # array len: 1
+      00 00 00 00 # partition index: 0
+    00 # zero tagged fields
+  00 # zero tagged fields
+01 # require stable: true
+00 # zero tagged fields

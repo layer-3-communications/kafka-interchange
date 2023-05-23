@@ -52,6 +52,8 @@ data Record = Record
     -- more sense. It might be better to create a separate type for each
     -- setting.
   , headers :: {-# UNPACK #-} !(SmallArray Header)
+    -- ^ In a data-encoding setting, it makes more sense for this to be
+    -- a chunked (or builder-like) type.
   }
 
 toChunks :: Record -> Chunks

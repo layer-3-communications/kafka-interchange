@@ -9,6 +9,7 @@ module Kafka.Builder.Bounded
   , word16
   , word32
   , varIntNative
+  , apiKey
     -- * Re-exports
   , Builder
   , append
@@ -20,6 +21,7 @@ import Data.Int (Int8,Int16,Int32,Int64)
 import Data.Word (Word16,Word32)
 import Data.Bytes.Builder.Bounded (Builder,append,word8,run)
 import Data.Word.Zigzag (toZigzagNative)
+import Kafka.ApiKey (ApiKey(ApiKey))
 import qualified Data.Bytes.Builder.Bounded as Bounded
 
 int64 :: Int64 -> Builder 8
@@ -33,6 +35,9 @@ word32 = Bounded.word32BE
 
 int16 :: Int16 -> Builder 2
 int16 = Bounded.int16BE
+
+apiKey :: ApiKey -> Builder 2
+apiKey (ApiKey k) = Bounded.int16BE k
 
 word16 :: Word16 -> Builder 2
 word16 = Bounded.word16BE

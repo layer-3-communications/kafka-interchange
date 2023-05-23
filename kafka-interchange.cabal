@@ -9,6 +9,61 @@ copyright: 2023 Layer 3 Communications
 category: Data
 extra-source-files: README.md
 
+library simple-exchange
+  visibility: public
+  build-depends:
+    , base >= 4.11.1.0 && <5
+    , kafka-interchange
+    , text >=2.0
+    , byteslice >=0.2.8
+    , primitive >=0.8 
+    , bytesmith >=0.3.9
+    , byte-order >=0.1.3
+    , transformers >=0.5.6
+  signatures:
+    Communication
+    Channel
+    Error
+  exposed-modules:
+    Exchange
+  hs-source-dirs: src-simple-exchange
+  default-language: Haskell2010
+  ghc-options: -O2 -Wall
+
+-- Inherited signature: Channel and Error
+library simple-exchange-all
+  visibility: public
+  build-depends:
+    , base >=4.10 && <5
+    , kafka-interchange
+    , kafka-interchange:simple-exchange
+  mixins:
+    kafka-interchange:simple-exchange (Exchange as Produce.V9)
+      requires (Communication as Kafka.Produce.V9),
+    kafka-interchange:simple-exchange (Exchange as ApiVersions.V3)
+      requires (Communication as Kafka.ApiVersions.V3),
+    kafka-interchange:simple-exchange (Exchange as Metadata.V12)
+      requires (Communication as Kafka.Metadata.V12),
+    kafka-interchange:simple-exchange (Exchange as SyncGroup.V5)
+      requires (Communication as Kafka.SyncGroup.V5),
+    kafka-interchange:simple-exchange (Exchange as JoinGroup.V9)
+      requires (Communication as Kafka.JoinGroup.V9),
+    kafka-interchange:simple-exchange (Exchange as Fetch.V13)
+      requires (Communication as Kafka.Fetch.V13),
+    kafka-interchange:simple-exchange (Exchange as FindCoordinator.V4)
+      requires (Communication as Kafka.FindCoordinator.V4),
+    kafka-interchange:simple-exchange (Exchange as ListOffsets.V7)
+      requires (Communication as Kafka.ListOffsets.V7),
+    kafka-interchange:simple-exchange (Exchange as InitProducerId.V4)
+      requires (Communication as Kafka.InitProducerId.V4),
+    kafka-interchange:simple-exchange (Exchange as OffsetFetch.V8)
+      requires (Communication as Kafka.OffsetFetch.V8),
+  exposed-modules:
+    Client
+  hs-source-dirs: src-simple-exchange-all
+  default-language: Haskell2010
+  ghc-options: -O2 -Wall
+
 library exchange
   visibility: public
   build-depends:
@@ -54,6 +109,8 @@ library exchange-all
       requires (Communication as Kafka.ListOffsets.V7),
     kafka-interchange:exchange (Exchange as InitProducerId.V4)
       requires (Communication as Kafka.InitProducerId.V4),
+    kafka-interchange:exchange (Exchange as OffsetFetch.V8)
+      requires (Communication as Kafka.OffsetFetch.V8),
   exposed-modules:
     Client
   hs-source-dirs: src-exchange-all
@@ -101,6 +158,10 @@ library
     Kafka.SyncGroup.Request.V5
     Kafka.SyncGroup.Response.V5
     Kafka.SyncGroup.V5
+    Kafka.OffsetFetch.Request.V8
+    Kafka.OffsetFetch.Response.V8
+    Kafka.OffsetFetch.V8
+    Kafka.Heartbeat.Request.V4
     Kafka.Acknowledgments
     Kafka.TaggedField
     Kafka.ApiKey

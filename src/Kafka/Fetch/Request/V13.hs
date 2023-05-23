@@ -62,7 +62,11 @@ data Partition = Partition
   , currentLeaderEpoch :: !Int32
   , fetchOffset :: !Int64
   , lastFetchedEpoch :: !Int32
+    -- ^ The epoch of the last fetched record or -1 if there is none.
   , logStartOffset :: !Int64
+    -- ^ Set this to -1. According to Kafka docs: "The earliest available
+    -- offset of the follower replica. The field is only used when the request
+    -- is sent by the follower."
   , maxBytes :: !Int32
   } 
 
