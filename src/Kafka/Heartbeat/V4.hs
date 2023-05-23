@@ -1,4 +1,4 @@
-module Kafka.OffsetFetch.V8
+module Kafka.Heartbeat.V4
   ( Rqst.Request
   , Resp.Response
   , Rqst.toChunks
@@ -10,15 +10,15 @@ module Kafka.OffsetFetch.V8
 
 import Data.Int (Int16)
 
-import qualified Kafka.OffsetFetch.Request.V8 as Rqst
-import qualified Kafka.OffsetFetch.Response.V8 as Resp
+import qualified Kafka.Heartbeat.Request.V4 as Rqst
+import qualified Kafka.Heartbeat.Response.V4 as Resp
 import qualified Kafka.ApiKey as K
 
 responseHeaderVersion :: Int16
 responseHeaderVersion = 1
 
 apiVersion :: Int16
-apiVersion = 8
+apiVersion = 4
 
 apiKey :: K.ApiKey
-apiKey = K.OffsetFetch
+apiKey = K.Heartbeat

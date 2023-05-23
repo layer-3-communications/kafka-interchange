@@ -1,0 +1,12 @@
+00 00 00 00 # throttle time ms
+00 00       # error code
+02          # array length: 1
+  36
+  63 6f 6e 73 6f 6c 65 2d 63 6f 6e 73 75 6d 65      # console-consume
+  72 2d 64 36 63 36 31 64 38 66 2d 34 38 61 37 2d   # r-d6c61d8f-48a7-
+  34 33 63 34 2d 39 63 64 64 2d 30 39 62 31 31 30   # 43c4-9cdd-09b110
+  32 61 34 66 63 32                                 # 2a4fc2
+  00      # group instance id: null
+  00 00   # error code
+  00      # no tagged fields
+00 # no tagged fields

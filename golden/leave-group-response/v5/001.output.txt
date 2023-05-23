@@ -1,0 +1,16 @@
+Response
+  { throttleTimeMilliseconds = 0
+  , errorCode = 0
+  , members =
+      fromListN
+        1
+        [ Member
+            { memberId =
+                "console-consumer-d6c61d8f-48a7-43c4-9cdd-09b1102a4fc2"
+            , groupInstanceId = Nothing
+            , errorCode = 0
+            , taggedFields = fromListN 0 []
+            }
+        ]
+  , taggedFields = fromListN 0 []
+  }

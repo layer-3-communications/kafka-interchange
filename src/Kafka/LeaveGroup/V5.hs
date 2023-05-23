@@ -1,4 +1,4 @@
-module Kafka.OffsetFetch.V8
+module Kafka.LeaveGroup.V5
   ( Rqst.Request
   , Resp.Response
   , Rqst.toChunks
@@ -10,15 +10,15 @@ module Kafka.OffsetFetch.V8
 
 import Data.Int (Int16)
 
-import qualified Kafka.OffsetFetch.Request.V8 as Rqst
-import qualified Kafka.OffsetFetch.Response.V8 as Resp
+import qualified Kafka.LeaveGroup.Request.V5 as Rqst
+import qualified Kafka.LeaveGroup.Response.V5 as Resp
 import qualified Kafka.ApiKey as K
 
 responseHeaderVersion :: Int16
 responseHeaderVersion = 1
 
 apiVersion :: Int16
-apiVersion = 8
+apiVersion = 5
 
 apiKey :: K.ApiKey
-apiKey = K.OffsetFetch
+apiKey = K.LeaveGroup

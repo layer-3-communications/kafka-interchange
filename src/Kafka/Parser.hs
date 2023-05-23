@@ -9,6 +9,7 @@ module Kafka.Parser
   , compactBytes
   , nonCompactBytes
   , compactString
+  , compactNullableString
   , string
   , compactInt32Array
   , int32Array
@@ -94,6 +95,21 @@ compactString ctx = do
       case TS.fromShortByteString sbs of
         Nothing -> Parser.fail ctx
         Just ts -> pure (TS.toText ts)
+
+compactNullableString :: Context -> Parser Context s (Maybe Text)
+compactNullableString ctx = do
+  len0 <- Leb128.word32 ctx
+  let !lenSucc = fromIntegral len0 :: Int
+  case lenSucc of
+    0 -> pure Nothing
+    1 -> pure (Just mempty)
+    _ -> do
+      let len = lenSucc - 1
+      b <- Parser.take ctx len
+      let sbs = Bytes.toShortByteString b
+      case TS.fromShortByteString sbs of
+        Nothing -> Parser.fail ctx
+        Just ts -> pure (Just (TS.toText ts))
 
 int32Array :: Context -> Parser Context s (PrimArray Int32)
 int32Array ctx = do

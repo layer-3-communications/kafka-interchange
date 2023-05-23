@@ -1,0 +1,3 @@
+00 00 00 00 # throttle time ms
+00 00       # error code
+00          # no tagged fields

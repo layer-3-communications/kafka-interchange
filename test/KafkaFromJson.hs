@@ -24,6 +24,7 @@ import qualified Kafka.Subscription.Request.V1
 import qualified Kafka.SyncGroup.Request.V5
 import qualified Kafka.OffsetFetch.Request.V8
 import qualified Kafka.Heartbeat.Request.V4
+import qualified Kafka.LeaveGroup.Request.V5
 
 instance FromJSON Word128 where
   parseJSON = fmap fromInteger . parseJSON
@@ -54,3 +55,5 @@ $(deriveFromJSON defaultOptions ''Kafka.OffsetFetch.Request.V8.Topic)
 $(deriveFromJSON defaultOptions ''Kafka.OffsetFetch.Request.V8.Group)
 $(deriveFromJSON defaultOptions ''Kafka.OffsetFetch.Request.V8.Request)
 $(deriveFromJSON defaultOptions ''Kafka.Heartbeat.Request.V4.Request)
+$(deriveFromJSON defaultOptions ''Kafka.LeaveGroup.Request.V5.Member)
+$(deriveFromJSON defaultOptions ''Kafka.LeaveGroup.Request.V5.Request)

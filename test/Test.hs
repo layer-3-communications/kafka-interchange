@@ -64,6 +64,9 @@ import qualified Kafka.SyncGroup.Response.V5
 import qualified Kafka.OffsetFetch.Request.V8
 import qualified Kafka.OffsetFetch.Response.V8
 import qualified Kafka.Heartbeat.Request.V4
+import qualified Kafka.Heartbeat.Response.V4
+import qualified Kafka.LeaveGroup.Request.V5
+import qualified Kafka.LeaveGroup.Response.V5
 import qualified Test.Tasty.Golden.Advanced as Advanced
 
 main :: IO ()
@@ -204,6 +207,21 @@ main = defaultMain $ testGroup "kafka"
       Kafka.Heartbeat.Request.V4.toChunks
       "golden/heartbeat-request/v4/001.input.json"
       "golden/heartbeat-request/v4/001.output.txt"
+  , goldenHexDecode
+      "heartbeat-response-v4-001"
+      Kafka.Heartbeat.Response.V4.decode
+      "golden/heartbeat-response/v4/001.input.txt"
+      "golden/heartbeat-response/v4/001.output.txt"
+  , goldenHexEncode
+      "leave-group-request-v5-001"
+      Kafka.LeaveGroup.Request.V5.toChunks
+      "golden/leave-group-request/v5/001.input.json"
+      "golden/leave-group-request/v5/001.output.txt"
+  , goldenHexDecode
+      "leave-group-response-v5-001"
+      Kafka.LeaveGroup.Response.V5.decode
+      "golden/leave-group-response/v5/001.input.txt"
+      "golden/leave-group-response/v5/001.output.txt"
   ]
 
 apiVersionsRequestV3_001 :: Chunks

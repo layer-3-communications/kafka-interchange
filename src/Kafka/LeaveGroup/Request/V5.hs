@@ -13,8 +13,9 @@
 {-# language UnboxedTuples #-}
 {-# language UndecidableInstances #-}
 
-module Kafka.Heartbeat.Request.V4
+module Kafka.LeaveGroup.Request.V5
   ( Request(..)
+  , Member(..)
   , toChunks
   ) where
 
@@ -29,25 +30,35 @@ import Data.Primitive (SmallArray)
 
 import qualified Kafka.Builder as Builder
 
--- | Kafka Heartbeat request V4.
+-- | Kafka Leave Group request V5.
 data Request = Request
   { groupId :: !Text
-  , generationId :: !Int32
-  , memberId :: !Text
+  , members :: !(SmallArray Member)
+  }
+
+data Member = Member
+  { memberId :: !Text
   , groupInstanceId :: !(Maybe Text)
+  , reason :: !Text
   }
 
 toChunks :: Request -> Chunks
 toChunks = Builder.run 128 . encode
 
 encode :: Request -> Builder
-encode Request{groupId,generationId,memberId,groupInstanceId} =
+encode Request{groupId,members} =
   Builder.compactString groupId
   <>
-  Builder.int32 generationId
+  Builder.compactArray encodeMember members
   <>
+  Builder.word8 0
+
+encodeMember :: Member -> Builder
+encodeMember Member{memberId,groupInstanceId,reason} =
   Builder.compactString memberId
   <>
   Builder.compactNullableString groupInstanceId
+  <>
+  Builder.compactString reason
   <>
   Builder.word8 0
