@@ -9,6 +9,8 @@ module Client
   , listOffsetsV7
   , initProducerIdV4
   , offsetFetchV8
+  , heartbeatV4
+  , leaveGroupV5
   ) where
 
 import Channel (M,Environment)
@@ -34,6 +36,10 @@ import qualified Kafka.InitProducerId.V4 as InitProducerId.V4
 import qualified InitProducerId.V4
 import qualified Kafka.OffsetFetch.V8 as OffsetFetch.V8
 import qualified OffsetFetch.V8
+import qualified Kafka.Heartbeat.V4 as Heartbeat.V4
+import qualified Heartbeat.V4
+import qualified Kafka.LeaveGroup.V5 as LeaveGroup.V5
+import qualified LeaveGroup.V5
 
 listOffsetsV7 ::
      Environment
@@ -46,6 +52,18 @@ findCoordinatorV4 ::
   -> FindCoordinator.V4.Request
   -> M (Either Error FindCoordinator.V4.Response)
 findCoordinatorV4 = FindCoordinator.V4.exchange
+
+heartbeatV4 ::
+     Environment
+  -> Heartbeat.V4.Request
+  -> M (Either Error Heartbeat.V4.Response)
+heartbeatV4 = Heartbeat.V4.exchange
+
+leaveGroupV5 ::
+     Environment
+  -> LeaveGroup.V5.Request
+  -> M (Either Error LeaveGroup.V5.Response)
+leaveGroupV5 = LeaveGroup.V5.exchange
 
 initProducerIdV4 ::
      Environment

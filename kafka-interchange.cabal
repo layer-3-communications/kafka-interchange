@@ -117,6 +117,8 @@ library exchange-all
       requires (Communication as Kafka.OffsetFetch.V8),
     kafka-interchange:exchange (Exchange as Heartbeat.V4)
       requires (Communication as Kafka.Heartbeat.V4),
+    kafka-interchange:exchange (Exchange as LeaveGroup.V5)
+      requires (Communication as Kafka.LeaveGroup.V5),
   exposed-modules:
     Client
   hs-source-dirs: src-exchange-all

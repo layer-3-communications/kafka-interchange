@@ -34,6 +34,8 @@ import qualified Kafka.InitProducerId.V4 as InitProducerId.V4
 import qualified InitProducerId.V4
 import qualified Kafka.Heartbeat.V4 as Heartbeat.V4
 import qualified Heartbeat.V4
+import qualified Kafka.LeaveGroup.V5 as LeaveGroup.V5
+import qualified LeaveGroup.V5
 
 listOffsetsV7 ::
      ListOffsets.V7.Request
@@ -55,10 +57,10 @@ heartbeatV4 ::
   -> M Heartbeat.V4.Response
 heartbeatV4 = Heartbeat.V4.exchange
 
-leaveGroupV4 ::
+leaveGroupV5 ::
      LeaveGroup.V5.Request
   -> M LeaveGroup.V5.Response
-leaveGroupV4 = LeaveGroup.V5.exchange
+leaveGroupV5 = LeaveGroup.V5.exchange
 
 fetchV13 ::
      Fetch.V13.Request

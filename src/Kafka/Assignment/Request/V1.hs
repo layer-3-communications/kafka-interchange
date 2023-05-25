@@ -32,7 +32,7 @@ import Kafka.Subscription.Request.V1 (Ownership(..),encodeOwnership)
 
 import qualified Kafka.Builder as Builder
 
--- | Kafka Init Producer ID request V4.
+-- | Kafka consumer protocol assignment v1.
 data Assignment = Assignment
   { assignedPartitions :: !(SmallArray Ownership)
   , userData :: !Bytes
@@ -44,6 +44,8 @@ toChunks = Builder.run 128 . encode
 
 encode :: Assignment -> Builder
 encode Assignment{assignedPartitions,userData} =
+  Builder.int16 1
+  <>
   Builder.array encodeOwnership assignedPartitions
   <>
   Builder.nonCompactBytes userData
