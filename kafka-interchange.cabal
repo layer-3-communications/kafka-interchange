@@ -178,6 +178,7 @@ library
     Kafka.Acknowledgments
     Kafka.TaggedField
     Kafka.ApiKey
+    Kafka.ErrorCode
     Kafka.Parser.Context
     Kafka.Exchange.Error
   other-modules:
