@@ -17,6 +17,7 @@ import Data.Int (Int16)
 import Data.Int (Int32)
 import Data.Primitive (SmallArray)
 import Kafka.ApiKey (ApiKey)
+import Kafka.ErrorCode (ErrorCode)
 import Kafka.Parser.Context (Context)
 import Kafka.TaggedField (TaggedField)
 
@@ -27,7 +28,7 @@ import qualified Kafka.TaggedField as TaggedField
 import qualified Kafka.Parser
 
 data Response = Response
-  { errorCode :: !Int16
+  { errorCode :: !ErrorCode
   , apiKeys :: !(SmallArray ApiKeyVersionSupport)
   , throttleTimeMilliseconds :: !Int32
   , taggedFields :: !(SmallArray TaggedField)
@@ -60,7 +61,7 @@ parserApiKey ctx = do
 
 parser :: Context -> Parser Context s Response
 parser ctx = do
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   apiKeys <- Kafka.Parser.compactArray parserApiKey (Ctx.Field Ctx.ApiKeys ctx) 
   throttleTimeMilliseconds <- Kafka.Parser.int32 (Ctx.Field Ctx.ThrottleTimeMilliseconds ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)

@@ -12,13 +12,14 @@ module Kafka.LeaveGroup.Response.V5
 
 import Prelude hiding (id)
 
-import Data.Text (Text)
 import Control.Applicative (liftA2)
-import Data.Primitive (SmallArray)
-import Data.Int (Int16,Int32,Int64)
-import Kafka.Parser.Context (Context)
-import Data.Bytes.Parser (Parser)
 import Data.Bytes (Bytes)
+import Data.Bytes.Parser (Parser)
+import Data.Int (Int16,Int32,Int64)
+import Data.Primitive (SmallArray)
+import Data.Text (Text)
+import Kafka.ErrorCode (ErrorCode)
+import Kafka.Parser.Context (Context)
 import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
@@ -29,7 +30,7 @@ import qualified Kafka.Header.Response.V1 as Header
 
 data Response = Response
   { throttleTimeMilliseconds :: !Int32
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , members :: !(SmallArray Member)
   , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
@@ -37,7 +38,7 @@ data Response = Response
 data Member = Member
   { memberId :: !Text
   , groupInstanceId :: !(Maybe Text)
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
@@ -47,7 +48,7 @@ decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End
 parser :: Context -> Parser Context s Response
 parser ctx = do
   throttleTimeMilliseconds <- Kafka.Parser.int32 (Ctx.Field Ctx.ThrottleTimeMilliseconds ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   members <- Kafka.Parser.compactArray parserMember (Ctx.Field Ctx.Members ctx) 
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Response{throttleTimeMilliseconds,errorCode,members,taggedFields}
@@ -56,6 +57,6 @@ parserMember :: Context -> Parser Context s Member
 parserMember ctx = do
   memberId <- Kafka.Parser.compactString (Ctx.Field Ctx.MemberId ctx)
   groupInstanceId <- Kafka.Parser.compactNullableString (Ctx.Field Ctx.GroupInstanceId ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Member{memberId,groupInstanceId,errorCode,taggedFields}

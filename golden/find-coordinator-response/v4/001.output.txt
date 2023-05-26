@@ -8,7 +8,7 @@ Response
             , nodeId = 1
             , host = "localhost"
             , port = 9092
-            , errorCode = 0
+            , errorCode = None
             , errorMessage = ""
             , taggedFields = fromListN 0 []
             }

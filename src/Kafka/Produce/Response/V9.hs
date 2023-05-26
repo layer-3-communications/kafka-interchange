@@ -16,11 +16,12 @@ module Kafka.Produce.Response.V9
 import Control.Applicative (liftA2)
 import Data.Bytes (Bytes)
 import Data.Bytes.Parser (Parser)
-import Data.Int (Int16,Int32,Int64)
+import Data.Int (Int32,Int64)
 import Data.Primitive (SmallArray)
 import Data.Text (Text)
-import Kafka.TaggedField (TaggedField)
+import Kafka.ErrorCode (ErrorCode)
 import Kafka.Parser.Context (Context)
+import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
@@ -42,7 +43,7 @@ data Topic = Topic
 
 data Partition = Partition
   { index :: !Int32
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , baseOffset :: !Int64
   , logAppendTimeMilliseconds :: !Int64
   , logStartOffset :: !Int64
@@ -90,7 +91,7 @@ parserTopic ctx = do
 parserPartition :: Context -> Parser Context s Partition
 parserPartition ctx = do
   index <- Kafka.Parser.int32 (Ctx.Field Ctx.Ix ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   baseOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.BaseOffset ctx)
   logAppendTimeMilliseconds <- Kafka.Parser.int64 (Ctx.Field Ctx.LogAppendTimeMilliseconds ctx)
   logStartOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.LogStartOffset ctx)

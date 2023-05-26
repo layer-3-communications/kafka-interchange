@@ -1,6 +1,6 @@
 Response
   { throttleTimeMilliseconds = 0
-  , errorCode = 0
+  , errorCode = None
   , producerId = 1000
   , producerEpoch = 0
   , taggedFields = fromListN 0 []

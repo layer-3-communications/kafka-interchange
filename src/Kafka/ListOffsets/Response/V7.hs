@@ -16,16 +16,17 @@ module Kafka.ListOffsets.Response.V7
 import Prelude hiding (id)
 
 import Control.Applicative (liftA2)
-import Data.WideWord (Word128)
-import Data.Primitive (SmallArray,PrimArray)
-import Data.Int (Int16,Int32,Int64)
-import Data.Word (Word32)
-import Kafka.Parser.Context (Context)
-import Data.Text (Text)
-import Data.Bytes.Parser (Parser)
 import Data.Bytes (Bytes)
-import Kafka.TaggedField (TaggedField)
+import Data.Bytes.Parser (Parser)
+import Data.Int (Int16,Int32,Int64)
+import Data.Primitive (SmallArray,PrimArray)
+import Data.Text (Text)
+import Data.WideWord (Word128)
+import Data.Word (Word32)
+import Kafka.ErrorCode (ErrorCode)
+import Kafka.Parser.Context (Context)
 import Kafka.RecordBatch.Response (RecordBatch)
+import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
@@ -48,7 +49,7 @@ data Topic = Topic
 
 data Partition = Partition
   { index :: !Int32
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , timestamp :: !Int64
   , offset :: !Int64
   , leaderEpoch :: !Int32
@@ -82,7 +83,7 @@ parserTopic ctx = do
 parserPartition :: Context -> Parser Context s Partition
 parserPartition ctx = do
   index <- Kafka.Parser.int32 (Ctx.Field Ctx.Ix ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   timestamp <- Kafka.Parser.int64 (Ctx.Field Ctx.Timestamp ctx)
   offset <- Kafka.Parser.int64 (Ctx.Field Ctx.Offset ctx)
   leaderEpoch <- Kafka.Parser.int32 (Ctx.Field Ctx.LeaderEpoch ctx)

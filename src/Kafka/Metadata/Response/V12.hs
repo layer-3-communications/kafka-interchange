@@ -17,14 +17,15 @@ module Kafka.Metadata.Response.V12
 import Prelude hiding (id)
 
 import Control.Applicative (liftA2)
-import Data.WideWord (Word128)
-import Data.Primitive (SmallArray,PrimArray)
-import Data.Int (Int16,Int32)
-import Data.Word (Word32)
-import Kafka.Parser.Context (Context)
-import Data.Text (Text)
-import Data.Bytes.Parser (Parser)
 import Data.Bytes (Bytes)
+import Data.Bytes.Parser (Parser)
+import Data.Int (Int16,Int32)
+import Data.Primitive (SmallArray,PrimArray)
+import Data.Text (Text)
+import Data.WideWord (Word128)
+import Data.Word (Word32)
+import Kafka.ErrorCode (ErrorCode)
+import Kafka.Parser.Context (Context)
 import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
@@ -51,7 +52,7 @@ data Broker = Broker
   } deriving stock (Show)
 
 data Topic = Topic
-  { errorCode :: !Int16
+  { errorCode :: !ErrorCode
   , name :: !Text
   , id :: {-# UNPACK #-} !Word128
   , internal :: !Bool
@@ -64,7 +65,7 @@ data Topic = Topic
   } deriving stock (Show)
 
 data Partition = Partition
-  { errorCode :: !Int16
+  { errorCode :: !ErrorCode
   , index :: !Int32
   , leaderId :: !Int32
   , leaderEpoch :: !Int32
@@ -111,7 +112,7 @@ parserBroker ctx = do
 
 parserTopic :: Context -> Parser Context s Topic
 parserTopic ctx = do
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   name <- Kafka.Parser.compactString (Ctx.Field Ctx.Name ctx)
   id <- Kafka.Parser.word128 (Ctx.Field Ctx.Id ctx)
   internal <- Kafka.Parser.boolean (Ctx.Field Ctx.Internal ctx)
@@ -123,7 +124,7 @@ parserTopic ctx = do
 
 parserPartition :: Context -> Parser Context s Partition
 parserPartition ctx = do
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   index <- Kafka.Parser.int32 (Ctx.Field Ctx.Ix ctx)
   leaderId <- Kafka.Parser.int32 (Ctx.Field Ctx.LeaderId ctx)
   leaderEpoch <- Kafka.Parser.int32 (Ctx.Field Ctx.LeaderEpoch ctx)

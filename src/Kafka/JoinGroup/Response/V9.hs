@@ -16,6 +16,7 @@ import Data.Bytes.Parser (Parser)
 import Data.Int (Int16)
 import Data.Int (Int32)
 import Data.Primitive (SmallArray)
+import Kafka.ErrorCode (ErrorCode)
 import Kafka.TaggedField (TaggedField)
 import Kafka.Parser.Context (Context)
 import Data.Text (Text)
@@ -28,7 +29,7 @@ import qualified Kafka.Parser
 
 data Response = Response
   { throttleTimeMilliseconds :: !Int32
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , generationId :: !Int32
   , protocolType :: !Text
   , protocolName :: !Text
@@ -67,7 +68,7 @@ parserMember ctx = do
 parser :: Context -> Parser Context s Response
 parser ctx = do
   throttleTimeMilliseconds <- Kafka.Parser.int32 (Ctx.Field Ctx.ThrottleTimeMilliseconds ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   generationId <- Kafka.Parser.int32 (Ctx.Field Ctx.GenerationId ctx)
   protocolType <- Kafka.Parser.compactString (Ctx.Field Ctx.ProtocolType ctx)
   protocolName <- Kafka.Parser.compactString (Ctx.Field Ctx.ProtocolName ctx)

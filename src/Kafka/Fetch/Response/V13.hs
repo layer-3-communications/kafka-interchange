@@ -16,16 +16,17 @@ module Kafka.Fetch.Response.V13
 import Prelude hiding (id)
 
 import Control.Applicative (liftA2)
-import Data.WideWord (Word128)
-import Data.Primitive (SmallArray,PrimArray)
-import Data.Int (Int16,Int32,Int64)
-import Data.Word (Word32)
-import Kafka.Parser.Context (Context)
-import Data.Text (Text)
-import Data.Bytes.Parser (Parser)
 import Data.Bytes (Bytes)
-import Kafka.TaggedField (TaggedField)
+import Data.Bytes.Parser (Parser)
+import Data.Int (Int16,Int32,Int64)
+import Data.Primitive (SmallArray,PrimArray)
+import Data.Text (Text)
+import Data.WideWord (Word128)
+import Data.Word (Word32)
+import Kafka.ErrorCode (ErrorCode)
+import Kafka.Parser.Context (Context)
 import Kafka.RecordBatch.Response (RecordBatch)
+import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
@@ -36,7 +37,7 @@ import qualified Kafka.RecordBatch.Response as RecordBatch
 
 data Response = Response
   { throttleTimeMilliseconds :: !Int32
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , sessionId :: !Int32
   , topics :: !(SmallArray Topic)
   , taggedFields :: !(SmallArray TaggedField)
@@ -50,7 +51,7 @@ data Topic = Topic
 
 data Partition = Partition
   { index :: !Int32
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , highWatermark :: !Int64
   , lastStableOffset :: !Int64
   , logStartOffset :: !Int64
@@ -72,7 +73,7 @@ decode !b = Parser.parseBytesEither (parser Ctx.Top <* Parser.endOfInput Ctx.End
 parser :: Context -> Parser Context s Response
 parser ctx = do
   throttleTimeMilliseconds <- Kafka.Parser.int32 (Ctx.Field Ctx.ThrottleTimeMilliseconds ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   sessionId <- Kafka.Parser.int32 (Ctx.Field Ctx.SessionId ctx)
   topics <- Kafka.Parser.compactArray parserTopic (Ctx.Field Ctx.Topics ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
@@ -88,7 +89,7 @@ parserTopic ctx = do
 parserPartition :: Context -> Parser Context s Partition
 parserPartition ctx = do
   index <- Kafka.Parser.int32 (Ctx.Field Ctx.Ix ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   highWatermark <- Kafka.Parser.int64 (Ctx.Field Ctx.HighWatermark ctx)
   lastStableOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.LastStableOffset ctx)
   logStartOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.LogStartOffset ctx)

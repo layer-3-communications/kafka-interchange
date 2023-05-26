@@ -10,7 +10,7 @@ Response
                   1
                   [ Partition
                       { index = 0
-                      , errorCode = 0
+                      , errorCode = None
                       , timestamp = -1
                       , offset = 0
                       , leaderEpoch = 0

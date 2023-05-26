@@ -15,14 +15,15 @@ module Kafka.OffsetFetch.Response.V8
 import Prelude hiding (id)
 
 import Control.Applicative (liftA2)
-import Data.WideWord (Word128)
-import Data.Primitive (SmallArray,PrimArray)
-import Data.Int (Int16,Int32,Int64)
-import Data.Word (Word32)
-import Kafka.Parser.Context (Context)
-import Data.Text (Text)
-import Data.Bytes.Parser (Parser)
 import Data.Bytes (Bytes)
+import Data.Bytes.Parser (Parser)
+import Data.Int (Int16,Int32,Int64)
+import Data.Primitive (SmallArray,PrimArray)
+import Data.Text (Text)
+import Data.WideWord (Word128)
+import Data.Word (Word32)
+import Kafka.ErrorCode (ErrorCode)
+import Kafka.Parser.Context (Context)
 import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
@@ -40,7 +41,7 @@ data Response = Response
 data Group = Group
   { id :: !Text
   , topics :: !(SmallArray Topic)
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
@@ -55,7 +56,7 @@ data Partition = Partition
   , committedOffset :: !Int64
   , committedLeaderEpoch :: !Int32
   , metadata :: !Text
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
 
@@ -73,7 +74,7 @@ parserGroup :: Context -> Parser Context s Group
 parserGroup ctx = do
   id <- Kafka.Parser.compactString (Ctx.Field Ctx.Id ctx)
   topics <- Kafka.Parser.compactArray parserTopic (Ctx.Field Ctx.Topics ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Group{id,topics,errorCode,taggedFields}
 
@@ -90,7 +91,7 @@ parserPartition ctx = do
   committedOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.CommittedOffset ctx)
   committedLeaderEpoch <- Kafka.Parser.int32 (Ctx.Field Ctx.CommittedLeaderEpoch ctx)
   metadata <- Kafka.Parser.compactString (Ctx.Field Ctx.Metadata ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Partition
     { index

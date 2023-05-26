@@ -18,14 +18,14 @@ Response
                                 , committedOffset = -1
                                 , committedLeaderEpoch = -1
                                 , metadata = ""
-                                , errorCode = 0
+                                , errorCode = None
                                 , taggedFields = fromListN 0 []
                                 }
                             ]
                       , taggedFields = fromListN 0 []
                       }
                   ]
-            , errorCode = 0
+            , errorCode = None
             , taggedFields = fromListN 0 []
             }
         ]

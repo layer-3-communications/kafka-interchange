@@ -1,6 +1,6 @@
 Response
   { throttleTimeMilliseconds = 0
-  , errorCode = 0
+  , errorCode = None
   , generationId = 1
   , protocolType = "consumer"
   , protocolName = "range"

@@ -17,7 +17,7 @@ Response
       fromListN
         1
         [ Topic
-            { errorCode = 0
+            { errorCode = None
             , name = "incidents"
             , id = 68953165371037816667232690561789121426
             , internal = False
@@ -25,7 +25,7 @@ Response
                 fromListN
                   1
                   [ Partition
-                      { errorCode = 0
+                      { errorCode = None
                       , index = 0
                       , leaderId = 1
                       , leaderEpoch = 3

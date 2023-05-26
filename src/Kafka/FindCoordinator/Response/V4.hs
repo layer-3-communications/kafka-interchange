@@ -17,8 +17,9 @@ import Data.Int (Int16)
 import Data.Int (Int32)
 import Data.Primitive (SmallArray)
 import Data.Text (Text)
-import Kafka.TaggedField (TaggedField)
+import Kafka.ErrorCode (ErrorCode)
 import Kafka.Parser.Context (Context)
+import Kafka.TaggedField (TaggedField)
 
 import qualified Data.Bytes.Parser as Parser
 import qualified Kafka.Parser.Context as Ctx
@@ -37,7 +38,7 @@ data Coordinator = Coordinator
   , nodeId :: !Int32
   , host :: !Text
   , port :: !Int32
-  , errorCode :: !Int16
+  , errorCode :: !ErrorCode
   , errorMessage :: !Text
   , taggedFields :: !(SmallArray TaggedField)
   } deriving (Show)
@@ -48,7 +49,7 @@ parserCoordinator ctx = do
   nodeId <- Kafka.Parser.int32 (Ctx.Field Ctx.NodeId ctx)
   host <- Kafka.Parser.compactString (Ctx.Field Ctx.Host ctx)
   port <- Kafka.Parser.int32 (Ctx.Field Ctx.Port ctx)
-  errorCode <- Kafka.Parser.int16 (Ctx.Field Ctx.ErrorCode ctx)
+  errorCode <- Kafka.Parser.errorCode (Ctx.Field Ctx.ErrorCode ctx)
   errorMessage <- Kafka.Parser.compactString (Ctx.Field Ctx.ErrorMessage ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Coordinator{key,nodeId,host,port,errorCode,errorMessage,taggedFields}

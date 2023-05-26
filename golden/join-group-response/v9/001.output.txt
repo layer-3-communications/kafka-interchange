@@ -1,6 +1,6 @@
 Response
   { throttleTimeMilliseconds = 0
-  , errorCode = 79
+  , errorCode = MemberIdRequired
   , generationId = -1
   , protocolType = ""
   , protocolName = ""
