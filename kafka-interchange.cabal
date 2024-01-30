@@ -9,121 +9,122 @@ copyright: 2023 Layer 3 Communications
 category: Data
 extra-source-files: README.md
 
-library simple-exchange
-  visibility: public
-  build-depends:
-    , base >= 4.11.1.0 && <5
-    , kafka-interchange
-    , text >=2.0
-    , byteslice >=0.2.8
-    , primitive >=0.8 
-    , bytesmith >=0.3.9
-    , byte-order >=0.1.3
-    , transformers >=0.5.6
-  signatures:
-    Communication
-    Channel
-    Error
-  exposed-modules:
-    Exchange
-  hs-source-dirs: src-simple-exchange
-  default-language: Haskell2010
-  ghc-options: -O2 -Wall
-
--- Inherited signature: Channel and Error
-library simple-exchange-all
-  visibility: public
-  build-depends:
-    , base >=4.10 && <5
-    , kafka-interchange
-    , kafka-interchange:simple-exchange
-  mixins:
-    kafka-interchange:simple-exchange (Exchange as Produce.V9)
-      requires (Communication as Kafka.Produce.V9),
-    kafka-interchange:simple-exchange (Exchange as ApiVersions.V3)
-      requires (Communication as Kafka.ApiVersions.V3),
-    kafka-interchange:simple-exchange (Exchange as Metadata.V12)
-      requires (Communication as Kafka.Metadata.V12),
-    kafka-interchange:simple-exchange (Exchange as SyncGroup.V5)
-      requires (Communication as Kafka.SyncGroup.V5),
-    kafka-interchange:simple-exchange (Exchange as JoinGroup.V9)
-      requires (Communication as Kafka.JoinGroup.V9),
-    kafka-interchange:simple-exchange (Exchange as Fetch.V13)
-      requires (Communication as Kafka.Fetch.V13),
-    kafka-interchange:simple-exchange (Exchange as FindCoordinator.V4)
-      requires (Communication as Kafka.FindCoordinator.V4),
-    kafka-interchange:simple-exchange (Exchange as ListOffsets.V7)
-      requires (Communication as Kafka.ListOffsets.V7),
-    kafka-interchange:simple-exchange (Exchange as InitProducerId.V4)
-      requires (Communication as Kafka.InitProducerId.V4),
-    kafka-interchange:simple-exchange (Exchange as OffsetFetch.V8)
-      requires (Communication as Kafka.OffsetFetch.V8),
-    kafka-interchange:simple-exchange (Exchange as Heartbeat.V4)
-      requires (Communication as Kafka.Heartbeat.V4),
-    kafka-interchange:simple-exchange (Exchange as LeaveGroup.V5)
-      requires (Communication as Kafka.LeaveGroup.V5),
-  exposed-modules:
-    Client
-  hs-source-dirs: src-simple-exchange-all
-  default-language: Haskell2010
-  ghc-options: -O2 -Wall
-
-library exchange
-  visibility: public
-  build-depends:
-    , base >= 4.11.1.0 && <5
-    , kafka-interchange
-    , text >=2.0
-    , byteslice >=0.2.8
-    , primitive >=0.8 
-    , bytesmith >=0.3.9
-    , byte-order >=0.1.3
-  signatures:
-    Communication
-    Channel
-  exposed-modules:
-    Exchange
-  hs-source-dirs: src-exchange
-  default-language: Haskell2010
-  ghc-options: -O2 -Wall
-
--- Inherited signature: Channel
-library exchange-all
-  visibility: public
-  build-depends:
-    , base >=4.10 && <5
-    , kafka-interchange
-    , kafka-interchange:exchange
-  mixins:
-    kafka-interchange:exchange (Exchange as Produce.V9)
-      requires (Communication as Kafka.Produce.V9),
-    kafka-interchange:exchange (Exchange as ApiVersions.V3)
-      requires (Communication as Kafka.ApiVersions.V3),
-    kafka-interchange:exchange (Exchange as Metadata.V12)
-      requires (Communication as Kafka.Metadata.V12),
-    kafka-interchange:exchange (Exchange as SyncGroup.V5)
-      requires (Communication as Kafka.SyncGroup.V5),
-    kafka-interchange:exchange (Exchange as JoinGroup.V9)
-      requires (Communication as Kafka.JoinGroup.V9),
-    kafka-interchange:exchange (Exchange as Fetch.V13)
-      requires (Communication as Kafka.Fetch.V13),
-    kafka-interchange:exchange (Exchange as FindCoordinator.V4)
-      requires (Communication as Kafka.FindCoordinator.V4),
-    kafka-interchange:exchange (Exchange as ListOffsets.V7)
-      requires (Communication as Kafka.ListOffsets.V7),
-    kafka-interchange:exchange (Exchange as InitProducerId.V4)
-      requires (Communication as Kafka.InitProducerId.V4),
-    kafka-interchange:exchange (Exchange as OffsetFetch.V8)
-      requires (Communication as Kafka.OffsetFetch.V8),
-    kafka-interchange:exchange (Exchange as Heartbeat.V4)
-      requires (Communication as Kafka.Heartbeat.V4),
-    kafka-interchange:exchange (Exchange as LeaveGroup.V5)
-      requires (Communication as Kafka.LeaveGroup.V5),
-  exposed-modules:
-    Client
-  hs-source-dirs: src-exchange-all
-  default-language: Haskell2010
-  ghc-options: -O2 -Wall
+-- x -- TODO: Get rid of these exchanges. There is now a better library for this.
+-- x library simple-exchange
+-- x   visibility: public
+-- x   build-depends:
+-- x     , base >= 4.11.1.0 && <5
+-- x     , kafka-interchange
+-- x     , text >=2.0
+-- x     , byteslice >=0.2.8
+-- x     , primitive >=0.8 
+-- x     , bytesmith >=0.3.9
+-- x     , byte-order >=0.1.3
+-- x     , transformers >=0.5.6
+-- x   signatures:
+-- x     Communication
+-- x     Channel
+-- x     Error
+-- x   exposed-modules:
+-- x     Exchange
+-- x   hs-source-dirs: src-simple-exchange
+-- x   default-language: Haskell2010
+-- x   ghc-options: -O2 -Wall
+-- x 
+-- x -- Inherited signature: Channel and Error
+-- x library simple-exchange-all
+-- x   visibility: public
+-- x   build-depends:
+-- x     , base >=4.10 && <5
+-- x     , kafka-interchange
+-- x     , kafka-interchange:simple-exchange
+-- x   mixins:
+-- x     kafka-interchange:simple-exchange (Exchange as Produce.V9)
+-- x       requires (Communication as Kafka.Produce.V9),
+-- x     kafka-interchange:simple-exchange (Exchange as ApiVersions.V3)
+-- x       requires (Communication as Kafka.ApiVersions.V3),
+-- x     kafka-interchange:simple-exchange (Exchange as Metadata.V12)
+-- x       requires (Communication as Kafka.Metadata.V12),
+-- x     kafka-interchange:simple-exchange (Exchange as SyncGroup.V5)
+-- x       requires (Communication as Kafka.SyncGroup.V5),
+-- x     kafka-interchange:simple-exchange (Exchange as JoinGroup.V9)
+-- x       requires (Communication as Kafka.JoinGroup.V9),
+-- x     kafka-interchange:simple-exchange (Exchange as Fetch.V13)
+-- x       requires (Communication as Kafka.Fetch.V13),
+-- x     kafka-interchange:simple-exchange (Exchange as FindCoordinator.V4)
+-- x       requires (Communication as Kafka.FindCoordinator.V4),
+-- x     kafka-interchange:simple-exchange (Exchange as ListOffsets.V7)
+-- x       requires (Communication as Kafka.ListOffsets.V7),
+-- x     kafka-interchange:simple-exchange (Exchange as InitProducerId.V4)
+-- x       requires (Communication as Kafka.InitProducerId.V4),
+-- x     kafka-interchange:simple-exchange (Exchange as OffsetFetch.V8)
+-- x       requires (Communication as Kafka.OffsetFetch.V8),
+-- x     kafka-interchange:simple-exchange (Exchange as Heartbeat.V4)
+-- x       requires (Communication as Kafka.Heartbeat.V4),
+-- x     kafka-interchange:simple-exchange (Exchange as LeaveGroup.V5)
+-- x       requires (Communication as Kafka.LeaveGroup.V5),
+-- x   exposed-modules:
+-- x     Client
+-- x   hs-source-dirs: src-simple-exchange-all
+-- x   default-language: Haskell2010
+-- x   ghc-options: -O2 -Wall
+-- x 
+-- x library exchange
+-- x   visibility: public
+-- x   build-depends:
+-- x     , base >= 4.11.1.0 && <5
+-- x     , kafka-interchange
+-- x     , text >=2.0
+-- x     , byteslice >=0.2.8
+-- x     , primitive >=0.8 
+-- x     , bytesmith >=0.3.9
+-- x     , byte-order >=0.1.3
+-- x   signatures:
+-- x     Communication
+-- x     Channel
+-- x   exposed-modules:
+-- x     Exchange
+-- x   hs-source-dirs: src-exchange
+-- x   default-language: Haskell2010
+-- x   ghc-options: -O2 -Wall
+-- x 
+-- x -- Inherited signature: Channel
+-- x library exchange-all
+-- x   visibility: public
+-- x   build-depends:
+-- x     , base >=4.10 && <5
+-- x     , kafka-interchange
+-- x     , kafka-interchange:exchange
+-- x   mixins:
+-- x     kafka-interchange:exchange (Exchange as Produce.V9)
+-- x       requires (Communication as Kafka.Produce.V9),
+-- x     kafka-interchange:exchange (Exchange as ApiVersions.V3)
+-- x       requires (Communication as Kafka.ApiVersions.V3),
+-- x     kafka-interchange:exchange (Exchange as Metadata.V12)
+-- x       requires (Communication as Kafka.Metadata.V12),
+-- x     kafka-interchange:exchange (Exchange as SyncGroup.V5)
+-- x       requires (Communication as Kafka.SyncGroup.V5),
+-- x     kafka-interchange:exchange (Exchange as JoinGroup.V9)
+-- x       requires (Communication as Kafka.JoinGroup.V9),
+-- x     kafka-interchange:exchange (Exchange as Fetch.V13)
+-- x       requires (Communication as Kafka.Fetch.V13),
+-- x     kafka-interchange:exchange (Exchange as FindCoordinator.V4)
+-- x       requires (Communication as Kafka.FindCoordinator.V4),
+-- x     kafka-interchange:exchange (Exchange as ListOffsets.V7)
+-- x       requires (Communication as Kafka.ListOffsets.V7),
+-- x     kafka-interchange:exchange (Exchange as InitProducerId.V4)
+-- x       requires (Communication as Kafka.InitProducerId.V4),
+-- x     kafka-interchange:exchange (Exchange as OffsetFetch.V8)
+-- x       requires (Communication as Kafka.OffsetFetch.V8),
+-- x     kafka-interchange:exchange (Exchange as Heartbeat.V4)
+-- x       requires (Communication as Kafka.Heartbeat.V4),
+-- x     kafka-interchange:exchange (Exchange as LeaveGroup.V5)
+-- x       requires (Communication as Kafka.LeaveGroup.V5),
+-- x   exposed-modules:
+-- x     Client
+-- x   hs-source-dirs: src-exchange-all
+-- x   default-language: Haskell2010
+-- x   ghc-options: -O2 -Wall
 
 library
   exposed-modules:
@@ -193,15 +194,14 @@ library
     , byteslice >= 0.1.1.0 && < 0.3.0.0
     , bytebuild >= 0.3.14
     , bytesmith >= 0.3 && < 0.4
-    , castagnoli >= 0.2
+    , castagnoli >= 0.2.0.1
     , chronos >= 1.1.5
     , containers >= 0.5
     , contiguous >= 0.6
     , ip >= 1.5.0 && < 1.8
-    , mtl >= 2.2.2 && < 2.3
+    , mtl >= 2.2.2
     , primitive >= 0.7.0.0 && < 0.10
     , primitive-unaligned >= 0.1.1.0 && < 0.2.0.0
-    , primitive-unlifted >= 0.1.1.0 && < 0.2.0.0
     , stm >= 2.5.0.0
     , text >= 2.0
     , text-short >= 0.1.5

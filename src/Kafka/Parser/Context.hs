@@ -1,7 +1,17 @@
+-- Note: This actually gets used in more places than the
+-- parser. Should probably get rid of End.
 module Kafka.Parser.Context
   ( Context(..)
+  , ContextualizedErrorCode(..)
   , Field(..)
   ) where
+
+import Kafka.ErrorCode (ErrorCode)
+
+data ContextualizedErrorCode = ContextualizedErrorCode
+  { context :: !Context
+  , errorCode :: !ErrorCode
+  }
 
 data Context
   = Top

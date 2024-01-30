@@ -1,6 +1,6 @@
 module Kafka.InitProducerId.V4
-  ( Rqst.Request
-  , Resp.Response
+  ( Rqst.Request(Request)
+  , Resp.Response(Response)
   , Rqst.toChunks
   , Resp.decode
   , apiKey

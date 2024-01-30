@@ -2,6 +2,9 @@
 {-# language DerivingStrategies #-}
 {-# language DuplicateRecordFields #-}
 {-# language NamedFieldPuns #-}
+{-# language ScopedTypeVariables #-}
+{-# language TypeApplications #-}
+{-# language OverloadedRecordDot #-}
 
 module Kafka.Metadata.Response.V12
   ( Response(..)
@@ -12,6 +15,9 @@ module Kafka.Metadata.Response.V12
   , parser
   , decode
   , decodeHeaded
+    -- * Predicates
+  , hasErrorCode
+  , findErrorCode
   ) where
 
 import Prelude hiding (id)
@@ -23,16 +29,64 @@ import Data.Int (Int16,Int32)
 import Data.Primitive (SmallArray,PrimArray)
 import Data.Text (Text)
 import Data.WideWord (Word128)
-import Data.Word (Word32)
+import Data.Word (Word32,Word16)
 import Kafka.ErrorCode (ErrorCode)
-import Kafka.Parser.Context (Context)
+import Kafka.Parser.Context (Context(Top,Field,Index))
+import Kafka.Parser.Context (ContextualizedErrorCode(..))
 import Kafka.TaggedField (TaggedField)
+import Data.Monoid (Any(Any),getAny)
 
 import qualified Data.Bytes.Parser as Parser
+import qualified Data.Primitive as PM
+import qualified Kafka.ErrorCode as ErrorCode
 import qualified Kafka.Parser.Context as Ctx
 import qualified Kafka.TaggedField as TaggedField
 import qualified Kafka.Parser
 import qualified Kafka.Header.Response.V1 as Header
+
+-- | Search through all topics and partitions for any error codes
+-- that are not set to @NONE@.
+hasErrorCode :: Response -> Bool
+hasErrorCode Response{topics} = getAny $ foldMap
+  (\t -> Any (t.errorCode /= ErrorCode.None) <> foldMap
+    (\p -> Any (p.errorCode /= ErrorCode.None)
+    ) t.partitions
+  ) topics
+
+-- | Find the first error code of any kind in the response.
+-- This looks for topic-level error codes first and then
+-- moves on searching for partition-level error codes.
+findErrorCode :: Response -> Maybe ContextualizedErrorCode
+findErrorCode Response{topics}
+  | c@Just{} <- goTopic 0 = c
+  | c@Just{} <- goPartitionOuter 0 = c
+  | otherwise = Nothing
+  where
+  ctxTopics = Field Ctx.Topics Top
+  goTopic :: Int -> Maybe ContextualizedErrorCode
+  goTopic !ix = if ix < PM.sizeofSmallArray topics
+    then
+      let t = PM.indexSmallArray topics ix
+       in case t.errorCode of
+            ErrorCode.None -> goTopic (ix + 1)
+            e -> Just (ContextualizedErrorCode (Index ix ctxTopics) e)
+    else Nothing
+  goPartitionOuter :: Int -> Maybe ContextualizedErrorCode
+  goPartitionOuter !ix = if ix < PM.sizeofSmallArray topics
+    then
+      let t = PM.indexSmallArray topics ix
+          ps = t.partitions
+          goPartitionInner !j = if j < PM.sizeofSmallArray ps
+            then
+              let p = PM.indexSmallArray ps j
+               in case p.errorCode of
+                    ErrorCode.None -> goPartitionInner (j + 1)
+                    e -> Just (ContextualizedErrorCode (Index j (Field Ctx.Partitions (Index ix ctxTopics))) e)
+            else Nothing
+       in case goPartitionInner 0 of
+            Nothing -> goPartitionOuter (ix + 1)
+            x@Just{} -> x
+    else Nothing
 
 data Response = Response
   { throttleTimeMilliseconds :: !Int32
@@ -46,7 +100,10 @@ data Response = Response
 data Broker = Broker
   { nodeId :: !Int32
   , host :: !Text
-  , port :: !Int32
+  , port :: !Word16
+    -- ^ Even though Kafka has this as a 32-bit signed integer,
+    -- I believe that it should only ever be a 16-bit unsigned
+    -- integer.
   , rack :: !Text
   , taggedFields :: !(SmallArray TaggedField)
   } deriving stock (Show)
@@ -105,7 +162,10 @@ parserBroker :: Context -> Parser Context s Broker
 parserBroker ctx = do
   nodeId <- Kafka.Parser.int32 (Ctx.Field Ctx.NodeId ctx)
   host <- Kafka.Parser.compactString (Ctx.Field Ctx.Host ctx)
-  port <- Kafka.Parser.int32 (Ctx.Field Ctx.Port ctx)
+  port32 <- Kafka.Parser.int32 (Ctx.Field Ctx.Port ctx)
+  port :: Word16 <- if port32 < 0 || port32 > 65535
+    then Kafka.Parser.fail (Ctx.Field Ctx.Port ctx)
+    else pure $! fromIntegral @Int32 @Word16 port32
   rack <- Kafka.Parser.compactString (Ctx.Field Ctx.Rack ctx)
   taggedFields <- TaggedField.parserMany (Ctx.Field Ctx.TagBuffer ctx)
   pure Broker{nodeId,host,port,rack,taggedFields}

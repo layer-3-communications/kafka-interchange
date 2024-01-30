@@ -17,9 +17,12 @@ module Kafka.Metadata.Request.V12
   ( Request(..)
   , Topic(..)
   , toChunks
+    -- * Request Construction
+  , all
+  , none
   ) where
 
-import Prelude hiding (id)
+import Prelude hiding (id,all)
 
 import Data.Int (Int16)
 import Data.Text (Text)
@@ -29,6 +32,26 @@ import Data.WideWord (Word128)
 import Data.Primitive (SmallArray)
 
 import qualified Kafka.Builder as Builder
+
+-- | A request for all topics. Authorized operations are
+-- not requested.
+all :: Request
+all = Request
+  { topics = Nothing
+  , allowAutoTopicCreation = False
+  , includeTopicAuthorizedOperations = False
+  }
+
+-- | A request for no topics. Authorized operations are
+-- not requested. This is useful in situations where a user
+-- wants to discover what brokers are in the cluster but does
+-- not care about the topics.
+none :: Request
+none = Request
+  { topics = Just mempty
+  , allowAutoTopicCreation = False
+  , includeTopicAuthorizedOperations = False
+  }
 
 -- | Kafka API Versions request V3.
 data Request = Request

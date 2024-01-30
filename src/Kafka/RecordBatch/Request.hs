@@ -74,9 +74,17 @@ data RecordBatch = RecordBatch
   , baseTimestamp :: !Int64
   , maxTimestamp :: !Int64
   , producerId :: !Int64
+    -- ^ Producer ID. This comes from the @InitProducerId@ response.
   , producerEpoch :: !Int16
+    -- ^ Producer epoch. This comes from the @InitProducerId@ response.
   , baseSequence :: !Int32
+    -- ^ This is not documented very well anywhere, but it appears that,
+    -- for a producer (identifier by a producer id), the sequence number
+    -- starts as zero and is increased by 1 for every message that is produced.
+    -- So, if the first base sequence number is 0, and a batch of 50 messages
+    -- is produces, then next base sequence number will be 50.
   , recordsCount :: !Int32
+    -- ^ Number of records.
   , recordsPayload :: !Chunks
     -- ^ Records might be compressed. Look at @attributes@ to check for
     -- compression, and with that information, you can decode this field.

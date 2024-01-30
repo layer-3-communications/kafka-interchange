@@ -19,6 +19,8 @@ module Kafka.Produce.Request.V9
   , Partition(..)
   , encode
   , toChunks
+    -- * Request Construction
+  , singleton
   ) where
 
 import Data.Int
@@ -27,13 +29,13 @@ import Data.Text (Text)
 import Kafka.RecordBatch.Request (RecordBatch(..))
 import Data.Bytes.Chunks (Chunks)
 
+import qualified Arithmetic.Nat as Nat
+import qualified Data.Bytes.Chunks as Chunks
+import qualified Data.Primitive.Contiguous as C
+import qualified Kafka.Acknowledgments as Acknowledgments
 import qualified Kafka.Builder as Builder
 import qualified Kafka.Builder.Bounded as Bounded
-import qualified Data.Bytes.Chunks as Chunks
-import qualified Arithmetic.Nat as Nat
 import qualified Kafka.RecordBatch.Request as RecordBatch
-
-import qualified Kafka.Acknowledgments as Acknowledgments
 
 -- Description from Kafka docs:
 --
@@ -46,6 +48,30 @@ import qualified Kafka.Acknowledgments as Acknowledgments
 -- >     partition_data => index records TAG_BUFFER 
 -- >       index => INT32
 -- >       records => COMPACT_RECORDS
+
+-- | Create a request for producing to a single partition of a single topic.
+-- Transactions are not used.
+singleton ::
+     Acknowledgments.Acknowledgments -- ^ Acknowledgements
+  -> Int32 -- ^ Timeout milliseconds
+  -> Text -- ^ Topic name
+  -> Int32 -- ^ Partition index
+  -> RecordBatch -- ^ Records
+  -> Request
+singleton !acks !timeoutMs !topicName !partitionIx records = Request
+  { transactionalId=Nothing
+  , acks=acks
+  , timeoutMilliseconds=timeoutMs
+  , topicData=C.singleton $ Topic
+    { name=topicName
+    , partitions=C.singleton $ Partition
+      { index=partitionIx
+      , records=records
+      }
+    }
+  }
+       
+  
 
 toChunks :: Request -> Chunks
 toChunks = Builder.run 256 . encode
