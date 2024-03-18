@@ -1,9 +1,13 @@
+{-# language BangPatterns #-}
+{-# language LambdaCase #-}
+
 -- Note: This actually gets used in more places than the
 -- parser. Should probably get rid of End.
 module Kafka.Parser.Context
   ( Context(..)
   , ContextualizedErrorCode(..)
   , Field(..)
+  , encodeContextString
   ) where
 
 import Kafka.ErrorCode (ErrorCode)
@@ -12,6 +16,13 @@ data ContextualizedErrorCode = ContextualizedErrorCode
   { context :: !Context
   , errorCode :: !ErrorCode
   }
+
+encodeContextString :: Context -> String
+encodeContextString = \case
+  Top -> ""
+  End -> "!"
+  Index !ix c -> encodeContextString c ++ "." ++ show ix
+  Field f c -> encodeContextString c ++ "." ++ show f
 
 data Context
   = Top
