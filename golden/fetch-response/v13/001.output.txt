@@ -3,255 +3,249 @@ Response
   , errorCode = None
   , sessionId = 1504900062
   , topics =
-      fromListN
-        1
-        [ Topic
-            { id = 265319427525095655998139032066294586608
-            , partitions =
-                fromListN
-                  1
-                  [ Partition
-                      { index = 0
-                      , errorCode = None
-                      , highWatermark = 6
-                      , lastStableOffset = 6
-                      , logStartOffset = 0
-                      , preferredReadReplica = -1
-                      , records =
-                          fromListN
-                            2
-                            [ RecordBatch
-                                { baseOffset = 0
-                                , partitionLeaderEpoch = 0
-                                , attributes = 0
-                                , lastOffsetDelta = 2
-                                , baseTimestamp = 1683224678481
-                                , maxTimestamp = 1683224678497
-                                , producerId = 0
-                                , producerEpoch = 0
-                                , baseSequence = 0
-                                , recordsCount = 3
-                                , recordsPayload =
-                                    [ 0x3c
-                                    , 0x00
-                                    , 0x00
-                                    , 0x00
-                                    , 0x01
-                                    , 0x0e
-                                    , 0x68
-                                    , 0x65
-                                    , 0x61
-                                    , 0x6c
-                                    , 0x74
-                                    , 0x68
-                                    , 0x79
-                                    , 0x02
-                                    , 0x08
-                                    , 0x68
-                                    , 0x6f
-                                    , 0x73
-                                    , 0x74
-                                    , 0x16
-                                    , 0x65
-                                    , 0x78
-                                    , 0x61
-                                    , 0x6d
-                                    , 0x70
-                                    , 0x6c
-                                    , 0x65
-                                    , 0x2e
-                                    , 0x63
-                                    , 0x6f
-                                    , 0x6d
-                                    , 0x40
-                                    , 0x00
-                                    , 0x20
-                                    , 0x02
-                                    , 0x01
-                                    , 0x12
-                                    , 0x75
-                                    , 0x6e
-                                    , 0x68
-                                    , 0x65
-                                    , 0x61
-                                    , 0x6c
-                                    , 0x74
-                                    , 0x68
-                                    , 0x79
-                                    , 0x02
-                                    , 0x08
-                                    , 0x68
-                                    , 0x6f
-                                    , 0x73
-                                    , 0x74
-                                    , 0x16
-                                    , 0x65
-                                    , 0x78
-                                    , 0x61
-                                    , 0x6d
-                                    , 0x70
-                                    , 0x6c
-                                    , 0x65
-                                    , 0x2e
-                                    , 0x63
-                                    , 0x6f
-                                    , 0x6d
-                                    , 0x44
-                                    , 0x00
-                                    , 0x20
-                                    , 0x04
-                                    , 0x01
-                                    , 0x0e
-                                    , 0x68
-                                    , 0x65
-                                    , 0x61
-                                    , 0x6c
-                                    , 0x74
-                                    , 0x68
-                                    , 0x79
-                                    , 0x02
-                                    , 0x08
-                                    , 0x68
-                                    , 0x6f
-                                    , 0x73
-                                    , 0x74
-                                    , 0x1e
-                                    , 0x66
-                                    , 0x6f
-                                    , 0x6f
-                                    , 0x2e
-                                    , 0x65
-                                    , 0x78
-                                    , 0x61
-                                    , 0x6d
-                                    , 0x70
-                                    , 0x6c
-                                    , 0x65
-                                    , 0x2e
-                                    , 0x63
-                                    , 0x6f
-                                    , 0x6d
-                                    ]
-                                }
-                            , RecordBatch
-                                { baseOffset = 3
-                                , partitionLeaderEpoch = 0
-                                , attributes = 0
-                                , lastOffsetDelta = 2
-                                , baseTimestamp = 1683224692265
-                                , maxTimestamp = 1683224692284
-                                , producerId = 1
-                                , producerEpoch = 0
-                                , baseSequence = 0
-                                , recordsCount = 3
-                                , recordsPayload =
-                                    [ 0x3c
-                                    , 0x00
-                                    , 0x00
-                                    , 0x00
-                                    , 0x01
-                                    , 0x0e
-                                    , 0x68
-                                    , 0x65
-                                    , 0x61
-                                    , 0x6c
-                                    , 0x74
-                                    , 0x68
-                                    , 0x79
-                                    , 0x02
-                                    , 0x08
-                                    , 0x68
-                                    , 0x6f
-                                    , 0x73
-                                    , 0x74
-                                    , 0x16
-                                    , 0x65
-                                    , 0x78
-                                    , 0x61
-                                    , 0x6d
-                                    , 0x70
-                                    , 0x6c
-                                    , 0x65
-                                    , 0x2e
-                                    , 0x63
-                                    , 0x6f
-                                    , 0x6d
-                                    , 0x40
-                                    , 0x00
-                                    , 0x26
-                                    , 0x02
-                                    , 0x01
-                                    , 0x12
-                                    , 0x75
-                                    , 0x6e
-                                    , 0x68
-                                    , 0x65
-                                    , 0x61
-                                    , 0x6c
-                                    , 0x74
-                                    , 0x68
-                                    , 0x79
-                                    , 0x02
-                                    , 0x08
-                                    , 0x68
-                                    , 0x6f
-                                    , 0x73
-                                    , 0x74
-                                    , 0x16
-                                    , 0x65
-                                    , 0x78
-                                    , 0x61
-                                    , 0x6d
-                                    , 0x70
-                                    , 0x6c
-                                    , 0x65
-                                    , 0x2e
-                                    , 0x63
-                                    , 0x6f
-                                    , 0x6d
-                                    , 0x44
-                                    , 0x00
-                                    , 0x26
-                                    , 0x04
-                                    , 0x01
-                                    , 0x0e
-                                    , 0x68
-                                    , 0x65
-                                    , 0x61
-                                    , 0x6c
-                                    , 0x74
-                                    , 0x68
-                                    , 0x79
-                                    , 0x02
-                                    , 0x08
-                                    , 0x68
-                                    , 0x6f
-                                    , 0x73
-                                    , 0x74
-                                    , 0x1e
-                                    , 0x66
-                                    , 0x6f
-                                    , 0x6f
-                                    , 0x2e
-                                    , 0x65
-                                    , 0x78
-                                    , 0x61
-                                    , 0x6d
-                                    , 0x70
-                                    , 0x6c
-                                    , 0x65
-                                    , 0x2e
-                                    , 0x63
-                                    , 0x6f
-                                    , 0x6d
-                                    ]
-                                }
-                            ]
-                      , taggedFields = fromListN 0 []
-                      }
-                  ]
-            , taggedFields = fromListN 0 []
-            }
-        ]
-  , taggedFields = fromListN 0 []
+      [ Topic
+          { id = 265319427525095655998139032066294586608
+          , partitions =
+              [ Partition
+                  { index = 0
+                  , errorCode = None
+                  , highWatermark = 6
+                  , lastStableOffset = 6
+                  , logStartOffset = 0
+                  , preferredReadReplica = -1
+                  , records =
+                      [ RecordBatch
+                          { baseOffset = 0
+                          , partitionLeaderEpoch = 0
+                          , attributes = 0
+                          , lastOffsetDelta = 2
+                          , baseTimestamp = 1683224678481
+                          , maxTimestamp = 1683224678497
+                          , producerId = 0
+                          , producerEpoch = 0
+                          , baseSequence = 0
+                          , recordsCount = 3
+                          , recordsPayload =
+                              [ 0x3c
+                              , 0x00
+                              , 0x00
+                              , 0x00
+                              , 0x01
+                              , 0x0e
+                              , 0x68
+                              , 0x65
+                              , 0x61
+                              , 0x6c
+                              , 0x74
+                              , 0x68
+                              , 0x79
+                              , 0x02
+                              , 0x08
+                              , 0x68
+                              , 0x6f
+                              , 0x73
+                              , 0x74
+                              , 0x16
+                              , 0x65
+                              , 0x78
+                              , 0x61
+                              , 0x6d
+                              , 0x70
+                              , 0x6c
+                              , 0x65
+                              , 0x2e
+                              , 0x63
+                              , 0x6f
+                              , 0x6d
+                              , 0x40
+                              , 0x00
+                              , 0x20
+                              , 0x02
+                              , 0x01
+                              , 0x12
+                              , 0x75
+                              , 0x6e
+                              , 0x68
+                              , 0x65
+                              , 0x61
+                              , 0x6c
+                              , 0x74
+                              , 0x68
+                              , 0x79
+                              , 0x02
+                              , 0x08
+                              , 0x68
+                              , 0x6f
+                              , 0x73
+                              , 0x74
+                              , 0x16
+                              , 0x65
+                              , 0x78
+                              , 0x61
+                              , 0x6d
+                              , 0x70
+                              , 0x6c
+                              , 0x65
+                              , 0x2e
+                              , 0x63
+                              , 0x6f
+                              , 0x6d
+                              , 0x44
+                              , 0x00
+                              , 0x20
+                              , 0x04
+                              , 0x01
+                              , 0x0e
+                              , 0x68
+                              , 0x65
+                              , 0x61
+                              , 0x6c
+                              , 0x74
+                              , 0x68
+                              , 0x79
+                              , 0x02
+                              , 0x08
+                              , 0x68
+                              , 0x6f
+                              , 0x73
+                              , 0x74
+                              , 0x1e
+                              , 0x66
+                              , 0x6f
+                              , 0x6f
+                              , 0x2e
+                              , 0x65
+                              , 0x78
+                              , 0x61
+                              , 0x6d
+                              , 0x70
+                              , 0x6c
+                              , 0x65
+                              , 0x2e
+                              , 0x63
+                              , 0x6f
+                              , 0x6d
+                              ]
+                          }
+                      , RecordBatch
+                          { baseOffset = 3
+                          , partitionLeaderEpoch = 0
+                          , attributes = 0
+                          , lastOffsetDelta = 2
+                          , baseTimestamp = 1683224692265
+                          , maxTimestamp = 1683224692284
+                          , producerId = 1
+                          , producerEpoch = 0
+                          , baseSequence = 0
+                          , recordsCount = 3
+                          , recordsPayload =
+                              [ 0x3c
+                              , 0x00
+                              , 0x00
+                              , 0x00
+                              , 0x01
+                              , 0x0e
+                              , 0x68
+                              , 0x65
+                              , 0x61
+                              , 0x6c
+                              , 0x74
+                              , 0x68
+                              , 0x79
+                              , 0x02
+                              , 0x08
+                              , 0x68
+                              , 0x6f
+                              , 0x73
+                              , 0x74
+                              , 0x16
+                              , 0x65
+                              , 0x78
+                              , 0x61
+                              , 0x6d
+                              , 0x70
+                              , 0x6c
+                              , 0x65
+                              , 0x2e
+                              , 0x63
+                              , 0x6f
+                              , 0x6d
+                              , 0x40
+                              , 0x00
+                              , 0x26
+                              , 0x02
+                              , 0x01
+                              , 0x12
+                              , 0x75
+                              , 0x6e
+                              , 0x68
+                              , 0x65
+                              , 0x61
+                              , 0x6c
+                              , 0x74
+                              , 0x68
+                              , 0x79
+                              , 0x02
+                              , 0x08
+                              , 0x68
+                              , 0x6f
+                              , 0x73
+                              , 0x74
+                              , 0x16
+                              , 0x65
+                              , 0x78
+                              , 0x61
+                              , 0x6d
+                              , 0x70
+                              , 0x6c
+                              , 0x65
+                              , 0x2e
+                              , 0x63
+                              , 0x6f
+                              , 0x6d
+                              , 0x44
+                              , 0x00
+                              , 0x26
+                              , 0x04
+                              , 0x01
+                              , 0x0e
+                              , 0x68
+                              , 0x65
+                              , 0x61
+                              , 0x6c
+                              , 0x74
+                              , 0x68
+                              , 0x79
+                              , 0x02
+                              , 0x08
+                              , 0x68
+                              , 0x6f
+                              , 0x73
+                              , 0x74
+                              , 0x1e
+                              , 0x66
+                              , 0x6f
+                              , 0x6f
+                              , 0x2e
+                              , 0x65
+                              , 0x78
+                              , 0x61
+                              , 0x6d
+                              , 0x70
+                              , 0x6c
+                              , 0x65
+                              , 0x2e
+                              , 0x63
+                              , 0x6f
+                              , 0x6d
+                              ]
+                          }
+                      ]
+                  , taggedFields = []
+                  }
+              ]
+          , taggedFields = []
+          }
+      ]
+  , taggedFields = []
   }

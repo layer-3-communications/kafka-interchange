@@ -9,41 +9,39 @@ Response
   , memberId =
       "console-consumer-b62c9429-29d9-4838-a948-9188cc48d5c7"
   , members =
-      fromListN
-        1
-        [ Member
-            { memberId =
-                "console-consumer-b62c9429-29d9-4838-a948-9188cc48d5c7"
-            , groupInstanceId = ""
-            , metadata =
-                [ 0x00
-                , 0x01
-                , 0x00
-                , 0x00
-                , 0x00
-                , 0x01
-                , 0x00
-                , 0x09
-                , 0x69
-                , 0x6e
-                , 0x63
-                , 0x69
-                , 0x64
-                , 0x65
-                , 0x6e
-                , 0x74
-                , 0x73
-                , 0xff
-                , 0xff
-                , 0xff
-                , 0xff
-                , 0x00
-                , 0x00
-                , 0x00
-                , 0x00
-                ]
-            , taggedFields = fromListN 0 []
-            }
-        ]
-  , taggedFields = fromListN 0 []
+      [ Member
+          { memberId =
+              "console-consumer-b62c9429-29d9-4838-a948-9188cc48d5c7"
+          , groupInstanceId = ""
+          , metadata =
+              [ 0x00
+              , 0x01
+              , 0x00
+              , 0x00
+              , 0x00
+              , 0x01
+              , 0x00
+              , 0x09
+              , 0x69
+              , 0x6e
+              , 0x63
+              , 0x69
+              , 0x64
+              , 0x65
+              , 0x6e
+              , 0x74
+              , 0x73
+              , 0xff
+              , 0xff
+              , 0xff
+              , 0xff
+              , 0x00
+              , 0x00
+              , 0x00
+              , 0x00
+              ]
+          , taggedFields = []
+          }
+      ]
+  , taggedFields = []
   }

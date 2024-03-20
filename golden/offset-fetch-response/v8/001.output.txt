@@ -1,33 +1,27 @@
 Response
   { throttleTimeMilliseconds = 0
   , groups =
-      fromListN
-        1
-        [ Group
-            { id = "console-consumer-56596"
-            , topics =
-                fromListN
-                  1
-                  [ Topic
-                      { name = "incidents"
-                      , partitions =
-                          fromListN
-                            1
-                            [ Partition
-                                { index = 0
-                                , committedOffset = -1
-                                , committedLeaderEpoch = -1
-                                , metadata = ""
-                                , errorCode = None
-                                , taggedFields = fromListN 0 []
-                                }
-                            ]
-                      , taggedFields = fromListN 0 []
-                      }
-                  ]
-            , errorCode = None
-            , taggedFields = fromListN 0 []
-            }
-        ]
-  , taggedFields = fromListN 0 []
+      [ Group
+          { id = "console-consumer-56596"
+          , topics =
+              [ Topic
+                  { name = "incidents"
+                  , partitions =
+                      [ Partition
+                          { index = 0
+                          , committedOffset = -1
+                          , committedLeaderEpoch = -1
+                          , metadata = ""
+                          , errorCode = None
+                          , taggedFields = []
+                          }
+                      ]
+                  , taggedFields = []
+                  }
+              ]
+          , errorCode = None
+          , taggedFields = []
+          }
+      ]
+  , taggedFields = []
   }

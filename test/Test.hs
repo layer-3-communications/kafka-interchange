@@ -22,6 +22,7 @@ import Text.Show.Pretty (ppShow)
 import KafkaFromJson ()
 
 import qualified Data.Aeson as Aeson
+import qualified Data.Base16.Types
 import qualified Data.ByteString.Base16 as Base16
 import qualified Data.ByteString.Char8 as BC8
 import qualified Data.ByteString.Lazy.Char8 as LBC8
@@ -33,8 +34,8 @@ import qualified Data.Bytes.Text.Latin1 as Latin1
 import qualified Data.List as List
 import qualified Data.Primitive as PM
 import qualified GHC.Exts as Exts
-import qualified Kafka.ApiKey as ApiKey
 import qualified Kafka.Acknowledgments as Acknowledgments
+import qualified Kafka.ApiKey as ApiKey
 import qualified Kafka.ApiVersions.Request.V3 as ApiVersionsReqV3
 import qualified Kafka.ApiVersions.Response.V3
 import qualified Kafka.ApiVersions.V3 as ApiVersionsV3
@@ -535,6 +536,7 @@ prettyByteArray :: ByteArray -> String
 prettyByteArray =
     injectSpaces
   . BC8.unpack
+  . Data.Base16.Types.extractBase16
   . Base16.encodeBase16'
   . Bytes.toByteString
   . Bytes.fromByteArray

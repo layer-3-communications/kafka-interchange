@@ -8,11 +8,12 @@ module KafkaFromJson () where
 import Data.WideWord (Word128)
 import Data.Aeson (FromJSON,parseJSON)
 import Data.Aeson.TH (deriveFromJSON,defaultOptions)
-import Data.ByteString.Base16 (decodeBase16')
+import Data.ByteString.Base16 (decodeBase16Untyped)
 import Data.Bytes (Bytes)
 
 import qualified Data.Aeson as Aeson
 import qualified Data.Bytes as Bytes
+import qualified Data.Text.Encoding as TE
 
 import qualified Kafka.Fetch.Request.V13
 import qualified Kafka.FindCoordinator.Request.V4
@@ -31,7 +32,7 @@ instance FromJSON Word128 where
 
 instance FromJSON Bytes where
   parseJSON = Aeson.withText "Bytes" $ \t ->
-    case decodeBase16' t of
+    case decodeBase16Untyped (TE.encodeUtf8 t) of
       Left{} -> fail "not base16-encoded bytes"
       Right bs -> pure (Bytes.fromByteString bs)
 

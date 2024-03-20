@@ -1,43 +1,37 @@
 Response
   { throttleTimeMilliseconds = 0
   , brokers =
-      fromListN
-        1
-        [ Broker
-            { nodeId = 1
-            , host = "localhost"
-            , port = 9092
-            , rack = ""
-            , taggedFields = fromListN 0 []
-            }
-        ]
+      [ Broker
+          { nodeId = 1
+          , host = "localhost"
+          , port = 9092
+          , rack = ""
+          , taggedFields = []
+          }
+      ]
   , clusterId = "yBNMd-CcQ76SLr-d4k-Rdg"
   , controllerId = 1
   , topics =
-      fromListN
-        1
-        [ Topic
-            { errorCode = None
-            , name = "incidents"
-            , id = 68953165371037816667232690561789121426
-            , internal = False
-            , partitions =
-                fromListN
-                  1
-                  [ Partition
-                      { errorCode = None
-                      , index = 0
-                      , leaderId = 1
-                      , leaderEpoch = 3
-                      , replicaNodes = fromListN 1 [ 1 ]
-                      , isrNodes = fromListN 1 [ 1 ]
-                      , offlineReplicas = fromListN 0 []
-                      , taggedFields = fromListN 0 []
-                      }
-                  ]
-            , authorizedOperations = 2147483648
-            , taggedFields = fromListN 0 []
-            }
-        ]
-  , taggedFields = fromListN 0 []
+      [ Topic
+          { errorCode = None
+          , name = "incidents"
+          , id = 68953165371037816667232690561789121426
+          , internal = False
+          , partitions =
+              [ Partition
+                  { errorCode = None
+                  , index = 0
+                  , leaderId = 1
+                  , leaderEpoch = 3
+                  , replicaNodes = [ 1 ]
+                  , isrNodes = [ 1 ]
+                  , offlineReplicas = []
+                  , taggedFields = []
+                  }
+              ]
+          , authorizedOperations = 2147483648
+          , taggedFields = []
+          }
+      ]
+  , taggedFields = []
   }

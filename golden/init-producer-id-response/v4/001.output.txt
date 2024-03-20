@@ -3,5 +3,5 @@ Response
   , errorCode = None
   , producerId = 1000
   , producerEpoch = 0
-  , taggedFields = fromListN 0 []
+  , taggedFields = []
   }

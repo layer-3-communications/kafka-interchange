@@ -1,5 +1,5 @@
 Subscription
-  { topics = fromListN 1 [ "incidents" ]
+  { topics = [ "incidents" ]
   , userData = [ 0xff , 0xff , 0xff , 0xff ]
-  , ownedPartitions = fromListN 0 []
+  , ownedPartitions = []
   }

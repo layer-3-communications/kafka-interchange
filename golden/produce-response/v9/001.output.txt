@@ -1,26 +1,22 @@
 Response
   { topics =
-      fromListN
-        1
-        [ Topic
-            { name = "incidents"
-            , partitions =
-                fromListN
-                  1
-                  [ Partition
-                      { index = 0
-                      , errorCode = None
-                      , baseOffset = 1
-                      , logAppendTimeMilliseconds = -1
-                      , logStartOffset = 0
-                      , errors = fromListN 0 []
-                      , errorMessage = ""
-                      , taggedFields = fromListN 0 []
-                      }
-                  ]
-            , taggedFields = fromListN 0 []
-            }
-        ]
+      [ Topic
+          { name = "incidents"
+          , partitions =
+              [ Partition
+                  { index = 0
+                  , errorCode = None
+                  , baseOffset = 1
+                  , logAppendTimeMilliseconds = -1
+                  , logStartOffset = 0
+                  , errors = []
+                  , errorMessage = ""
+                  , taggedFields = []
+                  }
+              ]
+          , taggedFields = []
+          }
+      ]
   , throttleTimeMilliseconds = 0
-  , taggedFields = fromListN 0 []
+  , taggedFields = []
   }

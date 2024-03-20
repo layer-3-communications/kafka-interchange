@@ -34,5 +34,5 @@ Response
       , 0xff
       , 0xff
       ]
-  , taggedFields = fromListN 0 []
+  , taggedFields = []
   }

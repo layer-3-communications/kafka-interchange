@@ -1,24 +1,20 @@
 Response
   { throttleTimeMilliseconds = 0
   , topics =
-      fromListN
-        1
-        [ Topic
-            { name = "incidents"
-            , partitions =
-                fromListN
-                  1
-                  [ Partition
-                      { index = 0
-                      , errorCode = None
-                      , timestamp = -1
-                      , offset = 0
-                      , leaderEpoch = 0
-                      , taggedFields = fromListN 0 []
-                      }
-                  ]
-            , taggedFields = fromListN 0 []
-            }
-        ]
-  , taggedFields = fromListN 0 []
+      [ Topic
+          { name = "incidents"
+          , partitions =
+              [ Partition
+                  { index = 0
+                  , errorCode = None
+                  , timestamp = -1
+                  , offset = 0
+                  , leaderEpoch = 0
+                  , taggedFields = []
+                  }
+              ]
+          , taggedFields = []
+          }
+      ]
+  , taggedFields = []
   }

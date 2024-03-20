@@ -8,6 +8,6 @@ Response
   , skipAssignment = False
   , memberId =
       "console-consumer-b62c9429-29d9-4838-a948-9188cc48d5c7"
-  , members = fromListN 0 []
-  , taggedFields = fromListN 0 []
+  , members = []
+  , taggedFields = []
   }
