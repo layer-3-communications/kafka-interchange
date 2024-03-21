@@ -1,6 +1,6 @@
 cabal-version: 3.4
 name: kafka-interchange
-version: 0.1
+version: 0.2.0.0
 license: BSD-3-Clause
 license-file: LICENSE
 author: Andrew Martin
@@ -8,6 +8,7 @@ maintainer: amartin@layer3com.com
 copyright: 2023 Layer 3 Communications
 category: Data
 extra-source-files: README.md
+synopsis: Serialization for kafka wire protocol
 
 library
   exposed-modules:
