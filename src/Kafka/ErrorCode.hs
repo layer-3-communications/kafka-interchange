@@ -1,10 +1,14 @@
 {-# language DerivingStrategies #-}
+{-# language OverloadedStrings #-}
 {-# language GeneralizedNewtypeDeriving #-}
 {-# language PatternSynonyms #-}
 
 module Kafka.ErrorCode
   ( -- * Type
     ErrorCode(..)
+    -- * Encode
+  , encodeText
+  , encodeShortText
     -- * Patterns
   , pattern UnknownServerError
   , pattern None
@@ -119,12 +123,134 @@ module Kafka.ErrorCode
   ) where
 
 import Data.Int (Int16)
+import Data.Text (Text)
+import Data.Text.Short (ShortText)
+
+import qualified Data.Text.Short as TS
 
 -- | An ErrorCode. This is given its own type because it improves a lot
 -- of derived 'Show' instances and because it makes several type
 -- signatures more clear.
 newtype ErrorCode = ErrorCode Int16
   deriving newtype (Eq)
+
+encodeText :: ErrorCode -> Text
+{-# inline encodeText #-}
+encodeText = TS.toText . encodeShortText
+
+encodeShortText :: ErrorCode -> ShortText
+encodeShortText c@(ErrorCode e) = case c of
+  UnknownServerError -> "UnknownServerError"
+  None -> "None"
+  OffsetOutOfRange -> "OffsetOutOfRange"
+  CorruptMessage -> "CorruptMessage"
+  UnknownTopicOrPartition -> "UnknownTopicOrPartition"
+  InvalidFetchSize -> "InvalidFetchSize"
+  LeaderNotAvailable -> "LeaderNotAvailable"
+  NotLeaderOrFollower -> "NotLeaderOrFollower"
+  RequestTimedOut -> "RequestTimedOut"
+  BrokerNotAvailable -> "BrokerNotAvailable"
+  ReplicaNotAvailable -> "ReplicaNotAvailable"
+  MessageTooLarge -> "MessageTooLarge"
+  StaleControllerEpoch -> "StaleControllerEpoch"
+  OffsetMetadataTooLarge -> "OffsetMetadataTooLarge"
+  NetworkException -> "NetworkException"
+  CoordinatorLoadInProgress -> "CoordinatorLoadInProgress"
+  CoordinatorNotAvailable -> "CoordinatorNotAvailable"
+  NotCoordinator -> "NotCoordinator"
+  InvalidTopicException -> "InvalidTopicException"
+  RecordListTooLarge -> "RecordListTooLarge"
+  NotEnoughReplicas -> "NotEnoughReplicas"
+  NotEnoughReplicasAfterAppend -> "NotEnoughReplicasAfterAppend"
+  InvalidRequiredAcks -> "InvalidRequiredAcks"
+  IllegalGeneration -> "IllegalGeneration"
+  InconsistentGroupProtocol -> "InconsistentGroupProtocol"
+  InvalidGroupId -> "InvalidGroupId"
+  UnknownMemberId -> "UnknownMemberId"
+  InvalidSessionTimeout -> "InvalidSessionTimeout"
+  RebalanceInProgress -> "RebalanceInProgress"
+  InvalidCommitOffsetSize -> "InvalidCommitOffsetSize"
+  TopicAuthorizationFailed -> "TopicAuthorizationFailed"
+  GroupAuthorizationFailed -> "GroupAuthorizationFailed"
+  ClusterAuthorizationFailed -> "ClusterAuthorizationFailed"
+  InvalidTimestamp -> "InvalidTimestamp"
+  UnsupportedSaslMechanism -> "UnsupportedSaslMechanism"
+  IllegalSaslState -> "IllegalSaslState"
+  UnsupportedVersion -> "UnsupportedVersion"
+  TopicAlreadyExists -> "TopicAlreadyExists"
+  InvalidPartitions -> "InvalidPartitions"
+  InvalidReplicationFactor -> "InvalidReplicationFactor"
+  InvalidReplicaAssignment -> "InvalidReplicaAssignment"
+  InvalidConfig -> "InvalidConfig"
+  NotController -> "NotController"
+  InvalidRequest -> "InvalidRequest"
+  UnsupportedForMessageFormat -> "UnsupportedForMessageFormat"
+  PolicyViolation -> "PolicyViolation"
+  OutOfOrderSequenceNumber -> "OutOfOrderSequenceNumber"
+  DuplicateSequenceNumber -> "DuplicateSequenceNumber"
+  InvalidProducerEpoch -> "InvalidProducerEpoch"
+  InvalidTxnState -> "InvalidTxnState"
+  InvalidProducerIdMapping -> "InvalidProducerIdMapping"
+  InvalidTransactionTimeout -> "InvalidTransactionTimeout"
+  ConcurrentTransactions -> "ConcurrentTransactions"
+  TransactionCoordinatorFenced -> "TransactionCoordinatorFenced"
+  TransactionalIdAuthorizationFailed -> "TransactionalIdAuthorizationFailed"
+  SecurityDisabled -> "SecurityDisabled"
+  OperationNotAttempted -> "OperationNotAttempted"
+  KafkaStorageError -> "KafkaStorageError"
+  LogDirNotFound -> "LogDirNotFound"
+  SaslAuthenticationFailed -> "SaslAuthenticationFailed"
+  UnknownProducerId -> "UnknownProducerId"
+  ReassignmentInProgress -> "ReassignmentInProgress"
+  DelegationTokenAuthDisabled -> "DelegationTokenAuthDisabled"
+  DelegationTokenNotFound -> "DelegationTokenNotFound"
+  DelegationTokenOwnerMismatch -> "DelegationTokenOwnerMismatch"
+  DelegationTokenRequestNotAllowed -> "DelegationTokenRequestNotAllowed"
+  DelegationTokenAuthorizationFailed -> "DelegationTokenAuthorizationFailed"
+  DelegationTokenExpired -> "DelegationTokenExpired"
+  InvalidPrincipalType -> "InvalidPrincipalType"
+  NonEmptyGroup -> "NonEmptyGroup"
+  GroupIdNotFound -> "GroupIdNotFound"
+  FetchSessionIdNotFound -> "FetchSessionIdNotFound"
+  InvalidFetchSessionEpoch -> "InvalidFetchSessionEpoch"
+  ListenerNotFound -> "ListenerNotFound"
+  TopicDeletionDisabled -> "TopicDeletionDisabled"
+  FencedLeaderEpoch -> "FencedLeaderEpoch"
+  UnknownLeaderEpoch -> "UnknownLeaderEpoch"
+  UnsupportedCompressionType -> "UnsupportedCompressionType"
+  StaleBrokerEpoch -> "StaleBrokerEpoch"
+  OffsetNotAvailable -> "OffsetNotAvailable"
+  MemberIdRequired -> "MemberIdRequired"
+  PreferredLeaderNotAvailable -> "PreferredLeaderNotAvailable"
+  GroupMaxSizeReached -> "GroupMaxSizeReached"
+  FencedInstanceId -> "FencedInstanceId"
+  EligibleLeadersNotAvailable -> "EligibleLeadersNotAvailable"
+  ElectionNotNeeded -> "ElectionNotNeeded"
+  NoReassignmentInProgress -> "NoReassignmentInProgress"
+  GroupSubscribedToTopic -> "GroupSubscribedToTopic"
+  InvalidRecord -> "InvalidRecord"
+  UnstableOffsetCommit -> "UnstableOffsetCommit"
+  ThrottlingQuotaExceeded -> "ThrottlingQuotaExceeded"
+  ProducerFenced -> "ProducerFenced"
+  ResourceNotFound -> "ResourceNotFound"
+  DuplicateResource -> "DuplicateResource"
+  UnacceptableCredential -> "UnacceptableCredential"
+  InconsistentVoterSet -> "InconsistentVoterSet"
+  InvalidUpdateVersion -> "InvalidUpdateVersion"
+  FeatureUpdateFailed -> "FeatureUpdateFailed"
+  PrincipalDeserializationFailure -> "PrincipalDeserializationFailure"
+  SnapshotNotFound -> "SnapshotNotFound"
+  PositionOutOfRange -> "PositionOutOfRange"
+  UnknownTopicId -> "UnknownTopicId"
+  DuplicateBrokerRegistration -> "DuplicateBrokerRegistration"
+  BrokerIdNotRegistered -> "BrokerIdNotRegistered"
+  InconsistentTopicId -> "InconsistentTopicId"
+  InconsistentClusterId -> "InconsistentClusterId"
+  TransactionalIdNotFound -> "TransactionalIdNotFound"
+  FetchSessionTopicIdError -> "FetchSessionTopicIdError"
+  IneligibleReplica -> "IneligibleReplica"
+  NewLeaderElected -> "NewLeaderElected"
+  _ -> TS.pack (show e)
 
 instance Show ErrorCode where
   showsPrec _ c@(ErrorCode e) s = case c of
