@@ -36,6 +36,9 @@ library
     Kafka.ListOffsets.Request.V7
     Kafka.ListOffsets.Response.V7
     Kafka.ListOffsets.V7
+    Kafka.Fetch.Request.V12
+    Kafka.Fetch.Response.V12
+    Kafka.Fetch.V12
     Kafka.Fetch.Request.V13
     Kafka.Fetch.Response.V13
     Kafka.Fetch.V13
