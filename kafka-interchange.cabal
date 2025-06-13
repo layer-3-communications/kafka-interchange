@@ -16,6 +16,9 @@ library
     Kafka.ApiVersions.Request.V3
     Kafka.ApiVersions.Response.V3
     Kafka.ApiVersions.V3
+    Kafka.Metadata.Request.V11
+    Kafka.Metadata.Response.V11
+    Kafka.Metadata.V11
     Kafka.Metadata.Request.V12
     Kafka.Metadata.Response.V12
     Kafka.Metadata.V12
