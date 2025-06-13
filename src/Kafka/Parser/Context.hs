@@ -47,6 +47,7 @@ data Field
   | BatchLengthLeftoverBytes
   | BatchLengthNegative
   | BatchLengthNotEnoughBytes
+      !Int -- number of bytes that were needed
   | Brokers
   | ClusterId
   | CommittedLeaderEpoch

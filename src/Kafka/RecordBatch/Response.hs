@@ -103,7 +103,7 @@ parser !ctx = do
   batchLength <- Kafka.Parser.int32 (Ctx.Field Ctx.BatchLength ctx)
   when (batchLength < 0) (Parser.fail (Ctx.Field Ctx.BatchLengthNegative ctx))
   Parser.delimit
-    (Ctx.Field Ctx.BatchLengthNotEnoughBytes ctx)
+    (Ctx.Field (Ctx.BatchLengthNotEnoughBytes (fromIntegral batchLength :: Int)) ctx)
     (Ctx.Field Ctx.BatchLengthLeftoverBytes ctx)
     (fromIntegral batchLength :: Int) $ do
       partitionLeaderEpoch <- Kafka.Parser.int32 (Ctx.Field Ctx.PartitionLeaderEpoch ctx)
