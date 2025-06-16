@@ -99,6 +99,10 @@ parserPartition ctx = do
     0 -> pure ()
     _ -> Parser.fail (Ctx.Field Ctx.AbortedTransactions ctx)
   preferredReadReplica <- Kafka.Parser.int32 (Ctx.Field Ctx.PreferredReadReplica ctx)
+  -- There is a note in Kafka.Produce.Request.V9 about this as well,
+  -- but the size is encoded in an undocumented way. See the generated
+  -- file org.apache.kafka.common.message.FetchResponseData for evidence
+  -- of this.
   sizeSucc <- Kafka.Parser.varWordNative (Ctx.Field Ctx.RecordBatchLength ctx)
   size <- case sizeSucc of
     0 -> Kafka.Parser.fail (Ctx.Field Ctx.RecordBatchLength ctx)
