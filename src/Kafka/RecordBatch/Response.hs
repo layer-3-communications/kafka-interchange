@@ -102,10 +102,12 @@ parser !ctx = do
   baseOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.BaseOffset ctx)
   batchLength <- Kafka.Parser.int32 (Ctx.Field Ctx.BatchLength ctx)
   when (batchLength < 0) (Parser.fail (Ctx.Field Ctx.BatchLengthNegative ctx))
+  let !batchLengthI = fromIntegral batchLength :: Int
+  actualRemainingByteCount <- Bytes.length <$> Parser.peekRemaining
   Parser.delimit
-    (Ctx.Field (Ctx.BatchLengthNotEnoughBytes (fromIntegral batchLength :: Int)) ctx)
+    (Ctx.Field (Ctx.BatchLengthNotEnoughBytes actualRemainingByteCount batchLengthI) ctx)
     (Ctx.Field Ctx.BatchLengthLeftoverBytes ctx)
-    (fromIntegral batchLength :: Int) $ do
+    batchLengthI $ do
       partitionLeaderEpoch <- Kafka.Parser.int32 (Ctx.Field Ctx.PartitionLeaderEpoch ctx)
       Parser.any (Ctx.Field Ctx.Magic ctx) >>= \case
         2 -> pure ()
