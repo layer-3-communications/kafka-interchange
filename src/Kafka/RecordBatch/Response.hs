@@ -108,41 +108,49 @@ data RecordBatchOutcome
 
 parser :: Context -> Parser Context s RecordBatchOutcome
 parser !ctx = do
-  baseOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.BaseOffset ctx)
-  batchLength <- Kafka.Parser.int32 (Ctx.Field Ctx.BatchLength ctx)
-  when (batchLength < 0) (Parser.fail (Ctx.Field Ctx.BatchLengthNegative ctx))
-  let !batchLengthI = fromIntegral batchLength :: Int
-  actualRemainingByteCount <- Bytes.length <$> Parser.peekRemaining
-  if actualRemainingByteCount < batchLengthI
+  remainingByteCount <- Bytes.length <$> Parser.peekRemaining
+  if remainingByteCount < 12
     then do
       -- We still have to drain all of the bytes in the buffer when
       -- we encounter a truncated record.
       _ <- Parser.remaining
       pure RecordBatchTruncated
-    else Parser.delimit
-      (Ctx.Field (Ctx.BatchLengthNotEnoughBytes actualRemainingByteCount batchLengthI) ctx)
-      (Ctx.Field Ctx.BatchLengthLeftoverBytes ctx)
-      batchLengthI $ do
-        partitionLeaderEpoch <- Kafka.Parser.int32 (Ctx.Field Ctx.PartitionLeaderEpoch ctx)
-        Parser.any (Ctx.Field Ctx.Magic ctx) >>= \case
-          2 -> pure ()
-          _ -> Parser.fail (Ctx.Field Ctx.Magic ctx)
-        crc <- Kafka.Parser.word32 (Ctx.Field Ctx.Crc ctx)
-        remaining <- Parser.peekRemaining
-        when (Crc32c.bytes 0 remaining /= crc) $ do
-          Parser.fail (Ctx.Field Ctx.CrcMismatch ctx)
-        attributes <- Kafka.Parser.word16 (Ctx.Field Ctx.Attributes ctx)
-        lastOffsetDelta <- Kafka.Parser.int32 (Ctx.Field Ctx.LastOffsetDelta ctx)
-        baseTimestamp <- Kafka.Parser.int64 (Ctx.Field Ctx.BaseTimestamp ctx)
-        maxTimestamp <- Kafka.Parser.int64 (Ctx.Field Ctx.MaxTimestamp ctx)
-        producerId <- Kafka.Parser.int64 (Ctx.Field Ctx.ProducerId ctx)
-        producerEpoch <- Kafka.Parser.int16 (Ctx.Field Ctx.ProducerEpoch ctx)
-        baseSequence <- Kafka.Parser.int32 (Ctx.Field Ctx.BaseSequence ctx)
-        recordsCount <- Kafka.Parser.int32 (Ctx.Field Ctx.RecordsCount ctx)
-        recordsPayload <- Parser.remaining
-        pure $! RecordBatchOne $! RecordBatch
-          { baseOffset, partitionLeaderEpoch, attributes
-          , lastOffsetDelta, baseTimestamp, maxTimestamp
-          , producerId, producerEpoch, baseSequence, recordsCount
-          , recordsPayload
-          }
+    else do
+      baseOffset <- Kafka.Parser.int64 (Ctx.Field Ctx.BaseOffset ctx)
+      batchLength <- Kafka.Parser.int32 (Ctx.Field Ctx.BatchLength ctx)
+      when (batchLength < 0) (Parser.fail (Ctx.Field Ctx.BatchLengthNegative ctx))
+      let !batchLengthI = fromIntegral batchLength :: Int
+      let !updatedRemainingByteCount = remainingByteCount - 12
+      if updatedRemainingByteCount < batchLengthI
+        then do
+          -- We still have to drain all of the bytes in the buffer when
+          -- we encounter a truncated record.
+          _ <- Parser.remaining
+          pure RecordBatchTruncated
+        else Parser.delimit
+          (Ctx.Field (Ctx.BatchLengthNotEnoughBytes updatedRemainingByteCount batchLengthI) ctx)
+          (Ctx.Field Ctx.BatchLengthLeftoverBytes ctx)
+          batchLengthI $ do
+            partitionLeaderEpoch <- Kafka.Parser.int32 (Ctx.Field Ctx.PartitionLeaderEpoch ctx)
+            Parser.any (Ctx.Field Ctx.Magic ctx) >>= \case
+              2 -> pure ()
+              _ -> Parser.fail (Ctx.Field Ctx.Magic ctx)
+            crc <- Kafka.Parser.word32 (Ctx.Field Ctx.Crc ctx)
+            remaining <- Parser.peekRemaining
+            when (Crc32c.bytes 0 remaining /= crc) $ do
+              Parser.fail (Ctx.Field Ctx.CrcMismatch ctx)
+            attributes <- Kafka.Parser.word16 (Ctx.Field Ctx.Attributes ctx)
+            lastOffsetDelta <- Kafka.Parser.int32 (Ctx.Field Ctx.LastOffsetDelta ctx)
+            baseTimestamp <- Kafka.Parser.int64 (Ctx.Field Ctx.BaseTimestamp ctx)
+            maxTimestamp <- Kafka.Parser.int64 (Ctx.Field Ctx.MaxTimestamp ctx)
+            producerId <- Kafka.Parser.int64 (Ctx.Field Ctx.ProducerId ctx)
+            producerEpoch <- Kafka.Parser.int16 (Ctx.Field Ctx.ProducerEpoch ctx)
+            baseSequence <- Kafka.Parser.int32 (Ctx.Field Ctx.BaseSequence ctx)
+            recordsCount <- Kafka.Parser.int32 (Ctx.Field Ctx.RecordsCount ctx)
+            recordsPayload <- Parser.remaining
+            pure $! RecordBatchOne $! RecordBatch
+              { baseOffset, partitionLeaderEpoch, attributes
+              , lastOffsetDelta, baseTimestamp, maxTimestamp
+              , producerId, producerEpoch, baseSequence, recordsCount
+              , recordsPayload
+              }
